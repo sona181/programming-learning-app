@@ -1,0 +1,583 @@
+// =============================================================================
+// schema.prisma — Gamified Programming Learning Platform
+// Phase: Week 1 + Week 2 only
+// Stack: PostgreSQL + Prisma ORM + Next.js + TypeScript
+// =============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// =============================================================================
+// ENUMS
+// =============================================================================
+
+enum UserRole {
+  student
+  instructor
+  admin
+}
+
+enum CourseLevel {
+  beginner
+  intermediate
+  advanced
+}
+
+enum CourseStatus {
+  draft
+  pending
+  published
+  archived
+}
+
+enum LessonType {
+  video
+  article
+  audio
+  mixed
+}
+
+enum ContentType {
+  video
+  article
+  audio
+  code_snippet
+}
+
+enum QuestionType {
+  multiple_choice
+  true_false
+  fill_blank
+}
+
+enum EnrollmentStatus {
+  active
+  completed
+  dropped
+}
+
+enum PathLevel {
+  beginner
+  intermediate
+  advanced
+}
+
+enum PathStatus {
+  draft
+  published
+  archived
+}
+
+enum ActivityType {
+  multiple_choice
+  fill_blank
+  code_fix
+  match
+  order_lines
+}
+
+// =============================================================================
+// WEEK 1 — CORE AUTH & PROFILE
+// =============================================================================
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  role         UserRole  @default(student)
+  isActive     Boolean   @default(true)  @map("is_active")
+  isVerified   Boolean   @default(false) @map("is_verified")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt      @map("updated_at")
+  deletedAt    DateTime?               @map("deleted_at")
+
+  // Relations
+  profile             UserProfile?
+  settings            UserSettings?
+  authoredCourses     Course[]
+  enrollments         Enrollment[]
+  quizAttempts        QuizAttempt[]
+  onboardingResponses OnboardingResponse[]
+  placementAttempts   PlacementAttempt[]
+  pathEnrollments     UserPathEnrollment[]
+  instructorProfile   InstructorProfile?
+
+  @@map("users")
+}
+
+model UserProfile {
+  id          String   @id @default(uuid())
+  userId      String   @unique @map("user_id")
+  displayName String   @map("display_name")
+  avatarUrl   String?  @map("avatar_url")
+  bio         String?  @db.Text
+  country     String?
+  timezone    String?  @default("UTC")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt      @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+model UserSettings {
+  id                 String   @id @default(uuid())
+  userId             String   @unique @map("user_id")
+  emailNotifications Boolean  @default(true)  @map("email_notifications")
+  language           String   @default("en")
+  darkMode           Boolean  @default(false) @map("dark_mode")
+  updatedAt          DateTime @updatedAt      @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_settings")
+}
+
+// =============================================================================
+// WEEK 1 — COURSE LIBRARY STRUCTURE
+// =============================================================================
+
+model CourseCategory {
+  id       String  @id @default(uuid())
+  name     String  @unique
+  slug     String  @unique
+  parentId String? @map("parent_id")
+
+  parent   CourseCategory?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children CourseCategory[] @relation("CategoryHierarchy")
+  courses  Course[]
+
+  @@map("course_categories")
+}
+
+model Course {
+  id           String       @id @default(uuid())
+  categoryId   String?      @map("category_id")
+  authorId     String       @map("author_id")
+  title        String
+  description  String?      @db.Text
+  slug         String       @unique
+  level        CourseLevel
+  status       CourseStatus @default(draft)
+  isPremium    Boolean      @default(false) @map("is_premium")
+  price        Decimal?     @db.Decimal(10, 2)
+  thumbnailUrl String?      @map("thumbnail_url")
+  language     String       @default("en")
+  publishedAt  DateTime?    @map("published_at")
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt      @map("updated_at")
+
+  category    CourseCategory? @relation(fields: [categoryId], references: [id])
+  author      User            @relation(fields: [authorId], references: [id])
+  chapters    Chapter[]
+  enrollments Enrollment[]
+
+  @@map("courses")
+}
+
+model Chapter {
+  id         String   @id @default(uuid())
+  courseId   String   @map("course_id")
+  title      String
+  orderIndex Int      @map("order_index")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  course  Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons Lesson[]
+  quiz    Quiz?
+
+  @@unique([courseId, orderIndex])
+  @@map("chapters")
+}
+
+model Lesson {
+  id              String     @id @default(uuid())
+  chapterId       String     @map("chapter_id")
+  title           String
+  lessonType      LessonType @map("lesson_type")
+  orderIndex      Int        @map("order_index")
+  durationSeconds Int?       @map("duration_seconds")
+  isFreePreview   Boolean    @default(false) @map("is_free_preview")
+  createdAt       DateTime   @default(now()) @map("created_at")
+
+  chapter        Chapter          @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  contents       LessonContent[]
+  lessonProgress LessonProgress[]
+
+  @@unique([chapterId, orderIndex])
+  @@map("lessons")
+}
+
+model LessonContent {
+  id          String      @id @default(uuid())
+  lessonId    String      @map("lesson_id")
+  contentType ContentType @map("content_type")
+  body        String?     @db.Text
+  mediaUrl    String?     @map("media_url")
+  orderIndex  Int         @default(0) @map("order_index")
+  createdAt   DateTime    @default(now()) @map("created_at")
+
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@map("lesson_contents")
+}
+
+// =============================================================================
+// WEEK 1 — QUIZ STRUCTURE
+// =============================================================================
+
+model Quiz {
+  id               String   @id @default(uuid())
+  // Exactly one of chapterId or pathUnitId must be set (enforced in app logic)
+  chapterId        String?  @unique @map("chapter_id")
+  pathUnitId       String?  @unique @map("path_unit_id")
+  title            String
+  passScore        Int      @default(70) @map("pass_score")
+  timeLimitSeconds Int?     @map("time_limit_seconds")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  chapter   Chapter?      @relation(fields: [chapterId], references: [id])
+  pathUnit  PathUnit?     @relation(fields: [pathUnitId], references: [id])
+  questions Question[]
+  attempts  QuizAttempt[]
+
+  @@map("quizzes")
+}
+
+model Question {
+  id           String       @id @default(uuid())
+  quizId       String       @map("quiz_id")
+  body         String       @db.Text
+  questionType QuestionType @map("question_type")
+  orderIndex   Int          @map("order_index")
+  points       Int          @default(1)
+
+  quiz               Quiz                @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  answerOptions      AnswerOption[]
+  attemptAnswers     QuizAttemptAnswer[]
+  placementAnswers   PlacementAnswer[]
+
+  @@map("questions")
+}
+
+model AnswerOption {
+  id         String  @id @default(uuid())
+  questionId String  @map("question_id")
+  body       String  @db.Text
+  isCorrect  Boolean @default(false) @map("is_correct")
+  orderIndex Int     @map("order_index")
+
+  question         Question            @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  // Named relations required because AnswerOption is referenced by two models
+  attemptAnswers   QuizAttemptAnswer[] @relation("SelectedOptionForAttempt")
+  placementAnswers PlacementAnswer[]   @relation("SelectedOptionForPlacement")
+
+  @@map("answer_options")
+}
+
+// =============================================================================
+// WEEK 2 — ENROLLMENT & PROGRESS TRACKING
+// =============================================================================
+
+model Enrollment {
+  id          String           @id @default(uuid())
+  userId      String           @map("user_id")
+  courseId    String           @map("course_id")
+  status      EnrollmentStatus @default(active)
+  enrolledAt  DateTime         @default(now()) @map("enrolled_at")
+  completedAt DateTime?        @map("completed_at")
+
+  user           User             @relation(fields: [userId], references: [id])
+  course         Course           @relation(fields: [courseId], references: [id])
+  lessonProgress LessonProgress[]
+  courseProgress CourseProgress?
+
+  @@unique([userId, courseId])
+  @@map("enrollments")
+}
+
+model LessonProgress {
+  id           String    @id @default(uuid())
+  enrollmentId String    @map("enrollment_id")
+  lessonId     String    @map("lesson_id")
+  isCompleted  Boolean   @default(false) @map("is_completed")
+  completedAt  DateTime? @map("completed_at")
+
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  lesson     Lesson     @relation(fields: [lessonId], references: [id])
+
+  @@unique([enrollmentId, lessonId])
+  @@map("lesson_progress")
+}
+
+model CourseProgress {
+  id               String    @id @default(uuid())
+  enrollmentId     String    @unique @map("enrollment_id")
+  totalLessons     Int       @default(0)  @map("total_lessons")
+  completedLessons Int       @default(0)  @map("completed_lessons")
+  progressPercent  Decimal   @default(0)  @db.Decimal(5, 2) @map("progress_percent")
+  lastAccessedAt   DateTime?              @map("last_accessed_at")
+  updatedAt        DateTime  @updatedAt   @map("updated_at")
+
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  @@map("course_progress")
+}
+
+model QuizAttempt {
+  id               String   @id @default(uuid())
+  userId           String   @map("user_id")
+  quizId           String   @map("quiz_id")
+  score            Int      @default(0)
+  maxScore         Int      @map("max_score")
+  passed           Boolean  @default(false)
+  timeTakenSeconds Int?     @map("time_taken_seconds")
+  attemptedAt      DateTime @default(now()) @map("attempted_at")
+
+  user    User                @relation(fields: [userId], references: [id])
+  quiz    Quiz                @relation(fields: [quizId], references: [id])
+  answers QuizAttemptAnswer[]
+
+  @@map("quiz_attempts")
+}
+
+model QuizAttemptAnswer {
+  id               String  @id @default(uuid())
+  attemptId        String  @map("attempt_id")
+  questionId       String  @map("question_id")
+  selectedOptionId String? @map("selected_option_id")
+  textAnswer       String? @map("text_answer") @db.Text
+  isCorrect        Boolean @default(false) @map("is_correct")
+
+  attempt        QuizAttempt   @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  question       Question      @relation(fields: [questionId], references: [id])
+  selectedOption AnswerOption? @relation("SelectedOptionForAttempt", fields: [selectedOptionId], references: [id])
+
+  @@map("quiz_attempt_answers")
+}
+
+// =============================================================================
+// WEEK 2 — ACADEMY / GUIDED PATH MODE
+// =============================================================================
+
+model LearningPath {
+  id            String     @id @default(uuid())
+  title         String
+  slug          String     @unique
+  description   String?    @db.Text
+  level         PathLevel
+  language      String     @default("en")
+  status        PathStatus @default(draft)
+  estimatedDays Int?       @map("estimated_days")
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt      @map("updated_at")
+
+  units             PathUnit[]
+  placementAttempts PlacementAttempt[]
+  enrollments       UserPathEnrollment[]
+
+  @@map("learning_paths")
+}
+
+model PathUnit {
+  id          String   @id @default(uuid())
+  pathId      String   @map("path_id")
+  title       String
+  description String?  @db.Text
+  orderIndex  Int      @map("order_index")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  path    LearningPath @relation(fields: [pathId], references: [id], onDelete: Cascade)
+  lessons PathLesson[]
+  quiz    Quiz?
+
+  @@unique([pathId, orderIndex])
+  @@map("path_units")
+}
+
+model PathLesson {
+  id         String   @id @default(uuid())
+  unitId     String   @map("unit_id")
+  title      String
+  orderIndex Int      @map("order_index")
+  xpReward   Int      @default(10) @map("xp_reward")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  unit       PathUnit           @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  activities PathActivity[]
+  progress   UserPathProgress[]
+
+  @@unique([unitId, orderIndex])
+  @@map("path_lessons")
+}
+
+model PathActivity {
+  id            String       @id @default(uuid())
+  pathLessonId  String       @map("path_lesson_id")
+  activityType  ActivityType @map("activity_type")
+  prompt        String       @db.Text
+  correctAnswer String?      @map("correct_answer") @db.Text
+  // JSONB: array of choice objects for multiple_choice / match activities
+  // e.g. [{ "id": "a", "text": "print()" }, { "id": "b", "text": "console.log()" }]
+  options       Json?
+  orderIndex    Int          @map("order_index")
+  xpReward      Int          @default(5) @map("xp_reward")
+
+  pathLesson PathLesson @relation(fields: [pathLessonId], references: [id], onDelete: Cascade)
+
+  @@map("path_activities")
+}
+
+model OnboardingResponse {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  questionKey String   @map("question_key")
+  answerValue String   @map("answer_value")
+  respondedAt DateTime @default(now()) @map("responded_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // One answer per question per user
+  @@unique([userId, questionKey])
+  @@map("onboarding_responses")
+}
+
+model PlacementAttempt {
+  id            String    @id @default(uuid())
+  userId        String    @map("user_id")
+  pathId        String    @map("path_id")
+  score         Int       @default(0)
+  assignedLevel PathLevel @map("assigned_level")
+  attemptedAt   DateTime  @default(now()) @map("attempted_at")
+
+  user    User              @relation(fields: [userId], references: [id])
+  path    LearningPath      @relation(fields: [pathId], references: [id])
+  answers PlacementAnswer[]
+
+  @@map("placement_attempts")
+}
+
+model PlacementAnswer {
+  id                 String  @id @default(uuid())
+  placementAttemptId String  @map("placement_attempt_id")
+  questionId         String  @map("question_id")
+  selectedOptionId   String? @map("selected_option_id")
+  isCorrect          Boolean @default(false) @map("is_correct")
+
+  placementAttempt PlacementAttempt @relation(fields: [placementAttemptId], references: [id], onDelete: Cascade)
+  question         Question         @relation(fields: [questionId], references: [id])
+  selectedOption   AnswerOption?    @relation("SelectedOptionForPlacement", fields: [selectedOptionId], references: [id])
+
+  @@map("placement_answers")
+}
+
+model UserPathEnrollment {
+  id          String           @id @default(uuid())
+  userId      String           @map("user_id")
+  pathId      String           @map("path_id")
+  level       PathLevel
+  status      EnrollmentStatus @default(active)
+  // Only one path enrollment should be active at a time — enforced in app logic
+  isActive    Boolean          @default(true) @map("is_active")
+  enrolledAt  DateTime         @default(now()) @map("enrolled_at")
+  completedAt DateTime?        @map("completed_at")
+
+  user     User             @relation(fields: [userId], references: [id])
+  path     LearningPath     @relation(fields: [pathId], references: [id])
+  progress UserPathProgress[]
+
+  @@unique([userId, pathId])
+  @@map("user_path_enrollments")
+}
+
+model UserPathProgress {
+  id           String    @id @default(uuid())
+  enrollmentId String    @map("enrollment_id")
+  pathLessonId String    @map("path_lesson_id")
+  isCompleted  Boolean   @default(false) @map("is_completed")
+  xpEarned     Int       @default(0) @map("xp_earned")
+  completedAt  DateTime? @map("completed_at")
+
+  enrollment UserPathEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  pathLesson PathLesson         @relation(fields: [pathLessonId], references: [id])
+
+  @@unique([enrollmentId, pathLessonId])
+  @@map("user_path_progress")
+}
+
+// =============================================================================
+// WEEK 2 OPTIONAL — INSTRUCTOR PROFILES & AVAILABILITY
+// =============================================================================
+
+model InstructorProfile {
+  id          String   @id @default(uuid())
+  userId      String   @unique @map("user_id")
+  bio         String?  @db.Text
+  specialties String?  @db.Text
+  languages   String?
+  hourlyRate  Decimal? @db.Decimal(10, 2) @map("hourly_rate")
+  rating      Decimal  @default(0.00) @db.Decimal(3, 2)
+  isVerified  Boolean  @default(false) @map("is_verified")
+  isAvailable Boolean  @default(false) @map("is_available")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt      @map("updated_at")
+
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  availabilitySlots AvailabilitySlot[]
+
+  @@map("instructor_profiles")
+}
+
+model AvailabilitySlot {
+  id           String   @id @default(uuid())
+  instructorId String   @map("instructor_id")
+  startsAt     DateTime @map("starts_at") @db.Timestamptz
+  endsAt       DateTime @map("ends_at")   @db.Timestamptz
+  isBooked     Boolean  @default(false)   @map("is_booked")
+  createdAt    DateTime @default(now())   @map("created_at")
+
+  instructor InstructorProfile @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+
+  @@map("availability_slots")
+}
+
+// =============================================================================
+// INTENTIONALLY NOT INCLUDED — ADD IN PHASE 2 (Weeks 3–6+)
+//
+//  Gamification layer:
+//    user_energy, energy_transactions  — hearts/battery system
+//    user_streaks                      — daily streak tracking
+//    xp_logs                           — XP event log + leaderboard source
+//    badges, user_badges               — badge definitions + earned badges
+//
+//  Spaced repetition:
+//    review_queue_items                — SM-2 algorithm per user/activity
+//
+//  Daily planner:
+//    daily_plans, daily_plan_items     — generated daily learning schedule
+//
+//  Certificates:
+//    certificates                      — course/path completion records
+//
+//  Live sessions (booking side):
+//    session_bookings                  — student books an instructor slot
+//    live_sessions                     — meeting metadata (Jitsi/Zoom URL)
+//    session_notes                     — post-session notes by instructor
+//
+//  Monetization:
+//    pricing_plans                     — plan definitions + feature flags
+//    user_subscriptions                — user's active plan + expiry
+//    payments                          — payment transaction records
+//
+//  Admin & moderation:
+//    reports                           — user-submitted content reports
+//    moderation_actions                — admin actions on reports
+//    platform_settings                 — global key-value config store
+//    audit_logs                        — admin action audit trail
+// =============================================================================
