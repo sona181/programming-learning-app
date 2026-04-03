@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model users {
+  id             String    @id @default(uuid()) @db.Uuid
+  email          String    @unique @db.VarChar(255)
+  password_hash  String    @db.VarChar(255)
+  role           String    @db.VarChar(20)
+  is_active      Boolean
+  is_verified    Boolean
+  created_at     DateTime  @db.Timestamptz(6)
+  updated_at     DateTime  @db.Timestamptz(6)
+  deleted_at     DateTime? @db.Timestamptz(6)
+
+  user_profile        user_profiles?
+  user_setting        user_settings?
+  instructor_profile  instructor_profiles?
+  notifications       notifications[]
+  authored_courses    courses[]            @relation("course_author")
+}
+
+model user_profiles {
+  id           String    @id @default(uuid()) @db.Uuid
+  user_id      String    @unique @db.Uuid
+  display_name String    @db.VarChar(100)
+  avatar_url   String?   @db.VarChar(500)
+  bio          String?
+  country      String?   @db.VarChar(100)
+  timezone     String?   @db.VarChar(100)
+  created_at   DateTime  @db.Timestamptz(6)
+  updated_at   DateTime  @db.Timestamptz(6)
+
+  user         users     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model notifications {
+  id         String   @id @default(uuid()) @db.Uuid
+  user_id    String   @db.Uuid
+  type       String   @db.VarChar(50)
+  message    String
+  is_read    Boolean
+  created_at DateTime @db.Timestamptz(6)
+
+  user       users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model user_settings {
+  id                  String   @id @default(uuid()) @db.Uuid
+  user_id             String   @unique @db.Uuid
+  email_notifications Boolean
+  language            String   @db.VarChar(10)
+  dark_mode           Boolean
+  updated_at          DateTime @db.Timestamptz(6)
+
+  user                users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model instructor_profiles {
+  id           String    @id @default(uuid()) @db.Uuid
+  user_id      String    @unique @db.Uuid
+  bio          String?
+  specialties  String?   @db.VarChar(255)
+  languages    String?   @db.VarChar(255)
+  hourly_rate  Decimal?  @db.Decimal(10, 2)
+  rating       Decimal?  @db.Decimal(3, 2)
+  is_verified  Boolean
+  is_available Boolean
+  created_at   DateTime  @db.Timestamptz(6)
+  updated_at   DateTime  @db.Timestamptz(6)
+
+  user         users     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model course_categories {
+  id        String              @id @default(uuid()) @db.Uuid
+  name      String              @unique @db.VarChar(100)
+  slug      String              @unique @db.VarChar(120)
+  parent_id String?             @db.Uuid
+
+  parent    course_categories?  @relation("category_tree", fields: [parent_id], references: [id])
+  children  course_categories[] @relation("category_tree")
+  courses   courses[]
+}
+
+model courses {
+  id            String              @id @default(uuid()) @db.Uuid
+  category_id   String?             @db.Uuid
+  author_id     String              @db.Uuid
+  title         String              @db.VarChar(255)
+  description   String?
+  slug          String              @unique @db.VarChar(300)
+  level         String              @db.VarChar(20)
+  status        String              @db.VarChar(20)
+  is_premium    Boolean
+  price         Decimal?            @db.Decimal(10, 2)
+  thumbnail_url String?             @db.VarChar(500)
+  language      String              @db.VarChar(10)
+  published_at  DateTime?           @db.Timestamptz(6)
+  created_at    DateTime            @db.Timestamptz(6)
+  updated_at    DateTime            @db.Timestamptz(6)
+
+  category      course_categories?  @relation(fields: [category_id], references: [id])
+  author        users               @relation("course_author", fields: [author_id], references: [id])
+}
