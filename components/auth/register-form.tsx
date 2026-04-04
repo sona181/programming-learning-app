@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { type CSSProperties, useEffect, useState } from "react";
+import { type CSSProperties, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
 import {
@@ -34,14 +34,6 @@ const inputClassName =
 const labelClassName = "text-sm font-medium text-slate-800";
 
 const errorClassName = "mt-2 text-sm text-red-600";
-
-const heroPhrases = [
-  "Start small. Build something real.",
-  "Every great developer began with one working line.",
-  "Learn step by step. Build with confidence.",
-  "Progress in programming starts with practice.",
-  "Code can open doors when you keep showing up.",
-] as const;
 
 const confettiPieces = [
   { left: 8, top: 12, width: 10, height: 18, x: -26, y: 140, rotate: -140, delay: 0, color: "#1d4ed8", shape: "soft" },
@@ -118,48 +110,12 @@ function ProfessorIcon() {
 }
 
 export function RegisterHero() {
-  const [activePhraseIndex, setActivePhraseIndex] = useState(0);
-  const [isPhraseVisible, setIsPhraseVisible] = useState(true);
-
-  useEffect(() => {
-    let timeoutId: number | undefined;
-
-    const intervalId = window.setInterval(() => {
-      setIsPhraseVisible(false);
-
-      timeoutId = window.setTimeout(() => {
-        setActivePhraseIndex((currentIndex) => (currentIndex + 1) % heroPhrases.length);
-        setIsPhraseVisible(true);
-      }, 260);
-    }, 4200);
-
-    return () => {
-      window.clearInterval(intervalId);
-
-      if (timeoutId) {
-        window.clearTimeout(timeoutId);
-      }
-    };
-  }, []);
-
   return (
-    <div className="max-w-xl space-y-4 sm:space-y-5 lg:space-y-4">
-      <p className="text-sm font-medium uppercase tracking-[0.24em] text-blue-100/72 sm:text-[0.95rem] lg:text-base">
-        Learn, practice, teach
-      </p>
-      <h1 className="text-4xl font-semibold leading-tight tracking-tight text-white sm:text-5xl lg:text-[3.15rem] xl:text-[3.7rem]">
-        A steadier way to grow with code.
+    <div className="max-w-xl space-y-5">
+      <h1 className="text-4xl font-semibold leading-tight tracking-tight text-white sm:text-5xl">
+        Join thousands of students and professors
       </h1>
-      <div className="min-h-[5.5rem] sm:min-h-[6.25rem] lg:min-h-[5.8rem]">
-        <p
-          className={`max-w-lg text-lg leading-8 text-blue-50/92 transition-all duration-500 ease-out motion-reduce:transition-none sm:text-xl sm:leading-9 lg:text-[1.3rem] lg:leading-8 ${
-            isPhraseVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-          }`}
-        >
-          {heroPhrases[activePhraseIndex]}
-        </p>
-      </div>
-      <p className="max-w-lg text-base leading-7 text-blue-100/78 sm:text-lg sm:leading-8 lg:text-lg lg:leading-7">
+      <p className="max-w-lg text-base leading-8 text-blue-50/90 sm:text-lg">
         UniLearn gives beginners a clear place to practice and gives
         professors a calm space to guide that progress.
       </p>
@@ -287,12 +243,12 @@ export function RegisterForm() {
         </div>
       ) : null}
 
-      <div className="mb-6 sm:mb-8 lg:mb-5">
-        <h2 className="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl lg:text-[2rem]">
-          Create your UniLearn account
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+          Create your account
         </h2>
         <p className="mt-2 text-sm text-slate-500">
-          Already with us?{" "}
+          Already have one?{" "}
           <Link href="/auth/login" className="font-medium text-blue-600 hover:text-blue-700">
             Sign in
           </Link>
@@ -300,16 +256,14 @@ export function RegisterForm() {
       </div>
 
       <form onSubmit={onSubmit} noValidate className="w-full">
-        <fieldset disabled={isSubmitting} className="space-y-5 sm:space-y-6 lg:space-y-4">
+        <fieldset disabled={isSubmitting} className="space-y-5 sm:space-y-6">
           <legend className="sr-only">Create account</legend>
 
           <div>
-            <p className="text-sm font-semibold text-slate-900">
-              How will you use UniLearn?
-            </p>
+            <p className="text-sm font-semibold text-slate-900">I am a...</p>
             <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
               <label
-                className={`cursor-pointer rounded-2xl border p-4 text-center transition sm:rounded-3xl sm:p-5 lg:p-4 ${
+                className={`cursor-pointer rounded-2xl border p-4 text-center transition sm:rounded-3xl sm:p-5 ${
                   selectedRole === "student"
                     ? "border-blue-500 bg-blue-50 shadow-[0_0_0_1px_rgba(59,130,246,0.15)]"
                     : "border-slate-200 bg-white hover:border-slate-300"
@@ -322,11 +276,11 @@ export function RegisterForm() {
                 <p className="mt-3 text-lg font-semibold text-slate-950 sm:mt-4 sm:text-xl">
                   Student
                 </p>
-                <p className="mt-1 text-sm text-slate-500">I&apos;m here to learn</p>
+                <p className="mt-1 text-sm text-slate-500">I want to learn</p>
               </label>
 
               <label
-                className={`cursor-pointer rounded-2xl border p-4 text-center transition sm:rounded-3xl sm:p-5 lg:p-4 ${
+                className={`cursor-pointer rounded-2xl border p-4 text-center transition sm:rounded-3xl sm:p-5 ${
                   selectedRole === "professor"
                     ? "border-blue-500 bg-blue-50 shadow-[0_0_0_1px_rgba(59,130,246,0.15)]"
                     : "border-slate-200 bg-white hover:border-slate-300"
@@ -339,14 +293,14 @@ export function RegisterForm() {
                 <p className="mt-3 text-lg font-semibold text-slate-950 sm:mt-4 sm:text-xl">
                   Professor
                 </p>
-                <p className="mt-1 text-sm text-slate-500">I&apos;m here to teach</p>
+                <p className="mt-1 text-sm text-slate-500">I want to teach</p>
               </label>
             </div>
             {errors.role?.message ? <p className={errorClassName}>{errors.role.message}</p> : null}
           </div>
 
-          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800 lg:py-2.5">
-            You can try UniLearn free for 7 days. No card needed to start.
+          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
+            Your 7-day free trial starts today, no payment required.
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
@@ -419,17 +373,18 @@ export function RegisterForm() {
 
           <div>
             <p className={labelClassName}>Terms &amp; Conditions</p>
-            <div className="mt-2 max-h-24 overflow-y-auto rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600 sm:max-h-28 sm:leading-7 lg:max-h-20">
+            <div className="mt-2 max-h-24 overflow-y-auto rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600 sm:max-h-28 sm:leading-7">
               <p>
-                By creating an account, you agree to our Terms of Service and
-                Privacy Policy. Students can explore courses, guided practice,
-                and live sessions through the platform.
+                By creating an account on UniLearn, you agree to our Terms of
+                Service and Privacy Policy. Students acknowledge that purchased
+                sessions are refundable only if the session was missed due to
+                professor unavailability.
               </p>
               <p className="mt-3">
-                Professors are expected to maintain professional conduct and
-                accurate availability. All users are responsible for keeping
-                their work respectful, original, and aligned with platform
-                guidelines.
+                Professors agree to maintain professional conduct and accurate
+                availability. Monthly subscriptions renew automatically and can
+                be cancelled at any time. All content uploaded by users must
+                respect platform rules and academic integrity.
               </p>
             </div>
           </div>
@@ -484,9 +439,9 @@ export function RegisterForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#3368e6_0%,#2959ca_100%)] px-5 py-3.5 text-base font-semibold text-white shadow-[0_14px_30px_rgba(41,89,202,0.22)] transition hover:brightness-[1.03] disabled:cursor-not-allowed disabled:bg-blue-300 disabled:shadow-none sm:min-h-[56px] sm:px-6 sm:py-4"
+            className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-[#3568e6] px-5 py-3.5 text-base font-semibold text-white transition hover:bg-[#2f5dd0] disabled:cursor-not-allowed disabled:bg-blue-300 sm:min-h-[56px] sm:px-6 sm:py-4"
           >
-            {isSubmitting ? "Creating account..." : "Create my account"}
+            {isSubmitting ? "Creating account..." : "Create Account"}
           </button>
         </fieldset>
       </form>
