@@ -4,7 +4,11 @@ import { useRouter } from "next/navigation";
 import { Home, BookOpen, CalendarCheck, MessageCircle, User, GraduationCap } from "lucide-react";
 
 interface SidebarProps {
+<<<<<<< HEAD
   professorName?: string; // mund të jetë undefined në fillim
+=======
+  professorName?: string; 
+>>>>>>> 779b782 (Professor dashboard)
   subject?: string;
 }
 
@@ -19,7 +23,10 @@ export default function Sidebar({ professorName, subject }: SidebarProps) {
     { label: "Profile", icon: <User size={18} />, path: "/professor/profile" },
   ];
 
+<<<<<<< HEAD
   // safe name
+=======
+>>>>>>> 779b782 (Professor dashboard)
   const safeName = professorName?.trim() || "Professor";
   const initials = safeName
     .split(" ")
