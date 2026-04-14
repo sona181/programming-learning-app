@@ -1,135 +1,201 @@
 "use client";
 
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+import {
+  loginSchema,
+  type LoginInput,
+  type LoginResponse,
+} from "@/lib/validations/login-schema";
+
+const defaultValues: LoginInput = {
+  email: "",
+  password: "",
+};
+
+type ServerMessage =
+  | {
+      type: "success" | "error";
+      text: string;
+    }
+  | null;
+
+const inputClassName =
+  "mt-2 min-h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-base text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:min-h-[52px]";
+
+const labelClassName = "text-sm font-medium text-slate-800";
+
+const errorClassName = "mt-2 text-sm text-red-600";
 
 export function LoginHero() {
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="text-3xl font-bold text-white sm:text-4xl lg:text-[2.6rem] lg:leading-tight">
-          Welcome back!
-        </h1>
-        <p className="mt-3 text-base text-blue-100/80 sm:text-lg">
-          Continue your learning journey. Your courses, sessions and progress are all waiting for you.
-        </p>
-      </div>
-
-      <div className="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm sm:p-5">
-        <p className="mb-3 text-sm font-medium text-blue-100/80">Student of the week</p>
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-400 to-blue-400 text-sm font-bold text-white">
-            BK
-          </div>
-          <div>
-            <p className="font-semibold text-white">Besa Krasniqi</p>
-            <p className="text-sm text-blue-100/70">
-              2,840 XP this week · 14-day streak 🔥
-            </p>
-          </div>
-        </div>
-      </div>
+    <div className="max-w-xl space-y-5">
+      <h1 className="text-4xl font-semibold leading-tight tracking-tight text-white sm:text-5xl">
+        Welcome back!
+      </h1>
+      <p className="max-w-lg text-base leading-8 text-blue-50/90 sm:text-lg">
+        Continue your learning journey. Your courses, sessions and progress are
+        all waiting for you.
+      </p>
     </div>
   );
 }
 
 export function LoginForm() {
-  const [rememberMe, setRememberMe] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [serverMessage, setServerMessage] = useState<ServerMessage>(null);
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
+    defaultValues,
+  });
+
+  const onSubmit = handleSubmit(async (values) => {
+    setServerMessage(null);
+    clearErrors();
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      const result =
+        ((await response.json().catch(() => null)) as LoginResponse | null) ??
+        {
+          success: false,
+          message: "Something went wrong while signing you in.",
+        };
+
+      const fields: Array<keyof LoginInput> = ["email", "password"];
+
+      for (const field of fields) {
+        const message = result.fieldErrors?.[field]?.[0];
+
+        if (message) {
+          setError(field, {
+            type: "server",
+            message,
+          });
+        }
+      }
+
+      if (!response.ok || !result.success) {
+        setServerMessage({
+          type: "error",
+          text: result.message,
+        });
+        return;
+      }
+
+      setServerMessage({
+        type: "success",
+        text: result.message,
+      });
+    } catch {
+      setServerMessage({
+        type: "error",
+        text: "The login request failed. Please try again.",
+      });
+    }
+  });
 
   return (
-    <div className="w-full">
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-          Sign in to UniLearn
+    <div className="relative isolate w-full min-w-0">
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+          Sign in to your account
         </h2>
-        <p className="mt-1.5 text-sm text-slate-500">
-          Don&apos;t have an account?{" "}
+        <p className="mt-2 text-sm text-slate-500">
+          Don&apos;t have one?{" "}
           <Link
             href="/auth/register"
-            className="font-semibold text-blue-600 hover:text-blue-700"
+            className="font-medium text-blue-600 hover:text-blue-700"
           >
-            Register free
+            Create an account
           </Link>
         </p>
       </div>
 
-      <div className="space-y-4">
-        {/* Email */}
-        <div className="space-y-1.5">
-          <label htmlFor="email" className="block text-sm font-medium text-slate-700">
-            Email address
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="andi.hoxha@uni.edu.al"
-            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition"
-          />
-        </div>
+      <form onSubmit={onSubmit} noValidate className="w-full">
+        <fieldset disabled={isSubmitting} className="space-y-5 sm:space-y-6">
+          <legend className="sr-only">Sign in</legend>
 
-        {/* Password */}
-        <div className="space-y-1.5">
-          <label htmlFor="password" className="block text-sm font-medium text-slate-700">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
-            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition"
-          />
-        </div>
-
-        {/* Remember me + Forgot password */}
-        <div className="flex items-center justify-between">
-          <label className="flex cursor-pointer items-center gap-2.5">
+          <div>
+            <label htmlFor="email" className={labelClassName}>
+              Email address
+            </label>
             <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-              className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+              id="email"
+              type="email"
+              autoComplete="email"
+              aria-invalid={errors.email ? "true" : "false"}
+              className={inputClassName}
+              {...register("email")}
             />
-            <span className="text-sm text-slate-600">Remember me</span>
-          </label>
-          <Link
-            href="/auth/forgot-password"
-            className="text-sm font-medium text-blue-600 hover:text-blue-700"
+            {errors.email?.message ? (
+              <p className={errorClassName}>{errors.email.message}</p>
+            ) : null}
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="password" className={labelClassName}>
+                Password
+              </label>
+              <Link
+                href="/auth/forgot-password"
+                className="text-sm font-medium text-blue-600 hover:text-blue-700"
+              >
+                Forgot password?
+              </Link>
+            </div>
+            <input
+              id="password"
+              type="password"
+              autoComplete="current-password"
+              aria-invalid={errors.password ? "true" : "false"}
+              className={inputClassName}
+              {...register("password")}
+            />
+            {errors.password?.message ? (
+              <p className={errorClassName}>{errors.password.message}</p>
+            ) : null}
+          </div>
+
+          {serverMessage ? (
+            <div
+              aria-live="polite"
+              className={`rounded-2xl border px-4 py-3 text-sm ${
+                serverMessage.type === "success"
+                  ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                  : "border-red-200 bg-red-50 text-red-700"
+              }`}
+            >
+              {serverMessage.text}
+            </div>
+          ) : null}
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-[#3568e6] px-5 py-3.5 text-base font-semibold text-white transition hover:bg-[#2f5dd0] disabled:cursor-not-allowed disabled:bg-blue-300 sm:min-h-[56px] sm:px-6 sm:py-4"
           >
-            Forgot password?
-          </Link>
-        </div>
-
-        {/* Sign In button */}
-        <button
-          type="button"
-          className="w-full rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
-        >
-          Sign In →
-        </button>
-
-        {/* Divider */}
-        <p className="text-center text-sm text-slate-400">or sign in as a professor</p>
-
-        {/* Sign In as Professor button */}
-        <button
-          type="button"
-          className="w-full rounded-xl bg-purple-600 px-6 py-3.5 text-sm font-semibold text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors"
-        >
-          Sign In as Professor →
-        </button>
-
-        {/* Trial banner */}
-        <div className="rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-center">
-          <p className="text-sm font-semibold text-green-800">7-day free trial active</p>
-          <p className="mt-0.5 text-sm text-green-600">5 days remaining on your trial</p>
-        </div>
-      </div>
+            {isSubmitting ? "Signing in..." : "Sign In"}
+          </button>
+        </fieldset>
+      </form>
     </div>
   );
 }
