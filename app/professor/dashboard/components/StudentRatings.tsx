@@ -11,8 +11,6 @@ type Session = {
 export default function StudentRatings({ sessions }: { sessions: Session[] }) {
   return (
     <div style={{ marginTop: "20px", fontFamily: "'Inter', sans-serif", color: "#111827" }}>
-      
-      {/* Title outside the box */}
       <h3
         style={{
           marginBottom: "8px",
@@ -37,13 +35,13 @@ export default function StudentRatings({ sessions }: { sessions: Session[] }) {
           <div style={{ color: "#6b7280" }}>No ratings yet</div>
         ) : (
           <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-            {sessions.map((s) => {
+            {sessions.map((s, index) => {
               const student = s.student?.name ?? s.student?.email ?? "Student";
               const rating = s.rating ?? "—";
 
               return (
                 <li
-                  key={s.id ?? student}
+                  key={s.id ?? index} 
                   style={{
                     display: "flex",
                     justifyContent: "space-between",

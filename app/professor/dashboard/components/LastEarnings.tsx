@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 type Payment = {
@@ -11,7 +12,6 @@ export default function LastEarnings({ payments }: { payments: Payment[] }) {
   return (
     <div style={{ marginTop: "20px", fontFamily: "'Inter', sans-serif", color: "#111827" }}>
       
-      {/* Title outside the box */}
       <h3
         style={{
           marginBottom: "8px",
@@ -37,13 +37,13 @@ export default function LastEarnings({ payments }: { payments: Payment[] }) {
         ) : (
           <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
             {payments.map((p) => {
-              const amount = Number(p.amount ?? 0).toFixed(2);
+              const amount = Number(p.amount ?? 0).toFixed(2); 
               const date = p.createdAt ? new Date(p.createdAt).toLocaleString() : "—";
               const student = p.student?.name ?? p.student?.email ?? "Student";
 
               return (
                 <li
-                  key={p.id ?? `${amount}-${date}`}
+                  key={p.id ?? `${amount}-${date}`} 
                   style={{
                     display: "flex",
                     justifyContent: "space-between",

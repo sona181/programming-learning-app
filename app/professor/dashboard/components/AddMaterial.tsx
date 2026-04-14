@@ -1,95 +1,82 @@
 "use client";
 
-import React from "react";
+import { useState } from "react";
+import { Video, FileText } from "lucide-react";
 
 export default function AddMaterial() {
-  const handleAddVideo = () => {
-    alert("Add Video clicked!");
-  };
+  const [active, setActive] = useState<"video" | "pdf" | null>(null);
 
-  const handleAddPDF = () => {
-    alert("Add PDF clicked!");
-  };
+  const boxStyle = (type: "video" | "pdf") => ({
+    border: `2px dashed ${
+      active === type ? "#3B82F6" : "#D1D5DB"
+    }`,
+
+    background: active === type ? "#EFF6FF" : "#F9FAFB",
+
+    borderRadius: "16px",
+    padding: "30px",
+    textAlign: "center" as const,
+    cursor: "pointer",
+    transition: "0.2s",
+  });
 
   return (
-    <div
-      style={{
-        marginTop: "20px",
-        fontFamily: "'Inter', sans-serif",
-        color: "#111827",
-      }}
-    >
+    <div style={{ marginTop: "20px" }}>
       <h3
         style={{
-          marginBottom: "12px",
-          fontWeight: 700,
-          fontSize: "20px",
+          fontSize: "18px",
+          fontWeight: 800,
           color: "#111827",
+          marginBottom: "12px",
         }}
       >
-        Add New Material
+        Add New Content
       </h3>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "20px",
-          background: "white",
-          padding: "20px",
-          borderRadius: "16px",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-        }}
-      >
-        {/* Video Button */}
-        <button
-          onClick={handleAddVideo}
-          style={{
-            padding: "20px",
-            border: "2px dashed #7c3aed",
-            borderRadius: "12px",
-            textAlign: "center",
-            cursor: "pointer",
-            background: "white",
-            fontFamily: "'Inter', sans-serif",
-            display: "flex",
-            flexDirection: "column",
-            gap: "4px",
-            transition: "all 0.2s",
-          }}
-        >
-          <span style={{ fontWeight: 700, fontSize: "16px", color: "#111827" }}>
-            + Add Video
-          </span>
-          <span style={{ fontSize: "13px", color: "#6b7280" }}>
-            Upload your teaching video here
-          </span>
-        </button>
+      <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
 
-        {/* PDF Button */}
-        <button
-          onClick={handleAddPDF}
-          style={{
-            padding: "20px",
-            border: "2px dashed #7c3aed",
-            borderRadius: "12px",
-            textAlign: "center",
-            cursor: "pointer",
-            background: "white",
-            fontFamily: "'Inter', sans-serif",
-            display: "flex",
-            flexDirection: "column",
-            gap: "4px",
-            transition: "all 0.2s",
-          }}
-        >
-          <span style={{ fontWeight: 700, fontSize: "16px", color: "#111827" }}>
-            + Add PDF
-          </span>
-          <span style={{ fontSize: "13px", color: "#6b7280" }}>
-            Upload your PDF document here
-          </span>
-        </button>
+        {/* VIDEO */}
+        <div onClick={() => setActive("video")} style={boxStyle("video")}>
+          
+          <Video size={28} color="#3B82F6" style={{ marginBottom: "8px" }} />
+
+          <p
+            style={{
+              fontWeight: 700,
+              color: "#111827",
+              margin: 0,
+              fontSize: "16px",
+            }}
+          >
+            Add Video Material
+          </p>
+
+          <p style={{ fontSize: "13px", color: "#6B7280", marginTop: "6px" }}>
+            MP4, MOV up to 2GB · Drag and drop or click
+          </p>
+        </div>
+
+        {/* PDF */}
+        <div onClick={() => setActive("pdf")} style={boxStyle("pdf")}>
+          
+          <FileText size={28} color="#6B7280" style={{ marginBottom: "8px" }} />
+
+          <p
+            style={{
+              fontWeight: 700,
+              color: "#111827",
+              margin: 0,
+              fontSize: "16px",
+            }}
+          >
+            Add PDF, DOCX, PPTX Material
+          </p>
+
+          <p style={{ fontSize: "13px", color: "#6B7280", marginTop: "6px" }}>
+            PDF, DOCX, PPTX up to 50MB
+          </p>
+        </div>
+
       </div>
     </div>
   );
