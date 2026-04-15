@@ -9,26 +9,44 @@ import LastEarnings from "./components/LastEarnings";
 import StudentRatings from "./components/StudentRatings";
 
 export default async function Dashboard() {
-  const instructor = await prisma.instructorProfile.findFirst({
+  //will be replaced
+  const userEmail = "john.doe@gmail.com";
+
+  const user = await prisma.user.findUnique({
+    where: { email: userEmail },
     include: {
-      user: { include: { profile: true } },
+      profile: true,
+      instructorProfile: true,
     },
   });
 
-  const professorName =
-    instructor?.user?.profile?.displayName || "Professor";
+  if (!user) {
+    return <div>User not found</div>;
+  }
+
+  const professorName = user.profile?.displayName || "Professor";
+  const instructor = user.instructorProfile;
 
   let sessions: any[] = [];
 
   if (instructor) {
     sessions = await prisma.sessionBooking.findMany({
       where: { instructorId: instructor.id },
-      include: { student: true },
-      orderBy: { bookedAt: "desc" },
+      include: {
+        student: {
+          include: {
+            profile: true,
+          },
+        },
+      },
+      orderBy: {
+        bookedAt: "desc",
+      },
     });
   }
 
   const paymentsRaw = await prisma.payment.findMany({
+    where: { userId: user.id },
     orderBy: { createdAt: "desc" },
   });
 
@@ -54,7 +72,9 @@ export default async function Dashboard() {
     })
     .reduce((sum, p) => sum + (p.amount ?? 0), 0);
 
-  const uniqueStudents = new Set(sessions.map((s) => s.studentId)).size;
+  const uniqueStudents = new Set(
+    sessions.map((s) => s.studentId)
+  ).size;
 
   const todaySessions = sessions.filter((s) => {
     const d = new Date(s.bookedAt);
@@ -66,14 +86,13 @@ export default async function Dashboard() {
   });
 
   const hour = now.getHours();
-  let timeGreeting = "Good evening";
 
+  let timeGreeting = "Good evening";
   if (hour < 12) timeGreeting = "Good morning";
   else if (hour < 18) timeGreeting = "Good afternoon";
 
   return (
     <div style={{ padding: "20px", background: "#F8FAFC", minHeight: "100%" }}>
-      {/*GREETING*/}
       <Greeting
         name={professorName}
         monthlyEarnings={monthlyEarnings}
