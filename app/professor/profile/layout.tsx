@@ -1,15 +1,14 @@
 import { prisma } from "@/lib/prisma";
-import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
 
-export default async function DashboardLayout({
+export default async function ProfessorLayout({
   children,
-}: LayoutProps) {
-  const userEmail = "timdoe@gmail.com"; // will be replaced with auth
+}: {
+  children: React.ReactNode;
+}) {
+  const userEmail = "timdoe@gmail.com"; // later from auth
 
   const user = await prisma.user.findUnique({
     where: { email: userEmail },
@@ -27,30 +26,29 @@ export default async function DashboardLayout({
       style={{
         display: "flex",
         height: "100vh",
-        overflow: "hidden",
+        background: "#F8FAFC",
       }}
     >
-      {/* SIDEBAR */}
+  
       <Sidebar professorName={name} subject={subject} />
 
-      {/* RIGHT SIDE */}
+
       <div
         style={{
           flex: 1,
-          backgroundColor: "#f9fafb",
           display: "flex",
           flexDirection: "column",
         }}
       >
-        {/* HEADER */}
+
         <Header professorName={name} />
 
-        {/* CONTENT */}
+
         <div
           style={{
-            padding: "20px",
-            overflowY: "auto",
             flex: 1,
+            overflowY: "auto",
+            padding: "0 30px 30px 30px",
           }}
         >
           {children}

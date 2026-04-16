@@ -9,8 +9,7 @@ import LastEarnings from "./components/LastEarnings";
 import StudentRatings from "./components/StudentRatings";
 
 export default async function Dashboard() {
-  //will be replaced
-  const userEmail = "john.doe@gmail.com";
+  const userEmail = "timdoe@gmail.com";
 
   const user = await prisma.user.findUnique({
     where: { email: userEmail },
@@ -27,6 +26,9 @@ export default async function Dashboard() {
   const professorName = user.profile?.displayName || "Professor";
   const instructor = user.instructorProfile;
 
+  // =========================
+  // SESSIONS (LIVE BOOKINGS)
+  // =========================
   let sessions: any[] = [];
 
   if (instructor) {
@@ -45,6 +47,43 @@ export default async function Dashboard() {
     });
   }
 
+  // =========================
+  // COURSES OWNED BY INSTRUCTOR
+  // =========================
+  const courses = await prisma.course.findMany({
+    where: {
+      authorId: user.id,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  // =========================
+  // ENROLLMENTS (REAL STUDENTS)
+  // =========================
+  const enrollments = await prisma.enrollment.findMany({
+    where: {
+      courseId: {
+        in: courses.map((c) => c.id),
+      },
+    },
+    include: {
+      user: {
+        include: {
+          profile: true,
+        },
+      },
+    },
+  });
+
+  const uniqueStudents = new Set(
+    enrollments.map((e) => e.userId)
+  ).size;
+
+  // =========================
+  // PAYMENTS
+  // =========================
   const paymentsRaw = await prisma.payment.findMany({
     where: { userId: user.id },
     orderBy: { createdAt: "desc" },
@@ -72,10 +111,9 @@ export default async function Dashboard() {
     })
     .reduce((sum, p) => sum + (p.amount ?? 0), 0);
 
-  const uniqueStudents = new Set(
-    sessions.map((s) => s.studentId)
-  ).size;
-
+  // =========================
+  // TODAY SESSIONS
+  // =========================
   const todaySessions = sessions.filter((s) => {
     const d = new Date(s.bookedAt);
     return (
@@ -85,6 +123,9 @@ export default async function Dashboard() {
     );
   });
 
+  // =========================
+  // GREETING
+  // =========================
   const hour = now.getHours();
 
   let timeGreeting = "Good evening";
@@ -92,7 +133,13 @@ export default async function Dashboard() {
   else if (hour < 18) timeGreeting = "Good afternoon";
 
   return (
-    <div style={{ padding: "20px", background: "#F8FAFC", minHeight: "100%" }}>
+    <div
+      style={{
+        padding: "20px",
+        background: "#F8FAFC",
+        minHeight: "100%",
+      }}
+    >
       <Greeting
         name={professorName}
         monthlyEarnings={monthlyEarnings}
@@ -101,7 +148,7 @@ export default async function Dashboard() {
       />
 
       <StatsRow
-        students={uniqueStudents}
+        students={uniqueStudents}   // ✅ REAL DB STUDENTS
         sessions={sessions.length}
         rating={Number(instructor?.rating ?? 0)}
         totalEarnings={totalEarnings}
