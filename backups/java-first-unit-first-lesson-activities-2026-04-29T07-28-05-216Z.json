@@ -1,0 +1,66 @@
+{
+  "backedUpAt": "2026-04-29T07:28:05.217Z",
+  "lesson": {
+    "path_id": "3d19bae8-3b4e-442d-ae73-04c97d6de1b4",
+    "path_title": "Java Beginner Path",
+    "path_slug": "java-beginner-path",
+    "unit_id": "ddce0c1c-bb21-4a25-bf52-29bcc275296c",
+    "unit_title": "Welcome to Java",
+    "unit_order_index": 1,
+    "lesson_id": "28c2ee9e-7a6f-424c-ab17-485561f9dc99",
+    "lesson_title": "What is Java?",
+    "lesson_order_index": 1
+  },
+  "activities": [
+    {
+      "id": "b4070fba-f722-405c-8620-9cb6d44dd9e6",
+      "path_lesson_id": "28c2ee9e-7a6f-424c-ab17-485561f9dc99",
+      "activity_type": "multiple_choice",
+      "prompt": "Which description fits Java best?",
+      "correct_answer": "A programming language that can run on many platforms",
+      "options": {
+        "choices": [
+          "A file storage app",
+          "A programming language that can run on many platforms",
+          "A spreadsheet formula",
+          "A web browser setting"
+        ],
+        "explanation": "Java programs are compiled and can run anywhere a Java Virtual Machine is available."
+      },
+      "order_index": 1,
+      "xp_reward": 5
+    },
+    {
+      "id": "40ed0fb3-d081-4984-8e23-ae35bbbd936a",
+      "path_lesson_id": "28c2ee9e-7a6f-424c-ab17-485561f9dc99",
+      "activity_type": "true_false",
+      "prompt": "Java can be used for apps, backend systems, and beginner classroom projects.",
+      "correct_answer": "true",
+      "options": {
+        "choices": [
+          "true",
+          "false"
+        ],
+        "explanation": "Java is used in many contexts, not just one type of program."
+      },
+      "order_index": 2,
+      "xp_reward": 5
+    },
+    {
+      "id": "173cc17d-93ec-4d4e-98a3-7d6b2843c229",
+      "path_lesson_id": "28c2ee9e-7a6f-424c-ab17-485561f9dc99",
+      "activity_type": "fill_blank",
+      "prompt": "Complete the sentence: Java is a ___ language.",
+      "correct_answer": "programming",
+      "options": {
+        "starter": "Java is a ___ language.",
+        "explanation": "Java is a programming language, not a device or command.",
+        "acceptedAnswers": [
+          "programming"
+        ]
+      },
+      "order_index": 3,
+      "xp_reward": 5
+    }
+  ]
+}

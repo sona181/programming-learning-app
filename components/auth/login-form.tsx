@@ -2,9 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { saveCurrentUser } from "@/lib/auth/client-user";
 import {
   loginSchema,
   type LoginInput,
@@ -46,6 +48,7 @@ export function LoginHero() {
 
 export function LoginForm() {
   const [serverMessage, setServerMessage] = useState<ServerMessage>(null);
+  const router = useRouter();
 
   const {
     register,
@@ -103,6 +106,22 @@ export function LoginForm() {
         type: "success",
         text: result.message,
       });
+
+      const resolvedRole = result.user?.role;
+      if (result.user) {
+        saveCurrentUser(result.user);
+      }
+
+      const shouldRedirectToProfessorDashboard =
+        resolvedRole === "professor" || resolvedRole === "instructor";
+
+      const destination = shouldRedirectToProfessorDashboard
+        ? "/professor/dashboard"
+        : "/academy/java-beginner-path";
+
+      window.setTimeout(() => {
+        router.replace(destination);
+      }, 500);
     } catch {
       setServerMessage({
         type: "error",

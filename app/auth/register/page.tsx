@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { RegisterBubbles } from "@/components/auth/register-bubbles";
 import { RegisterForm, RegisterHero } from "@/components/auth/register-form";
 
 const benefits = [
@@ -18,8 +19,7 @@ export default function RegisterPage() {
     <main className="min-h-dvh bg-white">
       <div className="grid min-h-dvh w-full overflow-hidden bg-white lg:grid-cols-[1fr_1.03fr]">
         <section className="relative overflow-hidden bg-gradient-to-b from-[#274cc8] to-[#3b78f1] px-6 py-8 text-white sm:px-10 sm:py-10 lg:px-12 lg:py-12">
-          <div className="absolute -right-16 -top-14 h-72 w-72 rounded-full bg-white/6 sm:h-80 sm:w-80" />
-          <div className="absolute -bottom-20 -left-12 h-44 w-44 rounded-full bg-white/8 sm:h-52 sm:w-52" />
+          <RegisterBubbles />
 
           <div className="relative flex h-full flex-col justify-between gap-10 lg:gap-14">
             <div className="inline-flex w-fit items-center gap-3 rounded-full border border-white/12 bg-white/10 px-3 py-2 shadow-[0_12px_36px_rgba(3,8,26,0.16)] backdrop-blur-sm sm:px-4 sm:py-3">

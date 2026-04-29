@@ -2,9 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { type CSSProperties, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
+import { saveCurrentUser } from "@/lib/auth/client-user";
 import {
   registerSchema,
   type RegisterInput,
@@ -126,6 +128,7 @@ export function RegisterHero() {
 export function RegisterForm() {
   const [serverMessage, setServerMessage] = useState<ServerMessage>(null);
   const [confettiBurst, setConfettiBurst] = useState(0);
+  const router = useRouter();
 
   const form = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
@@ -203,6 +206,22 @@ export function RegisterForm() {
         text: result.message,
       });
       setConfettiBurst((currentBurst) => currentBurst + 1);
+
+      const resolvedRole = result.user?.role ?? values.role;
+      if (result.user) {
+        saveCurrentUser(result.user);
+      }
+
+      const shouldRedirectToProfessorDashboard =
+        resolvedRole === "professor" || resolvedRole === "instructor";
+
+      const destination = shouldRedirectToProfessorDashboard
+        ? "/professor/dashboard"
+        : "/academy/java-beginner-path";
+
+      window.setTimeout(() => {
+        router.replace(destination);
+      }, 700);
     } catch {
       setServerMessage({
         type: "error",

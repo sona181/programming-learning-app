@@ -41,3 +41,25 @@ body {
       scale(1) rotate(var(--confetti-rotate));
   }
 }
+
+@keyframes typewriter-caret-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.typewriter-caret {
+  animation: typewriter-caret-blink 1s steps(1, end) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-caret {
+    animation: none;
+  }
+}
