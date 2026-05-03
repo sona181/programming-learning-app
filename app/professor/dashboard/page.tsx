@@ -1,12 +1,12 @@
 export const dynamic = "force-dynamic";
 
 import { prisma } from "@/lib/prisma";
-import Greeting from "./components/Greeting";
-import { StatsRow } from "./components/StatsRow";
-import TodaySessions from "./components/TodaySessions";
-import AddMaterial from "./components/AddMaterial";
-import LastEarnings from "./components/LastEarnings";
-import StudentRatings from "./components/StudentRatings";
+import Greeting from "./_components/greeting";
+import { StatsRow } from "./_components/stats-row";
+import TodaySessions from "./_components/today-sessions";
+import AddMaterial from "./_components/add-material";
+import LastEarnings from "./_components/last-earnings";
+import StudentRatings from "./_components/student-ratings";
 
 export default async function Dashboard() {
   //will be replaced

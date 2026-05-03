@@ -8,15 +8,15 @@ datasource db {
 }
 
 model User {
-  id                     String                  @id @default(uuid()) @db.Uuid
-  email                  String                  @unique @db.VarChar(255)
-  passwordHash           String                  @map("password_hash") @db.VarChar(255)
-  role                   String                  @db.VarChar(20)
-  isActive               Boolean                 @map("is_active")
-  isVerified             Boolean                 @map("is_verified")
-  createdAt              DateTime                @map("created_at") @db.Timestamptz(6)
-  updatedAt              DateTime                @map("updated_at") @db.Timestamptz(6)
-  deletedAt              DateTime?               @map("deleted_at") @db.Timestamptz(6)
+  id                     String               @id @default(uuid()) @db.Uuid
+  email                  String               @unique @db.VarChar(255)
+  passwordHash           String               @map("password_hash") @db.VarChar(255)
+  role                   String               @db.VarChar(20)
+  isActive               Boolean              @map("is_active")
+  isVerified             Boolean              @map("is_verified")
+  createdAt              DateTime             @map("created_at") @db.Timestamptz(6)
+  updatedAt              DateTime             @map("updated_at") @db.Timestamptz(6)
+  deletedAt              DateTime?            @map("deleted_at") @db.Timestamptz(6)
   certificates           Certificate[]
   courseAuthors          CourseAuthor[]
   courses                Course[]
@@ -30,7 +30,7 @@ model User {
   placementAttempts      PlacementAttempt[]
   quizAttempts           QuizAttempt[]
   reviewQueueItems       ReviewQueueItem[]
-  sessionBookingsStudent SessionBooking[]        @relation("StudentBookings")
+  sessionBookingsStudent SessionBooking[]     @relation("StudentBookings")
   sessionNotes           SessionNote[]
   userAchievements       UserAchievement[]
   userBadges             UserBadge[]
@@ -117,28 +117,28 @@ model CourseCategory {
 }
 
 model Course {
-  id               String                  @id @default(uuid()) @db.Uuid
-  categoryId       String?                 @map("category_id") @db.Uuid
-  authorId         String                  @map("author_id") @db.Uuid
-  title            String                  @db.VarChar(255)
-  description      String?
-  slug             String                  @unique @db.VarChar(300)
-  level            String                  @db.VarChar(20)
-  status           String                  @db.VarChar(20)
-  isPremium        Boolean                 @map("is_premium")
-  price            Decimal?                @db.Decimal(10, 2)
-  thumbnailUrl     String?                 @map("thumbnail_url") @db.VarChar(500)
-  language         String                  @db.VarChar(10)
-  publishedAt      DateTime?               @map("published_at") @db.Timestamptz(6)
-  createdAt        DateTime                @map("created_at") @db.Timestamptz(6)
-  updatedAt        DateTime                @map("updated_at") @db.Timestamptz(6)
-  certificates     Certificate[]
-  chapters         Chapter[]
-  courseAuthors    CourseAuthor[]
-  author           User                    @relation(fields: [authorId], references: [id])
-  category         CourseCategory?         @relation(fields: [categoryId], references: [id])
-  enrollments      Enrollment[]
-  payments         Payment[]
+  id            String          @id @default(uuid()) @db.Uuid
+  categoryId    String?         @map("category_id") @db.Uuid
+  authorId      String          @map("author_id") @db.Uuid
+  title         String          @db.VarChar(255)
+  description   String?
+  slug          String          @unique @db.VarChar(300)
+  level         String          @db.VarChar(20)
+  status        String          @db.VarChar(20)
+  isPremium     Boolean         @map("is_premium")
+  price         Decimal?        @db.Decimal(10, 2)
+  thumbnailUrl  String?         @map("thumbnail_url") @db.VarChar(500)
+  language      String          @db.VarChar(10)
+  publishedAt   DateTime?       @map("published_at") @db.Timestamptz(6)
+  createdAt     DateTime        @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime        @map("updated_at") @db.Timestamptz(6)
+  certificates  Certificate[]
+  chapters      Chapter[]
+  courseAuthors CourseAuthor[]
+  author        User            @relation(fields: [authorId], references: [id])
+  category      CourseCategory? @relation(fields: [categoryId], references: [id])
+  enrollments   Enrollment[]
+  payments      Payment[]
 
   @@index([categoryId])
   @@index([authorId])
@@ -382,35 +382,52 @@ model PathUnit {
 }
 
 model PathLesson {
-  id               String             @id @default(uuid()) @db.Uuid
-  unitId           String             @map("unit_id") @db.Uuid
-  title            String             @db.VarChar(255)
-  orderIndex       Int                @map("order_index")
-  xpReward         Int                @map("xp_reward")
-  createdAt        DateTime           @map("created_at") @db.Timestamptz(6)
-  pathActivities   PathActivity[]
-  pathUnit         PathUnit           @relation(fields: [unitId], references: [id])
-  userPathProgress UserPathProgress[]
+  id                   String                 @id @default(uuid()) @db.Uuid
+  unitId               String                 @map("unit_id") @db.Uuid
+  title                String                 @db.VarChar(255)
+  orderIndex           Int                    @map("order_index")
+  xpReward             Int                    @map("xp_reward")
+  learningObjectiveIds Json?                  @map("learning_objective_ids")
+  sourceCardIds        Json?                  @map("source_card_ids")
+  createdAt            DateTime               @map("created_at") @db.Timestamptz(6)
+  pathActivities       PathActivity[]
+  pathUnit             PathUnit               @relation(fields: [unitId], references: [id])
+  sourceCardLinks      PathLessonSourceCard[]
+  userPathProgress     UserPathProgress[]
 
   @@index([unitId])
   @@map("path_lessons")
 }
 
 model PathActivity {
-  id               String            @id @default(uuid()) @db.Uuid
-  pathLessonId     String            @map("path_lesson_id") @db.Uuid
-  activityType     String            @map("activity_type") @db.VarChar(50)
-  prompt           String
-  correctAnswer    String?           @map("correct_answer")
-  options          Json?
-  orderIndex       Int               @map("order_index")
-  xpReward         Int               @map("xp_reward")
-  dailyPlanItems   DailyPlanItem[]
-  pathLesson       PathLesson        @relation(fields: [pathLessonId], references: [id])
-  reviewQueueItems ReviewQueueItem[]
+  id                   String                   @id @default(uuid()) @db.Uuid
+  pathLessonId         String                   @map("path_lesson_id") @db.Uuid
+  activityType         String                   @map("activity_type") @db.VarChar(50)
+  prompt               String
+  correctAnswer        String?                  @map("correct_answer")
+  options              Json?
+  orderIndex           Int                      @map("order_index")
+  xpReward             Int                      @map("xp_reward")
+  reviewStatus         String                   @default("pending_review") @map("review_status") @db.VarChar(20)
+  qualityScore         Int?                     @map("quality_score")
+  reviewedAt           DateTime?                @map("reviewed_at") @db.Timestamptz(6)
+  reviewedBy           String?                  @map("reviewed_by") @db.VarChar(255)
+  reviewNotes          String?                  @map("review_notes")
+  generationCount      Int                      @default(1) @map("generation_count")
+  generationRunId      String?                  @map("generation_run_id") @db.Uuid
+  learningObjectiveIds Json?                    @map("learning_objective_ids")
+  sourceCardIds        Json?                    @map("source_card_ids")
+  activityValidations  ActivityValidation[]
+  dailyPlanItems       DailyPlanItem[]
+  generationRun        GenerationRun?           @relation("PathActivityGenerationRun", fields: [generationRunId], references: [id], onDelete: SetNull)
+  pathLesson           PathLesson               @relation(fields: [pathLessonId], references: [id])
+  reviewQueueItems     ReviewQueueItem[]
+  sourceCardLinks      PathActivitySourceCard[]
 
-  @@index([pathLessonId])
   @@unique([pathLessonId, orderIndex])
+  @@index([pathLessonId])
+  @@index([reviewStatus])
+  @@index([generationRunId])
   @@map("path_activities")
 }
 
@@ -589,6 +606,166 @@ model XpLog {
 
   @@index([userId])
   @@map("xp_logs")
+}
+
+model SourceCard {
+  id                     String                        @id @default(uuid()) @db.Uuid
+  title                  String                        @db.VarChar(255)
+  slug                   String                        @unique @db.VarChar(300)
+  cardType               String                        @default("topic") @map("card_type") @db.VarChar(50)
+  track                  String                        @db.VarChar(50)
+  topic                  String                        @db.VarChar(120)
+  level                  String                        @db.VarChar(30)
+  sourceName             String                        @map("source_name") @db.VarChar(255)
+  sourceUrl              String                        @map("source_url") @db.VarChar(1000)
+  sourceType             String                        @map("source_type") @db.VarChar(80)
+  credibilityTier        String                        @map("credibility_tier") @db.VarChar(100)
+  licenseNote            String?                       @map("license_note")
+  safeUse                String?                       @map("safe_use")
+  prohibitedUse          String?                       @map("prohibited_use")
+  sources                Json?
+  jlsSections            Json?                         @map("jls_sections")
+  moduleSequence         Json?                         @map("module_sequence")
+  teachAfter             Json?                         @map("teach_after")
+  pedagogyRules          Json?                         @map("pedagogy_rules")
+  testRules              Json?                         @map("test_rules")
+  generationRules        Json?                         @map("generation_rules")
+  concepts               Json
+  learningGoals          Json                          @map("learning_goals")
+  exerciseTypes          Json                          @map("exercise_types")
+  commonMistakes         Json?                         @map("common_mistakes")
+  teachLater             Json?                         @map("teach_later")
+  testRequirements       Json?                         @map("test_requirements")
+  referenceJson          Json                          @map("reference_json")
+  body                   String?
+  reviewStatus           String                        @default("pending_review") @map("review_status") @db.VarChar(30)
+  reviewedBy             String?                       @map("reviewed_by") @db.VarChar(255)
+  reviewedAt             DateTime?                     @map("reviewed_at") @db.Timestamptz(6)
+  approvedBy             String?                       @map("approved_by") @db.VarChar(255)
+  approvedAt             DateTime?                     @map("approved_at") @db.Timestamptz(6)
+  reviewNotes            String?                       @map("review_notes")
+  isActive               Boolean                       @default(true) @map("is_active")
+  createdAt              DateTime                      @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt              DateTime                      @updatedAt @map("updated_at") @db.Timestamptz(6)
+  learningObjectiveLinks LearningObjectiveSourceCard[]
+  pathActivityLinks      PathActivitySourceCard[]
+  pathLessonLinks        PathLessonSourceCard[]
+
+  @@index([track])
+  @@index([topic])
+  @@index([level])
+  @@index([reviewStatus])
+  @@index([isActive])
+  @@index([track, topic])
+  @@map("source_cards")
+}
+
+model GenerationRun {
+  id                  String               @id @default(uuid()) @db.Uuid
+  runType             String               @map("run_type") @db.VarChar(50)
+  track               String               @db.VarChar(50)
+  topic               String?              @db.VarChar(120)
+  model               String               @db.VarChar(100)
+  promptVersion       String?              @map("prompt_version") @db.VarChar(50)
+  inputJson           Json?                @map("input_json")
+  outputJson          Json?                @map("output_json")
+  sourceCardIds       Json?                @map("source_card_ids")
+  status              String               @db.VarChar(30)
+  errorMessage        String?              @map("error_message")
+  createdAt           DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
+  activityValidations ActivityValidation[] @relation("ActivityValidationGenerationRun")
+  pathActivities      PathActivity[]       @relation("PathActivityGenerationRun")
+
+  @@index([runType])
+  @@index([track])
+  @@index([status])
+  @@map("generation_runs")
+}
+
+model LearningObjective {
+  id                       String                        @id @default(uuid()) @db.Uuid
+  track                    String                        @db.VarChar(50)
+  topic                    String                        @db.VarChar(120)
+  level                    String                        @db.VarChar(30)
+  title                    String                        @db.VarChar(255)
+  description              String
+  orderIndex               Int                           @map("order_index")
+  prerequisiteObjectiveIds Json?                         @map("prerequisite_objective_ids")
+  sourceCardIds            Json?                         @map("source_card_ids")
+  createdAt                DateTime                      @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt                DateTime                      @updatedAt @map("updated_at") @db.Timestamptz(6)
+  sourceCardLinks          LearningObjectiveSourceCard[]
+
+  @@index([track])
+  @@index([topic])
+  @@index([level])
+  @@map("learning_objectives")
+}
+
+model PathLessonSourceCard {
+  id           String     @id @default(uuid()) @db.Uuid
+  pathLessonId String     @map("path_lesson_id") @db.Uuid
+  sourceCardId String     @map("source_card_id") @db.Uuid
+  purpose      String?
+  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  pathLesson   PathLesson @relation(fields: [pathLessonId], references: [id], onDelete: Cascade)
+  sourceCard   SourceCard @relation(fields: [sourceCardId], references: [id], onDelete: Restrict)
+
+  @@unique([pathLessonId, sourceCardId])
+  @@index([pathLessonId])
+  @@index([sourceCardId])
+  @@map("path_lesson_source_cards")
+}
+
+model PathActivitySourceCard {
+  id             String       @id @default(uuid()) @db.Uuid
+  pathActivityId String       @map("path_activity_id") @db.Uuid
+  sourceCardId   String       @map("source_card_id") @db.Uuid
+  purpose        String?
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  pathActivity   PathActivity @relation(fields: [pathActivityId], references: [id], onDelete: Cascade)
+  sourceCard     SourceCard   @relation(fields: [sourceCardId], references: [id], onDelete: Restrict)
+
+  @@unique([pathActivityId, sourceCardId])
+  @@index([pathActivityId])
+  @@index([sourceCardId])
+  @@map("path_activity_source_cards")
+}
+
+model LearningObjectiveSourceCard {
+  id                  String            @id @default(uuid()) @db.Uuid
+  learningObjectiveId String            @map("learning_objective_id") @db.Uuid
+  sourceCardId        String            @map("source_card_id") @db.Uuid
+  purpose             String?
+  createdAt           DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+  learningObjective   LearningObjective @relation(fields: [learningObjectiveId], references: [id], onDelete: Cascade)
+  sourceCard          SourceCard        @relation(fields: [sourceCardId], references: [id], onDelete: Restrict)
+
+  @@unique([learningObjectiveId, sourceCardId])
+  @@index([learningObjectiveId])
+  @@index([sourceCardId])
+  @@map("learning_objective_source_cards")
+}
+
+model ActivityValidation {
+  id              String         @id @default(uuid()) @db.Uuid
+  pathActivityId  String         @map("path_activity_id") @db.Uuid
+  generationRunId String?        @map("generation_run_id") @db.Uuid
+  validationType  String         @map("validation_type") @db.VarChar(80)
+  status          String         @db.VarChar(30)
+  summary         String?
+  inputJson       Json?          @map("input_json")
+  outputJson      Json?          @map("output_json")
+  errorMessage    String?        @map("error_message")
+  createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  generationRun   GenerationRun? @relation("ActivityValidationGenerationRun", fields: [generationRunId], references: [id], onDelete: SetNull)
+  pathActivity    PathActivity   @relation(fields: [pathActivityId], references: [id], onDelete: Cascade)
+
+  @@index([pathActivityId])
+  @@index([generationRunId])
+  @@index([validationType])
+  @@index([status])
+  @@map("activity_validations")
 }
 
 model Badge {

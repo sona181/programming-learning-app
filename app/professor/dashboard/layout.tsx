@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
+import Header from "./_components/header";
+import Sidebar from "./_components/sidebar";
 
 interface LayoutProps {
   children: React.ReactNode;

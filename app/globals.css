@@ -3,55 +3,52 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --bg-sidebar: #0f1117;
+  --bg-main: #ffffff;
+  --bg-card: #f8f9fc;
+  --bg-hero: linear-gradient(135deg, #1a56db 0%, #1e429f 100%);
+  --accent-primary: #1a56db;
+  --accent-hover: #1e429f;
+  --accent-success: #057a55;
+  --accent-warning: #f59e0b;
+  --accent-danger: #e02424;
+  --text-primary: #111928;
+  --text-secondary: #6b7280;
+  --text-on-dark: #ffffff;
+  --text-on-dark-muted: #d1d5db;
+  --border: #e5e7eb;
+  --radius-card: 12px;
+  --radius-btn: 8px;
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.12);
+  --xp-color: #f59e0b;
+  --streak-color: #f97316;
+  --badge-color: #7c3aed;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: Arial, Helvetica, sans-serif;
-  --font-mono: "Courier New", Courier, monospace;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: 'Inter', Arial, Helvetica, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-main);
+  color: var(--text-primary);
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
 }
 
 @keyframes confetti-fall {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, -8px, 0) scale(0.72) rotate(0deg);
-  }
-
-  12% {
-    opacity: 0.95;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate3d(var(--confetti-x), var(--confetti-y), 0)
-      scale(1) rotate(var(--confetti-rotate));
-  }
+  0% { opacity: 0; transform: translate3d(0, -8px, 0) scale(0.72) rotate(0deg); }
+  12% { opacity: 0.95; }
+  100% { opacity: 0; transform: translate3d(var(--confetti-x), var(--confetti-y), 0) scale(1) rotate(var(--confetti-rotate)); }
 }
 
 @keyframes typewriter-caret-blink {
-  0%,
-  49% {
-    opacity: 1;
-  }
-
-  50%,
-  100% {
-    opacity: 0;
-  }
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
 .typewriter-caret {
@@ -59,7 +56,20 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .typewriter-caret {
-    animation: none;
-  }
+  .typewriter-caret { animation: none; }
 }
+
+@keyframes slide-up-fade {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes xp-pop {
+  0% { opacity: 0; transform: translateY(8px) scale(0.85); }
+  20% { opacity: 1; transform: translateY(0) scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-12px) scale(0.9); }
+}
+
+.animate-slide-up { animation: slide-up-fade 300ms ease forwards; }
+.animate-xp-pop { animation: xp-pop 2.5s ease forwards; }
