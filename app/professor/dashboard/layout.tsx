@@ -11,23 +11,27 @@ export default async function DashboardLayout({
   children,
   subject,
 }: LayoutProps) {
-  const instructor = await prisma.instructorProfile.findFirst({
+  const userEmail = "john.doe@gmail.com";//will be replaced
+
+  const user = await prisma.user.findUnique({
+    where: { email: userEmail },
     include: {
-      user: { include: { profile: true } },
+      profile: true,
+      instructorProfile: true,
     },
   });
 
   const professorName =
-    instructor?.user?.profile?.displayName || "Professor";
+    user?.profile?.displayName || "Professor";
 
-      return (
-       <div
-          style={{
-            display: "flex",
-            height: "100vh",
-            overflow: "hidden",
-         }}
-     >
+  return (
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+        overflow: "hidden",
+      }}
+    >
       <Sidebar professorName={professorName} subject={subject} />
 
       <div
