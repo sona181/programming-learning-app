@@ -1,5 +1,6 @@
 import { Prisma } from "@/app/generated/prisma/client";
 import { hashPassword } from "@/lib/auth/hash";
+import { getSessionCookieHeader } from "@/lib/auth/session";
 import { prisma } from "@/lib/prisma";
 import {
   registerSchema,
@@ -108,13 +109,18 @@ export async function POST(request: Request) {
       },
     });
 
-    return json(
+    return Response.json(
       {
         success: true,
         message: "Account created successfully.",
         user,
+      } satisfies RegisterResponse,
+      {
+        status: 201,
+        headers: {
+          "Set-Cookie": getSessionCookieHeader(user),
+        },
       },
-      201,
     );
   } catch (error) {
     if (

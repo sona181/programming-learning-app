@@ -1,4 +1,5 @@
 import { Prisma } from "@/app/generated/prisma/client";
+import { getSessionCookieHeader } from "@/lib/auth/session";
 import { prisma } from "@/lib/prisma";
 import {
   loginSchema,
@@ -92,18 +93,11 @@ export async function POST(request: Request) {
       );
     }
 
-    return json(
-      {
-        success: true,
-        message: "Signed in successfully.",
-        user: {
-          id: user.id,
-          email: user.email,
-          role: user.role,
-        },
-      },
-      200,
-    );
+    return authenticatedJson({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    });
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -132,5 +126,21 @@ export async function POST(request: Request) {
       500,
     );
   }
+}
+
+function authenticatedJson(user: { email: string; id: string; role: string }) {
+  return Response.json(
+    {
+      success: true,
+      message: "Signed in successfully.",
+      user,
+    } satisfies LoginResponse,
+    {
+      status: 200,
+      headers: {
+        "Set-Cookie": getSessionCookieHeader(user),
+      },
+    },
+  );
 }
 
