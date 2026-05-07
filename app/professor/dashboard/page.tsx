@@ -9,16 +9,22 @@ import LastEarnings from "./_components/last-earnings";
 import StudentRatings from "./_components/student-ratings";
 
 export default async function Dashboard() {
-  //will be replaced
-  const userEmail = "john.doe@gmail.com";
+  const userEmail = "timdoe@gmail.com";
 
-  const user = await prisma.user.findUnique({
-    where: { email: userEmail },
-    include: {
-      profile: true,
-      instructorProfile: true,
-    },
-  });
+  let user = null;
+
+  try {
+    user = await prisma.user.findUnique({
+      where: { email: userEmail },
+      include: {
+        profile: true,
+        instructorProfile: true,
+      },
+    });
+  } catch (err) {
+    console.error("User fetch error:", err);
+    return <div>Error loading user</div>;
+  }
 
   if (!user) {
     return <div>User not found</div>;
@@ -29,26 +35,73 @@ export default async function Dashboard() {
 
   let sessions: any[] = [];
 
-  if (instructor) {
-    sessions = await prisma.sessionBooking.findMany({
-      where: { instructorId: instructor.id },
+  try {
+    if (instructor) {
+      sessions = await prisma.sessionBooking.findMany({
+        where: { instructorId: instructor.id },
+        include: {
+          student: {
+            include: {
+              profile: true,
+            },
+          },
+        },
+        orderBy: {
+          bookedAt: "desc",
+        },
+      });
+    }
+  } catch (err) {
+    console.error("Sessions error:", err);
+  }
+
+  let courses: any[] = [];
+
+  try {
+    courses = await prisma.course.findMany({
+      where: {
+        authorId: user.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+  } catch (err) {
+    console.error("Courses error:", err);
+  }
+
+  let enrollments: any[] = [];
+
+  try {
+    enrollments = await prisma.enrollment.findMany({
+      where: {
+        courseId: {
+          in: courses.map((c) => c.id),
+        },
+      },
       include: {
-        student: {
+        user: {
           include: {
             profile: true,
           },
         },
       },
-      orderBy: {
-        bookedAt: "desc",
-      },
     });
+  } catch (err) {
+    console.error("Enrollments error:", err);
   }
 
-  const paymentsRaw = await prisma.payment.findMany({
-    where: { userId: user.id },
-    orderBy: { createdAt: "desc" },
-  });
+  const uniqueStudents = new Set(enrollments.map((e) => e.userId)).size;
+  let paymentsRaw: any[] = [];
+
+  try {
+    paymentsRaw = await prisma.payment.findMany({
+      where: { userId: user.id },
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (err) {
+    console.error("Payments error:", err);
+  }
 
   const payments = paymentsRaw.map((p) => ({
     ...p,
@@ -72,10 +125,6 @@ export default async function Dashboard() {
     })
     .reduce((sum, p) => sum + (p.amount ?? 0), 0);
 
-  const uniqueStudents = new Set(
-    sessions.map((s) => s.studentId)
-  ).size;
-
   const todaySessions = sessions.filter((s) => {
     const d = new Date(s.bookedAt);
     return (
@@ -85,14 +134,20 @@ export default async function Dashboard() {
     );
   });
 
+  let timeGreeting = "Good evening";
   const hour = now.getHours();
 
-  let timeGreeting = "Good evening";
   if (hour < 12) timeGreeting = "Good morning";
   else if (hour < 18) timeGreeting = "Good afternoon";
 
   return (
-    <div style={{ padding: "20px", background: "#F8FAFC", minHeight: "100%" }}>
+    <div
+      style={{
+        padding: "20px",
+        background: "#F8FAFC",
+        minHeight: "100%",
+      }}
+    >
       <Greeting
         name={professorName}
         monthlyEarnings={monthlyEarnings}
