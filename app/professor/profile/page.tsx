@@ -69,15 +69,23 @@ export default async function ProfessorProfilePage() {
 
   const courseIds = user.courses.map((c) => c.id);
 
-  const earningsAllTime = await prisma.payment.aggregate({
-    where: {
-      courseId: { in: courseIds },
-      status: "completed",
-    },
-    _sum: { amount: true },
-  });
+const now = new Date();
+const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-  const earnings = Number(earningsAllTime._sum.amount ?? 0);
+const startOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+const earningsThisMonth = await prisma.payment.aggregate({
+  where: {
+    courseId: { in: courseIds },
+    status: "completed",
+    createdAt: {
+      gte: startOfMonth,
+      lt: startOfNextMonth,
+    },
+  },
+  _sum: { amount: true },
+});
+
+  const earnings = Number(earningsThisMonth._sum.amount ?? 0);
 
   const earningsMonthly = await prisma.payment.aggregate({
     where: {

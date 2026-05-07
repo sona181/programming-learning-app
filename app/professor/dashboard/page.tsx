@@ -11,13 +11,20 @@ import StudentRatings from "./components/StudentRatings";
 export default async function Dashboard() {
   const userEmail = "timdoe@gmail.com";
 
-  const user = await prisma.user.findUnique({
-    where: { email: userEmail },
-    include: {
-      profile: true,
-      instructorProfile: true,
-    },
-  });
+  let user = null;
+
+  try {
+    user = await prisma.user.findUnique({
+      where: { email: userEmail },
+      include: {
+        profile: true,
+        instructorProfile: true,
+      },
+    });
+  } catch (err) {
+    console.error("User fetch error:", err);
+    return <div>Error loading user</div>;
+  }
 
   if (!user) {
     return <div>User not found</div>;
@@ -26,68 +33,75 @@ export default async function Dashboard() {
   const professorName = user.profile?.displayName || "Professor";
   const instructor = user.instructorProfile;
 
-  // =========================
-  // SESSIONS (LIVE BOOKINGS)
-  // =========================
   let sessions: any[] = [];
 
-  if (instructor) {
-    sessions = await prisma.sessionBooking.findMany({
-      where: { instructorId: instructor.id },
+  try {
+    if (instructor) {
+      sessions = await prisma.sessionBooking.findMany({
+        where: { instructorId: instructor.id },
+        include: {
+          student: {
+            include: {
+              profile: true,
+            },
+          },
+        },
+        orderBy: {
+          bookedAt: "desc",
+        },
+      });
+    }
+  } catch (err) {
+    console.error("Sessions error:", err);
+  }
+
+  let courses: any[] = [];
+
+  try {
+    courses = await prisma.course.findMany({
+      where: {
+        authorId: user.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+  } catch (err) {
+    console.error("Courses error:", err);
+  }
+
+  let enrollments: any[] = [];
+
+  try {
+    enrollments = await prisma.enrollment.findMany({
+      where: {
+        courseId: {
+          in: courses.map((c) => c.id),
+        },
+      },
       include: {
-        student: {
+        user: {
           include: {
             profile: true,
           },
         },
       },
-      orderBy: {
-        bookedAt: "desc",
-      },
     });
+  } catch (err) {
+    console.error("Enrollments error:", err);
   }
 
-  // =========================
-  // COURSES OWNED BY INSTRUCTOR
-  // =========================
-  const courses = await prisma.course.findMany({
-    where: {
-      authorId: user.id,
-    },
-    select: {
-      id: true,
-    },
-  });
+  const uniqueStudents = new Set(enrollments.map((e) => e.userId)).size;
+  let paymentsRaw: any[] = [];
 
-  // =========================
-  // ENROLLMENTS (REAL STUDENTS)
-  // =========================
-  const enrollments = await prisma.enrollment.findMany({
-    where: {
-      courseId: {
-        in: courses.map((c) => c.id),
-      },
-    },
-    include: {
-      user: {
-        include: {
-          profile: true,
-        },
-      },
-    },
-  });
-
-  const uniqueStudents = new Set(
-    enrollments.map((e) => e.userId)
-  ).size;
-
-  // =========================
-  // PAYMENTS
-  // =========================
-  const paymentsRaw = await prisma.payment.findMany({
-    where: { userId: user.id },
-    orderBy: { createdAt: "desc" },
-  });
+  try {
+    paymentsRaw = await prisma.payment.findMany({
+      where: { userId: user.id },
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (err) {
+    console.error("Payments error:", err);
+  }
 
   const payments = paymentsRaw.map((p) => ({
     ...p,
@@ -111,9 +125,6 @@ export default async function Dashboard() {
     })
     .reduce((sum, p) => sum + (p.amount ?? 0), 0);
 
-  // =========================
-  // TODAY SESSIONS
-  // =========================
   const todaySessions = sessions.filter((s) => {
     const d = new Date(s.bookedAt);
     return (
@@ -123,12 +134,9 @@ export default async function Dashboard() {
     );
   });
 
-  // =========================
-  // GREETING
-  // =========================
+  let timeGreeting = "Good evening";
   const hour = now.getHours();
 
-  let timeGreeting = "Good evening";
   if (hour < 12) timeGreeting = "Good morning";
   else if (hour < 18) timeGreeting = "Good afternoon";
 
@@ -148,7 +156,7 @@ export default async function Dashboard() {
       />
 
       <StatsRow
-        students={uniqueStudents}   // ✅ REAL DB STUDENTS
+        students={uniqueStudents}
         sessions={sessions.length}
         rating={Number(instructor?.rating ?? 0)}
         totalEarnings={totalEarnings}
