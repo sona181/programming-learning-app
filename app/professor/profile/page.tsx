@@ -3,6 +3,7 @@ import ProfileBanner from "./components/ProfileBanner";
 import Availability from "./components/Availability";
 import Courses from "./components/Courses";
 import StudentReviews from "./components/StudentReviews";
+import PersonalInfo from "./components/PersonalInfo";
 
 export const dynamic = "force-dynamic";
 
@@ -69,21 +70,21 @@ export default async function ProfessorProfilePage() {
 
   const courseIds = user.courses.map((c) => c.id);
 
-const now = new Date();
-const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-const startOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-const earningsThisMonth = await prisma.payment.aggregate({
-  where: {
-    courseId: { in: courseIds },
-    status: "completed",
-    createdAt: {
-      gte: startOfMonth,
-      lt: startOfNextMonth,
+  const startOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  const earningsThisMonth = await prisma.payment.aggregate({
+    where: {
+      courseId: { in: courseIds },
+      status: "completed",
+      createdAt: {
+        gte: startOfMonth,
+        lt: startOfNextMonth,
+      },
     },
-  },
-  _sum: { amount: true },
-});
+    _sum: { amount: true },
+  });
 
   const earnings = Number(earningsThisMonth._sum.amount ?? 0);
 
@@ -139,13 +140,17 @@ const earningsThisMonth = await prisma.payment.aggregate({
         courses={user.courses.length}
         earnings={earnings}
       />
-
+      <PersonalInfo
+        name={user.profile?.displayName || ""}
+        bio={user.instructorProfile?.bio || ""}
+        specialties={user.instructorProfile?.specialties || ""}
+      />
       <div style={{ display: "flex", gap: 20, marginTop: 20 }}>
         <Availability slots={formattedSlots} />
         <Courses courses={user.courses} />
       </div>
 
-    
+
       <StudentReviews />
     </div>
   );
