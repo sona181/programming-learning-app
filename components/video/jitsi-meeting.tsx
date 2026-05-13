@@ -73,6 +73,8 @@ export function JitsiMeeting({
           return;
         }
 
+        containerRef.current.innerHTML = "";
+
         apiRef.current = new window.JitsiMeetExternalAPI(domain, {
           parentNode: containerRef.current,
           roomName,
@@ -84,9 +86,12 @@ export function JitsiMeeting({
           },
           configOverwrite: {
             prejoinPageEnabled: true,
+            startWithAudioMuted: true,
+            startWithVideoMuted: false,
           },
           interfaceConfigOverwrite: {
             SHOW_JITSI_WATERMARK: false,
+            MOBILE_APP_PROMO: false,
           },
         });
       } catch {
@@ -107,16 +112,15 @@ export function JitsiMeeting({
 
   if (error) {
     return (
-      <div className="flex h-full min-h-[480px] items-center justify-center rounded-xl border border-red-200 bg-red-50 p-6 text-sm font-medium text-red-700">
+      <div className="flex h-[72vh] min-h-[560px] items-center justify-center rounded-xl border border-red-200 bg-red-50 p-6 text-sm font-medium text-red-700">
         {error}
       </div>
     );
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="h-full min-h-[480px] overflow-hidden rounded-xl bg-slate-950"
-    />
+    <div className="h-[72vh] min-h-[560px] w-full overflow-hidden rounded-xl bg-slate-950">
+      <div ref={containerRef} className="h-full w-full" />
+    </div>
   );
 }
