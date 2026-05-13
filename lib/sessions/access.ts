@@ -1,6 +1,7 @@
 import "server-only";
 
 import { prisma } from "@/lib/prisma";
+import { hasActiveStudentSubscription } from "@/lib/subscriptions/access";
 
 import type { AuthSessionUser } from "@/lib/auth/session";
 
@@ -41,6 +42,14 @@ export async function getSessionCallAccess(
 
   if (!isBookedStudent && !isBookedInstructor) {
     return null;
+  }
+
+  if (isBookedStudent) {
+    const hasSubscription = await hasActiveStudentSubscription(user.id);
+
+    if (!hasSubscription) {
+      return null;
+    }
   }
 
   return {

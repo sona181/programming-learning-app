@@ -910,20 +910,27 @@ model PricingPlan {
 }
 
 model UserSubscription {
-  id           String      @id @default(uuid()) @db.Uuid
-  userId       String      @map("user_id") @db.Uuid
-  planId       String      @map("plan_id") @db.Uuid
-  status       String      @db.VarChar(20)
-  billingCycle String      @map("billing_cycle") @db.VarChar(10)
-  startedAt    DateTime    @map("started_at") @db.Timestamptz(6)
-  expiresAt    DateTime    @map("expires_at") @db.Timestamptz(6)
-  cancelledAt  DateTime?   @map("cancelled_at") @db.Timestamptz(6)
-  payments     Payment[]
-  plan         PricingPlan @relation(fields: [planId], references: [id])
-  user         User        @relation(fields: [userId], references: [id])
+  id                           String      @id @default(uuid()) @db.Uuid
+  userId                       String      @map("user_id") @db.Uuid
+  planId                       String      @map("plan_id") @db.Uuid
+  status                       String      @db.VarChar(20)
+  billingCycle                 String      @map("billing_cycle") @db.VarChar(10)
+  startedAt                    DateTime    @map("started_at") @db.Timestamptz(6)
+  expiresAt                    DateTime    @map("expires_at") @db.Timestamptz(6)
+  cancelledAt                  DateTime?   @map("cancelled_at") @db.Timestamptz(6)
+  paymentProvider              String?     @map("payment_provider") @db.VarChar(50)
+  providerCustomerId           String?     @map("provider_customer_id") @db.VarChar(255)
+  providerSubscriptionId       String?     @unique @map("provider_subscription_id") @db.VarChar(255)
+  subscriptionStatus           String?     @map("subscription_status") @db.VarChar(24)
+  subscriptionCurrentPeriodEnd DateTime?   @map("subscription_current_period_end") @db.Timestamptz(6)
+  payments                     Payment[]
+  plan                         PricingPlan @relation(fields: [planId], references: [id])
+  user                         User        @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@index([status])
+  @@index([paymentProvider])
+  @@index([subscriptionStatus])
   @@map("user_subscriptions")
 }
 
