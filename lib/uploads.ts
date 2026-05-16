@@ -2,8 +2,6 @@ import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 import { randomUUID } from "crypto";
 
-const UPLOAD_DIR = join(process.cwd(), "public", "uploads");
-
 const ALLOWED_TYPES: Record<string, string[]> = {
   video: ["video/mp4", "video/webm"],
   pdf: ["application/pdf"],
@@ -39,7 +37,7 @@ export async function saveUpload(
 
   const ext = file.name.split(".").pop() ?? "bin";
   const uniqueName = `${randomUUID()}.${ext}`;
-  const dir = subDir ? join(UPLOAD_DIR, subDir) : UPLOAD_DIR;
+  const dir = join(/*turbopackIgnore: true*/ process.cwd(), "public", "uploads", subDir);
   await mkdir(dir, { recursive: true });
 
   const bytes = await file.arrayBuffer();
