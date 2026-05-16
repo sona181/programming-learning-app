@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx prisma *)"
+      "Bash(npx prisma *)",
+      "PowerShell($env:PGPASSWORD=\"sonapona111@\"; $result = & \"C:\\\\Program Files\\\\PostgreSQL\\\\17\\\\bin\\\\psql.exe\" -U postgres -d codequest -c \"\\\\dt\"; Write-Output $result)"
     ]
   }
 }

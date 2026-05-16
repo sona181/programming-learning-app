@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Course } from "../types";
 
 interface Theme {
@@ -11,67 +12,28 @@ interface Theme {
 }
 
 function getCourseTheme(course: Course): Theme {
-  const text = `
-    ${course.title}
-    ${course.category}
-    ${course.slug}
-  `.toLowerCase();
+  const text = `${course.title} ${course.category} ${course.slug}`.toLowerCase();
 
-  if (text.includes("java") || text.includes("spring")) {
+  if (text.includes("java") || text.includes("spring"))
     return { from: "#1a1a2e", to: "#0f0f1a", icon: "☕" };
-  }
+  if (text.includes("python") || text.includes("django") || text.includes("flask"))
+    return { from: "#065F46", to: "#047857", icon: "🐍" };
+  if (text.includes("c++") || text.includes("cpp") || text.includes("programim me c"))
+    return { from: "#1E293B", to: "#334155", icon: "⚙️" };
+  if (text.includes("javascript") || text.includes("react") || text.includes("next") || text.includes("web") || text.includes("frontend") || text.includes("html") || text.includes("css"))
+    return { from: "#064E3B", to: "#065F46", icon: "🌐" };
+  if (text.includes("sql") || text.includes("database") || text.includes("mysql") || text.includes("postgres"))
+    return { from: "#0C4A6E", to: "#075985", icon: "🗄️" };
+  if (text.includes("ai") || text.includes("machine learning") || text.includes("data"))
+    return { from: "#831843", to: "#9D174D", icon: "🧠" };
+  if (text.includes("security") || text.includes("cyber"))
+    return { from: "#7F1D1D", to: "#991B1B", icon: "🔒" };
+  if (text.includes("matematik"))
+    return { from: "#1E3A8A", to: "#1D4ED8", icon: "📐" };
+  if (text.includes("drejt") || text.includes("civil") || text.includes("juridik"))
+    return { from: "#78350F", to: "#92400E", icon: "⚖️" };
 
-
-  if (text.includes("python") || text.includes("django") || text.includes("flask")) {
-    return { from: "#10B981", to: "#059669", icon: "🐍" };
-  }
-
-
-  if (text.includes("c++") || text.includes(" c ") || text.includes("cpp") || text.includes("programim me c")) {
-    return { from: "#64748B", to: "#1E293B", icon: "⚙️" };
-  }
-
-  if (
-    text.includes("javascript") ||
-    text.includes("react") ||
-    text.includes("next") ||
-    text.includes("web") ||
-    text.includes("frontend") ||
-    text.includes("html") ||
-    text.includes("css")
-  ) {
-    return { from: "#10b981", to: "#064e3b", icon: "🌐" };
-  }
-
-  if (
-    text.includes("sql") ||
-    text.includes("database") ||
-    text.includes("mysql") ||
-    text.includes("postgres")
-  ) {
-    return { from: "#0891B2", to: "#0E7490", icon: "🗄️" };
-  }
-
-  if (text.includes("ai") || text.includes("machine learning") || text.includes("data")) {
-    return { from: "#DB2777", to: "#BE185D", icon: "🧠" };
-  }
-
-
-  if (text.includes("security") || text.includes("cyber")) {
-    return { from: "#DC2626", to: "#B91C1C", icon: "🔒" };
-  }
-
-
-  if (text.includes("matematik")) {
-    return { from: "#3b82f6", to: "#1e3a8a", icon: "📐" };
-  }
-
-
-  if (text.includes("drejt") || text.includes("civil") || text.includes("juridik")) {
-    return { from: "#f59e0b", to: "#78350f", icon: "⚖️" };
-  }
-
-  return { from: "#334155", to: "#1E293B", icon: "📘" };
+  return { from: "#1E293B", to: "#334155", icon: "📘" };
 }
 
 const LEVEL_LABEL: Record<string, string> = {
@@ -80,137 +42,176 @@ const LEVEL_LABEL: Record<string, string> = {
   advanced: "Avancuar",
 };
 
-const LEVEL_COLOR: Record<string, string> = {
-  beginner: "bg-green-100 text-green-700",
-  intermediate: "bg-orange-100 text-orange-700",
-  advanced: "bg-red-100 text-red-700",
+const LEVEL_COLOR: Record<string, { bg: string; text: string }> = {
+  beginner:     { bg: "#DCFCE7", text: "#15803D" },
+  intermediate: { bg: "#FEF3C7", text: "#92400E" },
+  advanced:     { bg: "#FEE2E2", text: "#991B1B" },
 };
 
 const LANG_LABEL: Record<string, string> = {
   sq: "Shqip",
-  en: "Anglisht",
-  it: "Italisht",
+  en: "English",
+  it: "Italiano",
 };
 
 export default function CourseCard({
   course,
   userId,
 }: {
-  course: Course;
-  userId: string | null;
+  readonly course: Course;
+  readonly userId: string | null;
 }) {
+  const router = useRouter();
   const theme = getCourseTheme(course);
+  const levelStyle = LEVEL_COLOR[course.level] ?? { bg: "#F3F4F6", text: "#374151" };
 
-  const instructorLine =
-    course.coAuthorCount > 0
-      ? `Prof. ${course.instructor} + ${course.coAuthorCount} tjetër`
-      : `Prof. ${course.instructor}`;
-
-  const href = userId
-    ? `/courses/${course.slug}?userId=${userId}`
-    : `/courses/${course.slug}`;
+  const href = userId ? `/course/${course.slug}?userId=${userId}` : `/course/${course.slug}`;
 
   return (
-    <Link href={href} className="block">
+    <Link href={href} className="block group">
       <div
-        className="
-          bg-white
-          rounded-[18px]
-          border
-          border-[#E5E7EB]
-          overflow-hidden
-          flex
-          flex-col
-          hover:shadow-md
-          transition-all
-          duration-200
-          cursor-pointer
-          h-[255px]
-        "
+        style={{
+          background: "#fff",
+          borderRadius: 16,
+          border: "1px solid #E5E7EB",
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          transition: "box-shadow 0.18s, transform 0.18s",
+        }}
+        className="hover:shadow-lg group-hover:-translate-y-0.5"
       >
-
+        {/* Thumbnail */}
         <div
-          className="relative h-[118px] flex items-center justify-center"
           style={{
+            height: 128,
             background: `linear-gradient(135deg, ${theme.from}, ${theme.to})`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            flexShrink: 0,
           }}
         >
           {course.thumbnailUrl ? (
             <img
               src={course.thumbnailUrl}
               alt={course.title}
-              className="w-full h-full object-cover"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           ) : (
-            <span className="text-4xl opacity-90">{theme.icon}</span>
+            <span style={{ fontSize: 38, lineHeight: 1 }}>{theme.icon}</span>
           )}
 
-          {course.isPremium ? (
-            <span className="absolute top-3 left-3 text-[10px] font-semibold px-3 py-[4px] rounded-full bg-white text-[#6D28D9]">
-              Premium
-            </span>
-          ) : (
-            <span className="absolute top-3 left-3 text-[10px] font-semibold px-3 py-[4px] rounded-full bg-white text-green-700">
-              Falas
-            </span>
-          )}
+          {/* Free / Premium badge */}
+          <span
+            style={{
+              position: "absolute", top: 10, left: 10,
+              fontSize: 10, fontWeight: 700,
+              padding: "3px 9px", borderRadius: 20,
+              background: course.isPremium ? "#EDE9FE" : "#D1FAE5",
+              color: course.isPremium ? "#6D28D9" : "#065F46",
+            }}
+          >
+            {course.isPremium ? "Premium" : "Falas"}
+          </span>
 
-
-          <span className="absolute top-3 right-3 text-[10px] font-medium bg-white/20 backdrop-blur-md text-white px-3 py-[4px] rounded-full">
+          {/* Language badge */}
+          <span
+            style={{
+              position: "absolute", top: 10, right: 10,
+              fontSize: 10, fontWeight: 500,
+              padding: "3px 9px", borderRadius: 20,
+              background: "rgba(255,255,255,0.18)",
+              backdropFilter: "blur(6px)",
+              color: "#fff",
+            }}
+          >
             {LANG_LABEL[course.language] ?? course.language}
           </span>
         </div>
 
-   
-        <div className="px-4 py-3 flex flex-col flex-1">
+        {/* Body */}
+        <div style={{ padding: "14px 16px 16px", display: "flex", flexDirection: "column", gap: 4, flex: 1 }}>
+          {/* Category */}
+          <span style={{ fontSize: 10, fontWeight: 600, color: "#6B7280", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+            {course.category}
+          </span>
 
-
-          <h3 className="font-semibold text-[14px] leading-[1.3] text-[#111827] line-clamp-2">
+          {/* Title */}
+          <h3
+            style={{
+              fontSize: 14, fontWeight: 700, color: "#111827",
+              lineHeight: 1.35, margin: 0,
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
+          >
             {course.title}
           </h3>
 
-          <p className="text-[12px] text-[#9CA3AF] mt-1">
-            {instructorLine} · {course.lessonCount} mësime
+          {/* Instructor + lessons */}
+          <p style={{ fontSize: 12, color: "#9CA3AF", margin: 0, marginTop: 2 }}>
+            <button
+              type="button"
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); router.push(`/instructors/${course.authorId}`); }}
+              style={{ color: "#6366F1", fontWeight: 600, cursor: "pointer", background: "none", border: "none", padding: 0, font: "inherit", fontSize: 12 }}
+            >
+              {course.coAuthorCount > 0 ? `${course.instructor} +${course.coAuthorCount}` : course.instructor}
+            </button>
+            <span style={{ margin: "0 5px", opacity: 0.4 }}>·</span>
+            {course.lessonCount} mësime
           </p>
 
-          <div className="flex items-center justify-between mt-3">
+          {/* Divider */}
+          <div style={{ height: 1, background: "#F3F4F6", margin: "10px 0 8px" }} />
+
+          {/* Level + enrollment count */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <span
-              className={`text-[10px] px-3 py-[4px] rounded-full font-semibold ${
-                LEVEL_COLOR[course.level] ?? "bg-gray-100 text-gray-600"
-              }`}
+              style={{
+                fontSize: 10, fontWeight: 600, padding: "3px 9px", borderRadius: 20,
+                background: levelStyle.bg, color: levelStyle.text,
+              }}
             >
               {LEVEL_LABEL[course.level] ?? course.level}
             </span>
 
-            {course.rating != null && (
-              <span className="text-[12px] text-[#F59E0B] font-semibold">
-                ★ {course.rating.toFixed(1)}
+            {course.enrollmentCount > 0 && (
+              <span style={{ fontSize: 11, color: "#9CA3AF" }}>
+                👤 {course.enrollmentCount.toLocaleString()}
               </span>
             )}
           </div>
 
-          <div className="flex items-center justify-between mt-auto pt-4">
-
+          {/* Price + CTA */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 10 }}>
             <span
-              className={`font-semibold text-[14px] ${
-                course.isPremium ? "text-[#111827]" : "text-[#10B981]"
-              }`}
+              style={{
+                fontSize: 15, fontWeight: 700,
+                color: course.isPremium ? "#111827" : "#059669",
+              }}
             >
-              {course.isPremium ? `€${course.price}/muaj` : "Falas"}
+              {course.isPremium
+                ? `€${course.price ?? "—"}/muaj`
+                : "Falas"}
             </span>
 
             <span
-              className={`
-                h-[32px] px-4 rounded-[10px] flex items-center justify-center
-                text-[12px] font-semibold transition-all
-                ${
-                  course.isEnrolled
-                    ? "bg-[#E5E7EB] text-[#6B7280]"
-                    : "bg-[#2563EB] text-white hover:bg-[#1D4ED8]"
-                }
-              `}
+              style={{
+                height: 32, padding: "0 16px",
+                borderRadius: 10,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: 12, fontWeight: 600,
+                background: course.isEnrolled ? "#F3F4F6" : "#2563EB",
+                color: course.isEnrolled ? "#6B7280" : "#fff",
+                transition: "background 0.15s",
+                cursor: "pointer",
+              }}
             >
-              {course.isEnrolled ? "I regjistruar" : "Regjistrohu"}
+              {course.isEnrolled ? "✓ Regjistruar" : "Regjistrohu"}
             </span>
           </div>
         </div>

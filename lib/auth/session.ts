@@ -1,6 +1,6 @@
 import "server-only";
 
-import { createHmac, timingSafeEqual } from "crypto";
+import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 
 export const SESSION_COOKIE_NAME = "unilearn_session";
@@ -114,7 +114,17 @@ export function readSessionToken(token: string | undefined) {
   }
 }
 
-export async function getCurrentSessionUser() {
+export async function getCurrentSessionUser(request?: Request) {
+  // 1. Cookie (web)
   const cookieStore = await cookies();
-  return readSessionToken(cookieStore.get(SESSION_COOKIE_NAME)?.value);
+  const fromCookie = readSessionToken(cookieStore.get(SESSION_COOKIE_NAME)?.value);
+  if (fromCookie) return fromCookie;
+
+  // 2. Authorization: Bearer <token> (mobile)
+  if (request) {
+    const bearer = request.headers.get("Authorization")?.replace("Bearer ", "");
+    return readSessionToken(bearer ?? undefined);
+  }
+
+  return null;
 }

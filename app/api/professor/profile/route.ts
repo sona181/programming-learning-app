@@ -1,52 +1,58 @@
+import { getCurrentSessionUser } from "@/lib/auth/session";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function PATCH(req: Request) {
-    const { name, bio, specialties } = await req.json();
-    const userEmail = "timdoe@gmail.com";
+  const session = await getCurrentSessionUser(req);
+  if (session?.role !== "instructor") {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
-    const user = await prisma.user.findUnique({
-        where: { email: userEmail },
-        include: { profile: true, instructorProfile: true },
-    });
+  let body: {
+    name?: string; bio?: string; specialties?: string;
+    languages?: string; hourlyRate?: number | null; isAvailable?: boolean;
+    country?: string | null;
+  };
+  try { body = await req.json(); } catch { body = {}; }
 
-    if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
+  const { name, bio, specialties, languages, hourlyRate, isAvailable, country } = body;
+  const now = new Date();
 
-    if (user.profile) {
-        await prisma.userProfile.update({
-            where: { userId: user.id },
-            data: { displayName: name, bio },
-        });
-    } else {
-        await prisma.userProfile.create({
-            data: {
-                userId: user.id,
-                displayName: name,
-                bio,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            },
-        });
-    }
+  // Upsert UserProfile
+  await prisma.userProfile.upsert({
+    where: { userId: session.id },
+    create: { userId: session.id, displayName: name ?? "", bio: bio ?? "", createdAt: now, updatedAt: now },
+    update: {
+      ...(name !== undefined && { displayName: name }),
+      ...(bio !== undefined && { bio }),
+      ...(country !== undefined && { country: country || null }),
+      updatedAt: now,
+    },
+  });
 
-    if (user.instructorProfile) {
-        await prisma.instructorProfile.update({
-            where: { userId: user.id },
-            data: { bio, specialties },
-        });
-    } else {
-        await prisma.instructorProfile.create({
-            data: {
-                userId: user.id,
-                bio,
-                specialties,
-                isVerified: false,
-                isAvailable: true,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            },
-        });
-    }
+  // Upsert InstructorProfile
+  await prisma.instructorProfile.upsert({
+    where: { userId: session.id },
+    create: {
+      userId: session.id,
+      bio: bio ?? "",
+      specialties: specialties ?? "",
+      languages: languages ?? "",
+      hourlyRate: hourlyRate ?? null,
+      isVerified: false,
+      isAvailable: isAvailable ?? true,
+      createdAt: now,
+      updatedAt: now,
+    },
+    update: {
+      ...(bio !== undefined && { bio }),
+      ...(specialties !== undefined && { specialties }),
+      ...(languages !== undefined && { languages }),
+      ...(hourlyRate !== undefined && { hourlyRate }),
+      ...(isAvailable !== undefined && { isAvailable }),
+      updatedAt: now,
+    },
+  });
 
-    return NextResponse.json({ success: true });
+  return NextResponse.json({ success: true });
 }

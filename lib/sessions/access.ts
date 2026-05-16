@@ -37,6 +37,10 @@ export async function getSessionCallAccess(
     return null;
   }
 
+  if (booking.status !== "confirmed") {
+    return null;
+  }
+
   const isBookedStudent = booking.studentId === user.id;
   const isBookedInstructor = booking.instructorProfile.userId === user.id;
 

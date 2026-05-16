@@ -1,5 +1,6 @@
 import { Prisma } from "@/app/generated/prisma/client";
-import { getSessionCookieHeader } from "@/lib/auth/session";
+import { createSessionToken, getSessionCookieHeader } from "@/lib/auth/session";
+import { corsHeaders } from "@/lib/cors";
 import { prisma } from "@/lib/prisma";
 import {
   loginSchema,
@@ -7,8 +8,12 @@ import {
 } from "@/lib/validations/login-schema";
 import { compare } from "bcryptjs";
 
+export function OPTIONS() {
+  return new Response(null, { status: 204, headers: corsHeaders() });
+}
+
 function json(body: LoginResponse, status: number) {
-  return Response.json(body, { status });
+  return Response.json(body, { status, headers: corsHeaders() });
 }
 
 export async function POST(request: Request) {
@@ -129,15 +134,18 @@ export async function POST(request: Request) {
 }
 
 function authenticatedJson(user: { email: string; id: string; role: string }) {
+  const token = createSessionToken(user);
   return Response.json(
     {
       success: true,
       message: "Signed in successfully.",
       user,
+      token,
     } satisfies LoginResponse,
     {
       status: 200,
       headers: {
+        ...corsHeaders(),
         "Set-Cookie": getSessionCookieHeader(user),
       },
     },

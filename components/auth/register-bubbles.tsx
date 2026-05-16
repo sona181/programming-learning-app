@@ -37,10 +37,10 @@ export function RegisterBubbles() {
             shouldReduceMotion
               ? { x: 0, y: 0, scale: 1, opacity: bubble.opacity[0] }
               : {
-                  x: bubble.x,
-                  y: bubble.y,
-                  scale: bubble.scale,
-                  opacity: bubble.opacity,
+                  x: [...bubble.x],
+                  y: [...bubble.y],
+                  scale: [...bubble.scale],
+                  opacity: [...bubble.opacity],
                 }
           }
           transition={

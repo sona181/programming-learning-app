@@ -97,7 +97,22 @@ export default function ExercisePage() {
   const exerciseIndex = parseInt(params.exerciseIndex as string, 10);
 
   const course = getCourse(courseSlug);
-  const { progress, markCompleted, markViewedSolution, countCompleted } = useProgress();
+  const { progress, markCompleted, markViewedSolution, countCompleted } = useProgress(courseSlug);
+
+  const [userName, setUserName] = useState("");
+  const [userRole, setUserRole] = useState("student");
+
+  useEffect(() => {
+    void fetch("/api/me")
+      .then((r) => r.json() as Promise<{ user: { name: string; role: string } | null }>)
+      .then(({ user }) => {
+        if (user) {
+          setUserName(user.name.split(" ")[0]);
+          setUserRole(user.role);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const [code, setCode] = useState("");
   const [isRunning, setIsRunning] = useState(false);
@@ -276,7 +291,7 @@ export default function ExercisePage() {
   return (
     <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
       {/* Fixed dark sidebar */}
-      <CourseSidebar xp={xp} streak={streak} />
+      <CourseSidebar xp={xp} streak={streak} userName={userName} userRole={userRole} />
 
       {/* Main content shifted right of sidebar */}
       <div

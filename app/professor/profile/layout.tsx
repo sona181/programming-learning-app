@@ -1,4 +1,6 @@
+import { getCurrentSessionUser } from "@/lib/auth/session";
 import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 
@@ -6,12 +8,16 @@ import Header from "./components/Header";
 export default async function ProfessorLayout({
   children,
 }: {
-  children: React.ReactNode;
+  readonly children: React.ReactNode;
 }) {
-  const userEmail = "timdoe@gmail.com"; // later from auth
+  const session = await getCurrentSessionUser();
+
+  if (session?.role !== "instructor") {
+    redirect("/auth/login");
+  }
 
   const user = await prisma.user.findUnique({
-    where: { email: userEmail },
+    where: { id: session.id },
     include: {
       profile: true,
       instructorProfile: true,
@@ -19,7 +25,7 @@ export default async function ProfessorLayout({
   });
 
   const name = user?.profile?.displayName || "Professor";
-  const subject = user?.instructorProfile?.bio || "";
+  const subject = user?.instructorProfile?.specialties || user?.instructorProfile?.bio || "";
 
   return (
     <div
@@ -41,7 +47,7 @@ export default async function ProfessorLayout({
         }}
       >
 
-        <Header professorName={name} />
+        <Header professorName={name} userId={user?.id ?? ""} />
 
 
         <div

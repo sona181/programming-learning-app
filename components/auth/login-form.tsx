@@ -117,7 +117,7 @@ export function LoginForm() {
 
       const destination = shouldRedirectToProfessorDashboard
         ? "/professor/dashboard"
-        : "/academy/java-beginner-path";
+        : "/student/dashboard";
 
       window.setTimeout(() => {
         router.replace(destination);

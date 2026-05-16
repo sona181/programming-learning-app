@@ -1,14 +1,34 @@
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/prisma";
+import { getCurrentSessionUser } from "@/lib/auth/session";
 import CourseBrowsePage from "./CourseBrowsePage";
+import type { CourseLevel, CourseLanguage } from "./types";
+
+const COURSE_LEVELS = ["beginner", "intermediate", "advanced"] as const;
+const COURSE_LANGUAGES = ["sq", "en", "it"] as const;
+
+function safeLevel(level: string): CourseLevel {
+  return COURSE_LEVELS.includes(level as CourseLevel) ? (level as CourseLevel) : "beginner";
+}
+
+function safeLanguage(language: string): CourseLanguage {
+  return COURSE_LANGUAGES.includes(language as CourseLanguage) ? (language as CourseLanguage) : "sq";
+}
 
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: { userId?: string };
+  searchParams: Promise<{ userId?: string }>;
 }) {
-  const userId = searchParams?.userId ?? null;
+  const [{ userId: paramUserId = null }, sessionUser] = await Promise.all([
+    searchParams,
+    getCurrentSessionUser(),
+  ]);
 
-  const [courses, categories] = await Promise.all([
+  const effectiveUserId = sessionUser?.id ?? paramUserId;
+
+  const [courses, categories, userRecord] = await Promise.all([
     prisma.course.findMany({
       where: { status: "published" },
       include: {
@@ -36,11 +56,22 @@ export default async function Page({
       },
       orderBy: { name: "asc" },
     }),
+    effectiveUserId
+      ? prisma.user.findUnique({
+          where: { id: effectiveUserId },
+          select: {
+            profile: { select: { displayName: true } },
+            _count: { select: { enrollments: true } },
+          },
+        })
+      : null,
   ]);
 
+  const userName = userRecord?.profile?.displayName ?? null;
+
   const safeCourses = courses.map((c) => {
-    const isEnrolled = userId
-      ? c.enrollments.some((e) => e.userId === userId)
+    const isEnrolled = effectiveUserId
+      ? c.enrollments.some((e) => e.userId === effectiveUserId)
       : false;
 
     return {
@@ -48,20 +79,20 @@ export default async function Page({
       slug: c.slug,
       title: c.title,
       description: c.description,
-      level: c.level as "beginner" | "intermediate" | "advanced",
-      language: c.language as "sq" | "en" | "it",
+      level: safeLevel(c.level),
+      language: safeLanguage(c.language),
       isPremium: c.isPremium,
       price: c.price ? Number(c.price) : null,
       thumbnailUrl: c.thumbnailUrl,
       category: c.category?.name ?? "General",
       instructor: c.author?.profile?.displayName ?? "Unknown",
+      authorId: c.author?.id ?? "",
       coAuthorCount: c.courseAuthors.length,
       lessonCount: c._count.chapters,
       enrollmentCount: c._count.enrollments,
       isEnrolled,
-      rating: c.author?.instructorProfile?.rating
-        ? Number(c.author.instructorProfile.rating)
-        : null,
+      rating: null,
+      reviewCount: 0,
     };
   });
 
@@ -74,7 +105,8 @@ export default async function Page({
     <CourseBrowsePage
       courses={safeCourses}
       categories={safeCategories}
-      userId={userId}
+      userId={effectiveUserId}
+      userName={userName}
     />
   );
 }

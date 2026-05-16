@@ -38,5 +38,6 @@ export type RegisterResponse = {
     email: string;
     role: string;
   };
+  token?: string;
   fieldErrors?: RegisterFieldErrors;
 };

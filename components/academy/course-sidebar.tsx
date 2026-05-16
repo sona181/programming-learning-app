@@ -8,6 +8,7 @@ interface CourseSidebarProps {
   streak?: number;
   xp?: number;
   userName?: string;
+  userRole?: string;
 }
 
 function getLevel(xp: number): { level: number; name: string } {
@@ -22,17 +23,23 @@ export default function CourseSidebar({
   streak = 0,
   xp = 0,
   userName = "Student",
+  userRole = "student",
 }: CourseSidebarProps) {
   const pathname = usePathname();
   const initials = userName.slice(0, 2).toUpperCase();
   const { level, name } = getLevel(xp);
 
+  const dashboardHref =
+    userRole === "instructor" || userRole === "professor"
+      ? "/professor/dashboard"
+      : "/student/dashboard";
+
   const navItems = [
-    { href: "/", label: "Dashboard", icon: LayoutDashboard, match: (p: string) => p === "/" },
-    { href: "/browse", label: "Browse", icon: Search, match: (p: string) => p === "/browse" },
+    { href: dashboardHref, label: "Dashboard", icon: LayoutDashboard, match: (p: string) => p === dashboardHref },
+    { href: "/courses", label: "Shfleto Kurset", icon: Search, match: (p: string) => p === "/courses" },
     {
       href: "/course",
-      label: "My Courses",
+      label: "Kurset e mia",
       icon: BookOpen,
       match: (p: string) => p.startsWith("/course"),
     },

@@ -1,14 +1,19 @@
 import { Prisma } from "@/app/generated/prisma/client";
 import { hashPassword } from "@/lib/auth/hash";
-import { getSessionCookieHeader } from "@/lib/auth/session";
+import { createSessionToken, getSessionCookieHeader } from "@/lib/auth/session";
+import { corsHeaders } from "@/lib/cors";
 import { prisma } from "@/lib/prisma";
 import {
   registerSchema,
   type RegisterResponse,
 } from "@/lib/validations/register-schema";
 
+export function OPTIONS() {
+  return new Response(null, { status: 204, headers: corsHeaders() });
+}
+
 function json(body: RegisterResponse, status: number) {
-  return Response.json(body, { status });
+  return Response.json(body, { status, headers: corsHeaders() });
 }
 
 export async function POST(request: Request) {
@@ -109,15 +114,18 @@ export async function POST(request: Request) {
       },
     });
 
+    const token = createSessionToken(user);
     return Response.json(
       {
         success: true,
         message: "Account created successfully.",
         user,
+        token,
       } satisfies RegisterResponse,
       {
         status: 201,
         headers: {
+          ...corsHeaders(),
           "Set-Cookie": getSessionCookieHeader(user),
         },
       },

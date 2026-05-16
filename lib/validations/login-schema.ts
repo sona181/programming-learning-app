@@ -21,5 +21,6 @@ export type LoginResponse = {
     email: string;
     role: string;
   };
+  token?: string;
   fieldErrors?: LoginFieldErrors;
 };

@@ -152,3 +152,45 @@ export function getFallbackSubscriptionPeriodEnd() {
   fallback.setMonth(fallback.getMonth() + 1);
   return fallback;
 }
+
+export async function createPayPalOrder(amount: number, currency = "EUR"): Promise<string> {
+  const accessToken = await getPayPalAccessToken();
+  const response = await fetch(`${getPayPalBaseUrl()}/v2/checkout/orders`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      intent: "CAPTURE",
+      purchase_units: [{ amount: { currency_code: currency, value: amount.toFixed(2) } }],
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`PayPal create order failed with status ${response.status}.`);
+  }
+
+  const data = (await response.json()) as { id: string };
+  return data.id;
+}
+
+export async function capturePayPalOrder(orderId: string): Promise<{ status: string; id: string }> {
+  const accessToken = await getPayPalAccessToken();
+  const response = await fetch(
+    `${getPayPalBaseUrl()}/v2/checkout/orders/${orderId}/capture`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error(`PayPal capture order failed with status ${response.status}.`);
+  }
+
+  return response.json() as Promise<{ status: string; id: string }>;
+}

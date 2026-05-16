@@ -5,7 +5,7 @@ import {
   Home,
   BookOpen,
   CalendarCheck,
-  MessageCircle,
+  Video,
   User,
   GraduationCap,
 } from "lucide-react";
@@ -24,8 +24,8 @@ export default function Sidebar({
   const menuItems = [
     { label: "Dashboard", icon: <Home size={18} />, path: "/professor/dashboard" },
     { label: "My Courses", icon: <BookOpen size={18} />, path: "/professor/courses" },
-    { label: "Sessions", icon: <CalendarCheck size={18} />, path: "/professor/sessions" },
-    { label: "Messages", icon: <MessageCircle size={18} />, path: "/professor/messages" },
+    { label: "Sesionet", icon: <CalendarCheck size={18} />, path: "/professor/sessions" },
+    { label: "Video Call", icon: <Video size={18} />, path: "/professor/dashboard/video" },
     { label: "Profile", icon: <User size={18} />, path: "/professor/profile" },
   ];
 

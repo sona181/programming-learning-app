@@ -1,0 +1,1525 @@
+{
+  "id": "python-basics",
+  "title": "Python Basics",
+  "description": "Learn Python from scratch — variables, control flow, loops, and functions.",
+  "language": "python",
+  "languageId": 71,
+  "units": [
+    {
+      "id": "py-unit-1",
+      "title": "Python Foundations",
+      "description": "Understand what Python is and write your very first programs.",
+      "lessons": [
+        {
+          "id": "py-l1-1",
+          "title": "What is Python?",
+          "description": "Get to know Python — where it came from and how it works.",
+          "exercises": [
+            {
+              "id": "py-ch1-l1-e1",
+              "type": "multiple_choice",
+              "title": "How Python runs",
+              "description": "Unlike Java, Python doesn't compile to a separate executable — it runs line by line.",
+              "question": "How does Python run your code?",
+              "options": ["It interprets code line by line at runtime", "It compiles to bytecode first, then runs separately", "It compiles to machine code", "It requires a class to run"],
+              "correctOption": 0,
+              "explanation": "Python is an interpreted language. The Python interpreter reads and executes your .py file directly.",
+              "hints": []
+            },
+            {
+              "id": "py-ch1-l1-e2",
+              "type": "true_false",
+              "title": "Python is interpreted",
+              "description": "Think about how Python executes your source code.",
+              "question": "Python code is interpreted at runtime, not compiled to a separate executable first.",
+              "correctAnswer": true,
+              "explanation": "Python is interpreted — no separate compilation step. You run your .py file directly.",
+              "hints": []
+            },
+            {
+              "id": "py-ch1-l1-e3",
+              "type": "multiple_choice",
+              "title": "Python file extension",
+              "description": "Python source files use a specific file extension.",
+              "question": "What file extension do Python source files use?",
+              "options": [".py", ".python", ".pt", ".pyt"],
+              "correctOption": 0,
+              "explanation": ".py is the extension for Python source files. For example: hello.py",
+              "hints": []
+            },
+            {
+              "id": "py-ch1-l1-e4",
+              "type": "true_false",
+              "title": "Dynamic typing",
+              "description": "Python handles types very differently from Java.",
+              "question": "In Python, you must declare the type of every variable (e.g. int x = 5).",
+              "correctAnswer": false,
+              "explanation": "Python is dynamically typed. You just write x = 5 and Python figures out the type automatically.",
+              "hints": []
+            },
+            {
+              "id": "py-ch1-l1-e5",
+              "type": "fill_blank",
+              "title": "Python file extension",
+              "description": "Fill in the file extension for Python source files.",
+              "codeTemplate": "# Save your Python program as: my_program.___",
+              "blanks": [{"id": "b1", "answer": "py"}],
+              "hints": ["Python files use a 2-letter extension that starts with 'p'."]
+            }
+          ]
+        },
+        {
+          "id": "py-l1-2",
+          "title": "Your First Program",
+          "description": "Write and run your very first Python program.",
+          "exercises": [
+            {
+              "id": "py-ch1-l2-e1",
+              "type": "multiple_choice",
+              "title": "print function",
+              "description": "Python uses a built-in function to display output.",
+              "question": "Which of these correctly prints 'Hello' in Python?",
+              "options": ["print(\"Hello\")", "System.out.println(\"Hello\")", "echo \"Hello\"", "Console.log(\"Hello\")"],
+              "correctOption": 0,
+              "explanation": "Python uses the built-in print() function. System.out.println is Java, console.log is JavaScript.",
+              "hints": []
+            },
+            {
+              "id": "py-ch1-l2-e2",
+              "type": "true_false",
+              "title": "No main function required",
+              "description": "Python programs work differently from Java.",
+              "question": "Python requires a main() function to run a program.",
+              "correctAnswer": false,
+              "explanation": "Unlike Java, Python executes top-level code directly. No main() is required.",
+              "hints": []
+            },
+            {
+              "id": "py-ch1-l2-e3",
+              "type": "fill_blank",
+              "title": "Complete the print",
+              "description": "Fill in the function name used to display output in Python.",
+              "codeTemplate": "___('Hello, World!')",
+              "blanks": [{"id": "b1", "answer": "print"}],
+              "hints": ["This built-in function displays output to the screen."]
+            },
+            {
+              "id": "py-ch1-l2-e4",
+              "type": "fill_blank",
+              "title": "Parentheses in print",
+              "description": "print is a function — it requires parentheses around its argument.",
+              "codeTemplate": "print___'Hello!'___",
+              "blanks": [
+                {"id": "b1", "answer": "("},
+                {"id": "b2", "answer": ")"}
+              ],
+              "hints": ["Functions in Python are called with parentheses: print('Hello!')"]
+            },
+            {
+              "id": "py-ch1-l2-e5",
+              "type": "code_exercise",
+              "title": "Hello, World!",
+              "description": "Write a Python program that prints `Hello, World!` exactly.",
+              "starterCode": "# Print Hello, World!\n",
+              "expectedOutput": "Hello, World!",
+              "solutionCode": "print(\"Hello, World!\")",
+              "hints": [
+                "Use the print() function.",
+                "print(\"Hello, World!\")"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "py-l1-3",
+          "title": "Printing to the Screen",
+          "description": "Learn how print() works and how to display multiple lines.",
+          "exercises": [
+            {
+              "id": "py-ch1-l3-e1",
+              "type": "fill_blank",
+              "title": "print function name",
+              "description": "Fill in the name of the built-in function that displays output.",
+              "codeTemplate": "___('Python is great!')",
+              "blanks": [{"id": "b1", "answer": "print"}],
+              "hints": ["The function that prints to the screen is built into Python."]
+            },
+            {
+              "id": "py-ch1-l3-e2",
+              "type": "predict_output",
+              "title": "Multiple print calls",
+              "description": "Each call to print() outputs on its own line. What will this print?",
+              "code": "print('Python')\nprint('is')\nprint('awesome')",
+              "expectedOutput": "Python\nis\nawesome",
+              "hints": ["Each print() call adds a newline at the end automatically."]
+            },
+            {
+              "id": "py-ch1-l3-e3",
+              "type": "true_false",
+              "title": "print adds a newline",
+              "description": "Think about what print() does after displaying its content.",
+              "question": "By default, print() in Python automatically moves to a new line after printing.",
+              "correctAnswer": true,
+              "explanation": "print() adds a '\\n' at the end by default. You can change this with the end parameter.",
+              "hints": []
+            },
+            {
+              "id": "py-ch1-l3-e4",
+              "type": "predict_output",
+              "title": "print with end",
+              "description": "Using `end=''` tells print() not to add a newline — both outputs join on one line.",
+              "code": "print('Hello ', end='')\nprint('World')",
+              "expectedOutput": "Hello World",
+              "hints": ["end='' removes the automatic newline, so both prints appear on the same line."]
+            },
+            {
+              "id": "py-ch1-l3-e5",
+              "type": "code_exercise",
+              "title": "Print three lines",
+              "description": "Print these three words, each on its own line:\n`Python`\n`is`\n`fun`",
+              "starterCode": "# Print Python, is, fun on separate lines\n",
+              "expectedOutput": "Python\nis\nfun",
+              "solutionCode": "print('Python')\nprint('is')\nprint('fun')",
+              "hints": [
+                "Call print() three times.",
+                "print('Python'), then print('is'), then print('fun')"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "py-l1-4",
+          "title": "Chapter 1 Review",
+          "description": "Review everything from Chapter 1.",
+          "exercises": [
+            {
+              "id": "py-ch1-l4-e1",
+              "type": "multiple_choice",
+              "title": "Correct print syntax",
+              "description": "Review the correct way to print in Python.",
+              "question": "Which of these correctly prints 'Hi' in Python?",
+              "options": ["print('Hi')", "System.out.println('Hi')", "echo 'Hi'", "printf('Hi')"],
+              "correctOption": 0,
+              "explanation": "Python uses print(). System.out.println is Java, echo is Bash, printf is C.",
+              "hints": []
+            },
+            {
+              "id": "py-ch1-l4-e2",
+              "type": "true_false",
+              "title": "Python needs a class",
+              "description": "Think about Python's structure compared to Java.",
+              "question": "A Python program must be wrapped in a class to run.",
+              "correctAnswer": false,
+              "explanation": "Python doesn't require a class. Code at the top level runs directly.",
+              "hints": []
+            },
+            {
+              "id": "py-ch1-l4-e3",
+              "type": "fill_blank",
+              "title": "Completing a print call",
+              "description": "Fill in the function name to complete the statement.",
+              "codeTemplate": "___('Review!')",
+              "blanks": [{"id": "b1", "answer": "print"}],
+              "hints": ["The built-in output function in Python."]
+            },
+            {
+              "id": "py-ch1-l4-e4",
+              "type": "predict_output",
+              "title": "Counting output",
+              "description": "Trace through this program and predict what it prints.",
+              "code": "print('1')\nprint('2')\nprint('3')",
+              "expectedOutput": "1\n2\n3",
+              "hints": ["Each print() produces one line of output."]
+            },
+            {
+              "id": "py-ch1-l4-e5",
+              "type": "code_exercise",
+              "title": "I love Python",
+              "description": "Print exactly: `I love Python!`",
+              "starterCode": "# Your code here\n",
+              "expectedOutput": "I love Python!",
+              "solutionCode": "print('I love Python!')",
+              "hints": ["print('I love Python!')"]
+            },
+            {
+              "id": "py-ch1-l4-e6",
+              "type": "code_exercise",
+              "title": "Two lines",
+              "description": "Print `Hello` on the first line and `Python` on the second line.",
+              "starterCode": "# Print Hello, then Python\n",
+              "expectedOutput": "Hello\nPython",
+              "solutionCode": "print('Hello')\nprint('Python')",
+              "hints": ["Use two separate print() calls."]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "py-unit-2",
+      "title": "Data and Variables",
+      "description": "Store, retrieve, and compute with different types of data.",
+      "lessons": [
+        {
+          "id": "py-l2-1",
+          "title": "Basic Types",
+          "description": "Python has four core built-in types: int, float, str, and bool.",
+          "exercises": [
+            {
+              "id": "py-ch2-l1-e1",
+              "type": "multiple_choice",
+              "title": "Whole numbers",
+              "description": "Python has different types for different kinds of data.",
+              "question": "Which Python type stores whole numbers like 1, -5, or 100?",
+              "options": ["int", "float", "str", "bool"],
+              "correctOption": 0,
+              "explanation": "int stores whole numbers. float stores decimals like 3.14.",
+              "hints": []
+            },
+            {
+              "id": "py-ch2-l1-e2",
+              "type": "true_false",
+              "title": "float and decimals",
+              "description": "Know which Python type handles decimal numbers.",
+              "question": "A float can store decimal numbers like 3.14 or 2.5.",
+              "correctAnswer": true,
+              "explanation": "float is Python's type for decimal (floating-point) numbers.",
+              "hints": []
+            },
+            {
+              "id": "py-ch2-l1-e3",
+              "type": "multiple_choice",
+              "title": "Text type",
+              "description": "Python uses a specific type for text.",
+              "question": "Which Python type stores text like 'Hello' or 'Python'?",
+              "options": ["str", "text", "String", "char"],
+              "correctOption": 0,
+              "explanation": "str (short for string) is Python's type for text. Unlike Java, there is no separate char type.",
+              "hints": []
+            },
+            {
+              "id": "py-ch2-l1-e4",
+              "type": "fill_blank",
+              "title": "Assignment operator",
+              "description": "Fill in the operator that assigns a value to a variable.",
+              "codeTemplate": "age ___ 25\nprint(age)",
+              "blanks": [{"id": "b1", "answer": "="}],
+              "hints": ["In Python, a single = sign assigns a value to a variable."]
+            },
+            {
+              "id": "py-ch2-l1-e5",
+              "type": "predict_output",
+              "title": "Printing a variable",
+              "description": "Predict what this code prints.",
+              "code": "x = 10\nprint(x)",
+              "expectedOutput": "10",
+              "hints": ["Printing a variable shows its value, not its name."]
+            }
+          ]
+        },
+        {
+          "id": "py-l2-2",
+          "title": "Declaring Variables",
+          "description": "How to create, name, and assign variables in Python.",
+          "exercises": [
+            {
+              "id": "py-ch2-l2-e1",
+              "type": "fill_blank",
+              "title": "Variable name",
+              "description": "Fill in the variable name that matches what is used in print.",
+              "codeTemplate": "___ = 100\nprint(score)",
+              "blanks": [{"id": "b1", "answer": "score"}],
+              "hints": ["The variable name must match exactly what appears in print()."]
+            },
+            {
+              "id": "py-ch2-l2-e2",
+              "type": "predict_output",
+              "title": "Variable output",
+              "description": "When you print a variable, Python prints its value — not its name.",
+              "code": "x = 42\nprint(x)",
+              "expectedOutput": "42",
+              "hints": []
+            },
+            {
+              "id": "py-ch2-l2-e3",
+              "type": "fill_blank",
+              "title": "Boolean variable",
+              "description": "Fill in the Python boolean value for 'true'.",
+              "codeTemplate": "is_python_fun = ___\nprint(is_python_fun)",
+              "blanks": [{"id": "b1", "answer": "True"}],
+              "hints": ["Python booleans are capitalized: True or False."]
+            },
+            {
+              "id": "py-ch2-l2-e4",
+              "type": "true_false",
+              "title": "Reassigning variables",
+              "description": "Once created, a variable's value can be changed.",
+              "question": "You can change the value of a variable after it has been assigned.",
+              "correctAnswer": true,
+              "explanation": "Variables in Python can be reassigned at any time. Use ALL_CAPS by convention for constants.",
+              "hints": []
+            },
+            {
+              "id": "py-ch2-l2-e5",
+              "type": "code_exercise",
+              "title": "Declare and print",
+              "description": "Create a variable called `age` with value `20`, then print it.",
+              "starterCode": "# Create age = 20 and print it\n",
+              "expectedOutput": "20",
+              "solutionCode": "age = 20\nprint(age)",
+              "hints": [
+                "Python syntax: name = value",
+                "age = 20, then print(age)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "py-l2-3",
+          "title": "Arithmetic",
+          "description": "Perform math operations with Python's arithmetic operators.",
+          "exercises": [
+            {
+              "id": "py-ch2-l3-e1",
+              "type": "predict_output",
+              "title": "Addition",
+              "description": "Predict the result of adding two variables.",
+              "code": "x = 10\ny = 3\nprint(x + y)",
+              "expectedOutput": "13",
+              "hints": []
+            },
+            {
+              "id": "py-ch2-l3-e2",
+              "type": "fill_blank",
+              "title": "Modulus operator",
+              "description": "The % operator gives the remainder after division. Fill it in.",
+              "codeTemplate": "remainder = 10 ___ 3\nprint(remainder)",
+              "blanks": [{"id": "b1", "answer": "%"}],
+              "hints": ["10 / 3 = 3 remainder 1. The operator that gives the remainder is %."]
+            },
+            {
+              "id": "py-ch2-l3-e3",
+              "type": "multiple_choice",
+              "title": "Integer division",
+              "description": "Python uses // for integer (floor) division.",
+              "question": "What is the result of `10 // 3` in Python?",
+              "options": ["3", "3.33", "4", "3.3333"],
+              "correctOption": 0,
+              "explanation": "// is Python's integer division operator. It drops the decimal: 10 // 3 = 3. Use / for 3.3333.",
+              "hints": []
+            },
+            {
+              "id": "py-ch2-l3-e4",
+              "type": "predict_output",
+              "title": "Modulus result",
+              "description": "Predict the remainder from this division.",
+              "code": "a = 7\nb = 2\nprint(a % b)",
+              "expectedOutput": "1",
+              "hints": ["7 divided by 2 is 3 with remainder 1."]
+            },
+            {
+              "id": "py-ch2-l3-e5",
+              "type": "code_exercise",
+              "title": "Sum and product",
+              "description": "Given `a = 8` and `b = 5`, print their **sum** on one line, then their **product** on the next.",
+              "starterCode": "a = 8\nb = 5\n# Print sum, then product\n",
+              "expectedOutput": "13\n40",
+              "solutionCode": "a = 8\nb = 5\nprint(a + b)\nprint(a * b)",
+              "hints": [
+                "Sum uses +, product uses *.",
+                "print(a + b), then print(a * b)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "py-l2-4",
+          "title": "Chapter 2 Review",
+          "description": "Review variables, types, and arithmetic.",
+          "exercises": [
+            {
+              "id": "py-ch2-l4-e1",
+              "type": "multiple_choice",
+              "title": "Modulus result",
+              "description": "Test your understanding of the % operator.",
+              "question": "What is the result of `15 % 4` in Python?",
+              "options": ["3", "4", "3.75", "2"],
+              "correctOption": 0,
+              "explanation": "15 = 4 × 3 + 3, so 15 % 4 = 3.",
+              "hints": []
+            },
+            {
+              "id": "py-ch2-l4-e2",
+              "type": "true_false",
+              "title": "Division in Python 3",
+              "description": "Python 3 changed how the / operator works.",
+              "question": "In Python 3, `7 / 2` returns `3.5` (not 3).",
+              "correctAnswer": true,
+              "explanation": "In Python 3, / always returns a float. Use // for integer division: 7 // 2 = 3.",
+              "hints": []
+            },
+            {
+              "id": "py-ch2-l4-e3",
+              "type": "fill_blank",
+              "title": "Two variables",
+              "description": "Fill in variable names that match what is used in print.",
+              "codeTemplate": "___ = 100\n___ = 25\nprint(total - discount)",
+              "blanks": [
+                {"id": "b1", "answer": "total"},
+                {"id": "b2", "answer": "discount"}
+              ],
+              "hints": ["The variable names must match exactly what appears in print(total - discount)."]
+            },
+            {
+              "id": "py-ch2-l4-e4",
+              "type": "predict_output",
+              "title": "Reassignment",
+              "description": "A variable's value can change. Trace through this code.",
+              "code": "x = 10\nx = x + 5\nprint(x)",
+              "expectedOutput": "15",
+              "hints": ["x starts at 10. Then x = 10 + 5 = 15."]
+            },
+            {
+              "id": "py-ch2-l4-e5",
+              "type": "code_exercise",
+              "title": "Subtract and multiply",
+              "description": "Create `x = 6` and `y = 4`. Print `x - y`, then print `x * y`.",
+              "starterCode": "# Create x and y, then print x-y and x*y\n",
+              "expectedOutput": "2\n24",
+              "solutionCode": "x = 6\ny = 4\nprint(x - y)\nprint(x * y)",
+              "hints": ["Create both variables, then use print() twice."]
+            },
+            {
+              "id": "py-ch2-l4-e6",
+              "type": "code_exercise",
+              "title": "Float variable",
+              "description": "Create a variable called `pi` with value `3.14`, then print it.",
+              "starterCode": "# Create pi = 3.14 and print it\n",
+              "expectedOutput": "3.14",
+              "solutionCode": "pi = 3.14\nprint(pi)",
+              "hints": ["pi = 3.14, then print(pi)"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "py-unit-3",
+      "title": "Text and Strings",
+      "description": "Work with text using Python's str type.",
+      "lessons": [
+        {
+          "id": "py-l3-1",
+          "title": "String Basics",
+          "description": "How to create and use string variables in Python.",
+          "exercises": [
+            {
+              "id": "py-ch3-l1-e1",
+              "type": "multiple_choice",
+              "title": "Valid Python string",
+              "description": "Python strings can use either single or double quotes.",
+              "question": "Which of these is a valid Python string?",
+              "options": ["'Hello'", "#Hello", "Hello", "@Hello"],
+              "correctOption": 0,
+              "explanation": "Python strings are wrapped in single or double quotes. 'Hello' and \"Hello\" are both valid.",
+              "hints": []
+            },
+            {
+              "id": "py-ch3-l1-e2",
+              "type": "fill_blank",
+              "title": "Print a string variable",
+              "description": "Fill in the function to display the greeting variable.",
+              "codeTemplate": "greeting = 'Hello, World!'\n___(greeting)",
+              "blanks": [{"id": "b1", "answer": "print"}],
+              "hints": ["The built-in function that displays output."]
+            },
+            {
+              "id": "py-ch3-l1-e3",
+              "type": "true_false",
+              "title": "Single and double quotes",
+              "description": "Python is flexible about which quotes you use.",
+              "question": "In Python, both single quotes ('') and double quotes (\"\") can be used to create strings.",
+              "correctAnswer": true,
+              "explanation": "Python accepts both. 'hello' and \"hello\" are identical. Consistency is what matters.",
+              "hints": []
+            },
+            {
+              "id": "py-ch3-l1-e4",
+              "type": "predict_output",
+              "title": "Printing a string variable",
+              "description": "When you print a string variable, Python shows the contents without quotes.",
+              "code": "name = 'Alice'\nprint(name)",
+              "expectedOutput": "Alice",
+              "hints": ["print() shows the value, not the variable name or the quotes."]
+            },
+            {
+              "id": "py-ch3-l1-e5",
+              "type": "code_exercise",
+              "title": "Declare and print a string",
+              "description": "Create a variable called `city` with value `'Paris'` and print it.",
+              "starterCode": "# Create city = 'Paris' and print it\n",
+              "expectedOutput": "Paris",
+              "solutionCode": "city = 'Paris'\nprint(city)",
+              "hints": ["city = 'Paris', then print(city)"]
+            }
+          ]
+        },
+        {
+          "id": "py-l3-2",
+          "title": "String Methods",
+          "description": "Built-in methods and functions that work on strings.",
+          "exercises": [
+            {
+              "id": "py-ch3-l2-e1",
+              "type": "multiple_choice",
+              "title": "len() function",
+              "description": "Python has a built-in function to count characters in a string.",
+              "question": "What does `len('Alice')` return?",
+              "options": ["5", "4", "6", "'Alice'"],
+              "correctOption": 0,
+              "explanation": "'Alice' has 5 characters: A-l-i-c-e. len() counts all of them.",
+              "hints": []
+            },
+            {
+              "id": "py-ch3-l2-e2",
+              "type": "predict_output",
+              "title": "upper() method",
+              "description": ".upper() returns a new string with all letters capitalized.",
+              "code": "s = 'hello'\nprint(s.upper())",
+              "expectedOutput": "HELLO",
+              "hints": []
+            },
+            {
+              "id": "py-ch3-l2-e3",
+              "type": "fill_blank",
+              "title": "Calling len()",
+              "description": "Fill in the function that returns the number of characters.",
+              "codeTemplate": "s = 'Hello'\nprint(___(s))",
+              "blanks": [{"id": "b1", "answer": "len"}],
+              "hints": ["This 3-letter built-in function returns the length of a string."]
+            },
+            {
+              "id": "py-ch3-l2-e4",
+              "type": "predict_output",
+              "title": "lower() method",
+              "description": ".lower() returns a new string with all letters lowercased.",
+              "code": "s = 'PYTHON'\nprint(s.lower())",
+              "expectedOutput": "python",
+              "hints": []
+            },
+            {
+              "id": "py-ch3-l2-e5",
+              "type": "code_exercise",
+              "title": "Uppercase",
+              "description": "Create `word = 'hello'` and print it in uppercase.",
+              "starterCode": "word = 'hello'\n# Print word in uppercase\n",
+              "expectedOutput": "HELLO",
+              "solutionCode": "word = 'hello'\nprint(word.upper())",
+              "hints": ["Call .upper() on the string variable: word.upper()"]
+            }
+          ]
+        },
+        {
+          "id": "py-l3-3",
+          "title": "Concatenation and f-strings",
+          "description": "Join strings with + and format them with f-strings.",
+          "exercises": [
+            {
+              "id": "py-ch3-l3-e1",
+              "type": "multiple_choice",
+              "title": "Joining strings",
+              "description": "Python uses + to join strings together.",
+              "question": "How do you join two strings in Python?",
+              "options": ["Using the + operator", "Using the & operator", "Using the . operator", "Using join keyword"],
+              "correctOption": 0,
+              "explanation": "The + operator concatenates strings: 'Hello' + ' World' = 'Hello World'.",
+              "hints": []
+            },
+            {
+              "id": "py-ch3-l3-e2",
+              "type": "predict_output",
+              "title": "Concatenation result",
+              "description": "Two strings joined with + are merged into one.",
+              "code": "a = 'Hello'\nb = ' World'\nprint(a + b)",
+              "expectedOutput": "Hello World",
+              "hints": []
+            },
+            {
+              "id": "py-ch3-l3-e3",
+              "type": "fill_blank",
+              "title": "f-string prefix",
+              "description": "Fill in the single-character prefix that makes this an f-string.",
+              "codeTemplate": "name = 'Alice'\nprint(___'Hello, {name}!')",
+              "blanks": [{"id": "b1", "answer": "f"}],
+              "hints": ["f-strings start with the letter f before the opening quote."]
+            },
+            {
+              "id": "py-ch3-l3-e4",
+              "type": "predict_output",
+              "title": "f-string output",
+              "description": "f-strings embed variables directly inside curly braces {}.",
+              "code": "name = 'Python'\nprint(f'I love {name}!')",
+              "expectedOutput": "I love Python!",
+              "hints": ["{name} is replaced with the value of the name variable."]
+            },
+            {
+              "id": "py-ch3-l3-e5",
+              "type": "code_exercise",
+              "title": "Full name with f-string",
+              "description": "Given `first = 'Python'` and `last = 'Learner'`, print them as `Python Learner` using an f-string.",
+              "starterCode": "first = 'Python'\nlast = 'Learner'\n# Print full name using an f-string\n",
+              "expectedOutput": "Python Learner",
+              "solutionCode": "first = 'Python'\nlast = 'Learner'\nprint(f'{first} {last}')",
+              "hints": [
+                "Use an f-string: f'{first} {last}'",
+                "print(f'{first} {last}')"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "py-l3-4",
+          "title": "Chapter 3 Review",
+          "description": "Review strings, string methods, and f-strings.",
+          "exercises": [
+            {
+              "id": "py-ch3-l4-e1",
+              "type": "multiple_choice",
+              "title": "String indexing",
+              "description": "Python strings are indexed starting from 0.",
+              "question": "What does `'Hello'[0]` return in Python?",
+              "options": ["'H'", "'e'", "1", "0"],
+              "correctOption": 0,
+              "explanation": "Index 0 is the first character. 'Hello'[0] = 'H'.",
+              "hints": []
+            },
+            {
+              "id": "py-ch3-l4-e2",
+              "type": "true_false",
+              "title": "String comparison with ==",
+              "description": "Unlike Java, Python's == works correctly for string comparison.",
+              "question": "In Python, you can use `==` to compare the content of two strings.",
+              "correctAnswer": true,
+              "explanation": "Python's == correctly compares string content. Unlike Java, there is no need for .equals().",
+              "hints": []
+            },
+            {
+              "id": "py-ch3-l4-e3",
+              "type": "fill_blank",
+              "title": "String length",
+              "description": "Fill in the function that returns the number of characters.",
+              "codeTemplate": "s = 'Python'\nprint(___(s))",
+              "blanks": [{"id": "b1", "answer": "len"}],
+              "hints": ["The function that counts characters is built into Python."]
+            },
+            {
+              "id": "py-ch3-l4-e4",
+              "type": "predict_output",
+              "title": "f-string review",
+              "description": "Predict the output of this f-string.",
+              "code": "s = 'world'\nprint(f'Hello, {s}!')",
+              "expectedOutput": "Hello, world!",
+              "hints": ["{s} is replaced with the value of s."]
+            },
+            {
+              "id": "py-ch3-l4-e5",
+              "type": "code_exercise",
+              "title": "Greeting",
+              "description": "Create `greeting = 'Hello'` and `target = 'Python'`. Print them joined with a space and exclamation mark using an f-string.",
+              "starterCode": "greeting = 'Hello'\ntarget = 'Python'\n# Print using an f-string\n",
+              "expectedOutput": "Hello Python!",
+              "solutionCode": "greeting = 'Hello'\ntarget = 'Python'\nprint(f'{greeting} {target}!')",
+              "hints": ["Use: print(f'{greeting} {target}!')"]
+            },
+            {
+              "id": "py-ch3-l4-e6",
+              "type": "code_exercise",
+              "title": "String length",
+              "description": "Create `text = 'programming'` and print its length.",
+              "starterCode": "text = 'programming'\n# Print the length of text\n",
+              "expectedOutput": "11",
+              "solutionCode": "text = 'programming'\nprint(len(text))",
+              "hints": ["Use len(text) to get the character count."]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "py-unit-4",
+      "title": "Making Decisions",
+      "description": "Control what your program does using booleans and if/else.",
+      "lessons": [
+        {
+          "id": "py-l4-1",
+          "title": "Booleans and Comparison",
+          "description": "The bool type holds True or False — the foundation of all decisions.",
+          "exercises": [
+            {
+              "id": "py-ch4-l1-e1",
+              "type": "multiple_choice",
+              "title": "Boolean values",
+              "description": "Python's bool type has exactly two valid values.",
+              "question": "Which of these is a valid Python boolean literal?",
+              "options": ["True", "true", "TRUE", "yes"],
+              "correctOption": 0,
+              "explanation": "Python booleans are capitalized: True and False. Lowercase 'true' would be treated as a variable name.",
+              "hints": []
+            },
+            {
+              "id": "py-ch4-l1-e2",
+              "type": "true_false",
+              "title": "Boolean range",
+              "description": "Python's bool type has only two possible values.",
+              "question": "A Python bool variable can only hold two values: True or False.",
+              "correctAnswer": true,
+              "explanation": "bool is Python's logical type — exactly two states: True and False.",
+              "hints": []
+            },
+            {
+              "id": "py-ch4-l1-e3",
+              "type": "fill_blank",
+              "title": "Declare a bool",
+              "description": "Fill in the Python boolean value meaning 'it is not raining'.",
+              "codeTemplate": "is_raining = ___\nprint(is_raining)",
+              "blanks": [{"id": "b1", "answer": "False"}],
+              "hints": ["Python booleans are capitalized. Not raining = False."]
+            },
+            {
+              "id": "py-ch4-l1-e4",
+              "type": "predict_output",
+              "title": "Comparison result",
+              "description": "Comparison operators like > produce a bool result.",
+              "code": "x = 5 > 3\nprint(x)",
+              "expectedOutput": "True",
+              "hints": ["5 > 3 is True, so x is True."]
+            },
+            {
+              "id": "py-ch4-l1-e5",
+              "type": "predict_output",
+              "title": "Equality check",
+              "description": "The == operator checks equality and returns a bool.",
+              "code": "result = 10 == 20\nprint(result)",
+              "expectedOutput": "False",
+              "hints": ["10 is not equal to 20, so the result is False."]
+            }
+          ]
+        },
+        {
+          "id": "py-l4-2",
+          "title": "if Statements",
+          "description": "Run code only when a condition is true.",
+          "exercises": [
+            {
+              "id": "py-ch4-l2-e1",
+              "type": "multiple_choice",
+              "title": "if keyword",
+              "description": "Every conditional statement starts with a specific keyword.",
+              "question": "What keyword starts a conditional statement in Python?",
+              "options": ["if", "when", "check", "condition"],
+              "correctOption": 0,
+              "explanation": "`if` is the keyword. The condition is followed by a colon: if condition:",
+              "hints": []
+            },
+            {
+              "id": "py-ch4-l2-e2",
+              "type": "fill_blank",
+              "title": "if colon",
+              "description": "Python if statements end the condition line with a colon.",
+              "codeTemplate": "x = 10\nif x > 5___\n    print('Big')",
+              "blanks": [{"id": "b1", "answer": ":"}],
+              "hints": ["Python uses a colon after the condition, then indented code below."]
+            },
+            {
+              "id": "py-ch4-l2-e3",
+              "type": "predict_output",
+              "title": "if/else branch",
+              "description": "Only one branch executes — the one whose condition is true.",
+              "code": "x = 3\nif x > 5:\n    print('big')\nelse:\n    print('small')",
+              "expectedOutput": "small",
+              "hints": ["3 > 5 is False, so the else branch runs."]
+            },
+            {
+              "id": "py-ch4-l2-e4",
+              "type": "predict_output",
+              "title": "Age check",
+              "description": "Which branch will run for age = 20?",
+              "code": "age = 20\nif age >= 18:\n    print('Adult')\nelse:\n    print('Minor')",
+              "expectedOutput": "Adult",
+              "hints": ["20 >= 18 is True."]
+            },
+            {
+              "id": "py-ch4-l2-e5",
+              "type": "code_exercise",
+              "title": "Pass or Fail",
+              "description": "Given `score = 75`: if score >= 60, print `Pass`. Otherwise print `Fail`.",
+              "starterCode": "score = 75\n# if score >= 60, print Pass, else print Fail\n",
+              "expectedOutput": "Pass",
+              "solutionCode": "score = 75\nif score >= 60:\n    print('Pass')\nelse:\n    print('Fail')",
+              "hints": [
+                "Use if score >= 60:",
+                "Remember to indent the print() calls with 4 spaces."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "py-l4-3",
+          "title": "if-else and elif",
+          "description": "Handle multiple conditions with elif.",
+          "exercises": [
+            {
+              "id": "py-ch4-l3-e1",
+              "type": "multiple_choice",
+              "title": "elif keyword",
+              "description": "Python uses a single keyword for 'else if'.",
+              "question": "Which keyword adds an additional condition after `if` in Python?",
+              "options": ["elif", "else if", "elseif", "otherwise"],
+              "correctOption": 0,
+              "explanation": "Python uses `elif` (a contraction of 'else if') — one word, unlike Java's two-word 'else if'.",
+              "hints": []
+            },
+            {
+              "id": "py-ch4-l3-e2",
+              "type": "predict_output",
+              "title": "Three-way branch",
+              "description": "Trace through the chain: which condition is true first?",
+              "code": "x = 5\nif x > 10:\n    print('big')\nelif x > 3:\n    print('medium')\nelse:\n    print('small')",
+              "expectedOutput": "medium",
+              "hints": ["5 > 10 is False. 5 > 3 is True — so 'medium' prints."]
+            },
+            {
+              "id": "py-ch4-l3-e3",
+              "type": "fill_blank",
+              "title": "Grade chain",
+              "description": "Fill in Python's keyword that links the second condition.",
+              "codeTemplate": "if grade >= 90:\n    print('A')\n___ grade >= 80:\n    print('B')\nelse:\n    print('C')",
+              "blanks": [{"id": "b1", "answer": "elif"}],
+              "hints": ["Python's 'else if' is written as a single 4-letter word."]
+            },
+            {
+              "id": "py-ch4-l3-e4",
+              "type": "predict_output",
+              "title": "Sign check",
+              "description": "What will print for n = 0?",
+              "code": "n = 0\nif n > 0:\n    print('positive')\nelif n < 0:\n    print('negative')\nelse:\n    print('zero')",
+              "expectedOutput": "zero",
+              "hints": ["0 is not > 0 and not < 0, so the else block runs."]
+            },
+            {
+              "id": "py-ch4-l3-e5",
+              "type": "code_exercise",
+              "title": "Temperature check",
+              "description": "Given `temp = 30`:\n- If temp > 35, print `Hot`\n- elif temp > 20, print `Warm`\n- Otherwise print `Cool`",
+              "starterCode": "temp = 30\n# Write if/elif/else here\n",
+              "expectedOutput": "Warm",
+              "solutionCode": "temp = 30\nif temp > 35:\n    print('Hot')\nelif temp > 20:\n    print('Warm')\nelse:\n    print('Cool')",
+              "hints": [
+                "Use if / elif / else structure.",
+                "30 > 35 is False. 30 > 20 is True — so 'Warm' should print."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "py-l4-4",
+          "title": "Chapter 4 Review",
+          "description": "Review booleans, if/else, and elif chains.",
+          "exercises": [
+            {
+              "id": "py-ch4-l4-e1",
+              "type": "multiple_choice",
+              "title": "Equality operator",
+              "description": "Don't confuse assignment with equality comparison.",
+              "question": "Which operator checks if two values are equal in Python?",
+              "options": ["==", "=", "===", "is"],
+              "correctOption": 0,
+              "explanation": "= is assignment. == is equality comparison. `is` checks object identity, which is different.",
+              "hints": []
+            },
+            {
+              "id": "py-ch4-l4-e2",
+              "type": "true_false",
+              "title": "else always runs",
+              "description": "Think carefully about when the else block executes.",
+              "question": "The else block always runs when an if statement is present.",
+              "correctAnswer": false,
+              "explanation": "The else block only runs when all preceding if/elif conditions are False.",
+              "hints": []
+            },
+            {
+              "id": "py-ch4-l4-e3",
+              "type": "fill_blank",
+              "title": "Greater-or-equal",
+              "description": "Fill in the comparison operator that means 'greater than or equal to'.",
+              "codeTemplate": "is_adult = age ___ 18",
+              "blanks": [{"id": "b1", "answer": ">="}],
+              "hints": ["The operator for 'greater than or equal' uses two characters."]
+            },
+            {
+              "id": "py-ch4-l4-e4",
+              "type": "predict_output",
+              "title": "Not-equal check",
+              "description": "`!=` means 'not equal'. What will print?",
+              "code": "x = 10\nif x != 5:\n    print('not five')\nelse:\n    print('five')",
+              "expectedOutput": "not five",
+              "hints": ["10 != 5 is True."]
+            },
+            {
+              "id": "py-ch4-l4-e5",
+              "type": "code_exercise",
+              "title": "Even or odd",
+              "description": "Given `x = 8`: print `even` if `x % 2 == 0`, otherwise print `odd`.",
+              "starterCode": "x = 8\n# Check if x is even or odd\n",
+              "expectedOutput": "even",
+              "solutionCode": "x = 8\nif x % 2 == 0:\n    print('even')\nelse:\n    print('odd')",
+              "hints": ["Use x % 2 == 0 to check if a number is even."]
+            },
+            {
+              "id": "py-ch4-l4-e6",
+              "type": "code_exercise",
+              "title": "Positive, negative, zero",
+              "description": "Given `n = -5`: print `positive` if n > 0, `negative` if n < 0, or `zero` if n == 0.",
+              "starterCode": "n = -5\n# Use if/elif/else\n",
+              "expectedOutput": "negative",
+              "solutionCode": "n = -5\nif n > 0:\n    print('positive')\nelif n < 0:\n    print('negative')\nelse:\n    print('zero')",
+              "hints": ["Use if / elif / else with three conditions."]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "py-unit-5",
+      "title": "Loops",
+      "description": "Repeat actions automatically with for and while loops.",
+      "lessons": [
+        {
+          "id": "py-l5-1",
+          "title": "for Loops",
+          "description": "Use for loops with range() to repeat code a fixed number of times.",
+          "exercises": [
+            {
+              "id": "py-ch5-l1-e1",
+              "type": "multiple_choice",
+              "title": "range() function",
+              "description": "Python's range() generates a sequence of numbers for loops.",
+              "question": "What does `range(5)` produce?",
+              "options": ["Numbers 0, 1, 2, 3, 4", "Numbers 1, 2, 3, 4, 5", "Numbers 0 through 5", "Just the number 5"],
+              "correctOption": 0,
+              "explanation": "range(5) produces 0, 1, 2, 3, 4 — five numbers starting from 0.",
+              "hints": []
+            },
+            {
+              "id": "py-ch5-l1-e2",
+              "type": "predict_output",
+              "title": "for loop output",
+              "description": "A for loop using range(1, 4). What prints?",
+              "code": "for i in range(1, 4):\n    print(i)",
+              "expectedOutput": "1\n2\n3",
+              "hints": ["range(1, 4) generates 1, 2, 3 — it stops before 4."]
+            },
+            {
+              "id": "py-ch5-l1-e3",
+              "type": "fill_blank",
+              "title": "range argument",
+              "description": "Fill in the range argument so 'Hello' prints exactly 3 times.",
+              "codeTemplate": "for i in range(___):\n    print('Hello')",
+              "blanks": [{"id": "b1", "answer": "3"}],
+              "hints": ["range(n) runs the loop n times starting from 0."]
+            },
+            {
+              "id": "py-ch5-l1-e4",
+              "type": "predict_output",
+              "title": "range with start and stop",
+              "description": "range(start, stop) generates from start up to (but not including) stop.",
+              "code": "for i in range(3, 6):\n    print(i)",
+              "expectedOutput": "3\n4\n5",
+              "hints": ["range(3, 6) gives 3, 4, 5 — stops before 6."]
+            },
+            {
+              "id": "py-ch5-l1-e5",
+              "type": "code_exercise",
+              "title": "Count to 5",
+              "description": "Use a for loop to print numbers 1 through 5, one per line.",
+              "starterCode": "# Use a for loop to print 1, 2, 3, 4, 5\n",
+              "expectedOutput": "1\n2\n3\n4\n5",
+              "solutionCode": "for i in range(1, 6):\n    print(i)",
+              "hints": [
+                "Use range(1, 6) to get numbers 1 through 5.",
+                "for i in range(1, 6):  print(i)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "py-l5-2",
+          "title": "while Loops",
+          "description": "Repeat code while a condition stays true.",
+          "exercises": [
+            {
+              "id": "py-ch5-l2-e1",
+              "type": "multiple_choice",
+              "title": "while loop purpose",
+              "description": "A while loop keeps running its body as long as the condition is true.",
+              "question": "What does a while loop do?",
+              "options": [
+                "Repeats code while a condition is True",
+                "Runs code once if the condition is True",
+                "Always runs exactly 10 times",
+                "Checks the condition after running"
+              ],
+              "correctOption": 0,
+              "explanation": "while checks the condition before each iteration. If it's False from the start, the body never runs.",
+              "hints": []
+            },
+            {
+              "id": "py-ch5-l2-e2",
+              "type": "predict_output",
+              "title": "Counting while loop",
+              "description": "Trace through this loop step by step.",
+              "code": "i = 0\nwhile i < 3:\n    print(i)\n    i += 1",
+              "expectedOutput": "0\n1\n2",
+              "hints": ["i starts at 0, prints 0, 1, 2. When i = 3 the condition is False."]
+            },
+            {
+              "id": "py-ch5-l2-e3",
+              "type": "fill_blank",
+              "title": "while keyword",
+              "description": "Fill in the keyword that starts a condition-controlled loop.",
+              "codeTemplate": "count = 0\n___ count < 5:\n    count += 1",
+              "blanks": [{"id": "b1", "answer": "while"}],
+              "hints": ["The keyword is the same as the English word meaning 'as long as'."]
+            },
+            {
+              "id": "py-ch5-l2-e4",
+              "type": "true_false",
+              "title": "Infinite loop",
+              "description": "A loop whose condition never becomes False runs forever.",
+              "question": "`while True:` creates an infinite loop.",
+              "correctAnswer": true,
+              "explanation": "True is always True, so the loop never stops unless you use break.",
+              "hints": []
+            },
+            {
+              "id": "py-ch5-l2-e5",
+              "type": "code_exercise",
+              "title": "While count",
+              "description": "Use a while loop to print numbers 1 through 5, one per line.",
+              "starterCode": "i = 1\n# while i <= 5, print i and increment\n",
+              "expectedOutput": "1\n2\n3\n4\n5",
+              "solutionCode": "i = 1\nwhile i <= 5:\n    print(i)\n    i += 1",
+              "hints": [
+                "Start i at 1, loop while i <= 5.",
+                "Don't forget to increment: i += 1 inside the loop."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "py-l5-3",
+          "title": "Loop Patterns",
+          "description": "Use break, continue, and loops to solve common patterns.",
+          "exercises": [
+            {
+              "id": "py-ch5-l3-e1",
+              "type": "multiple_choice",
+              "title": "break statement",
+              "description": "`break` gives you a way to exit a loop early.",
+              "question": "What does `break` do inside a loop?",
+              "options": [
+                "Exits the loop immediately",
+                "Skips to the next iteration",
+                "Resets the counter to 0",
+                "Pauses execution"
+              ],
+              "correctOption": 0,
+              "explanation": "break exits the loop entirely. Execution continues after the loop body.",
+              "hints": []
+            },
+            {
+              "id": "py-ch5-l3-e2",
+              "type": "predict_output",
+              "title": "break in action",
+              "description": "The loop stops as soon as `break` is reached.",
+              "code": "for i in range(5):\n    if i == 3:\n        break\n    print(i)",
+              "expectedOutput": "0\n1\n2",
+              "hints": ["When i == 3, break runs before print, so 3 is never printed."]
+            },
+            {
+              "id": "py-ch5-l3-e3",
+              "type": "predict_output",
+              "title": "continue in action",
+              "description": "`continue` skips the rest of the current iteration and moves to the next.",
+              "code": "for i in range(5):\n    if i == 2:\n        continue\n    print(i)",
+              "expectedOutput": "0\n1\n3\n4",
+              "hints": ["When i == 2, continue skips print — so 2 is never printed."]
+            },
+            {
+              "id": "py-ch5-l3-e4",
+              "type": "fill_blank",
+              "title": "Print squares",
+              "description": "Fill in the operator to print the square of each number.",
+              "codeTemplate": "for i in range(1, 6):\n    print(i ___ i)",
+              "blanks": [{"id": "b1", "answer": "*"}],
+              "hints": ["Multiplying a number by itself gives you its square."]
+            },
+            {
+              "id": "py-ch5-l3-e5",
+              "type": "code_exercise",
+              "title": "Sum 1 to 10",
+              "description": "Use a for loop to compute the sum of numbers 1 through 10. Print only the final sum.",
+              "starterCode": "total = 0\n# Add i to total for i in range(1, 11)\n\nprint(total)",
+              "expectedOutput": "55",
+              "solutionCode": "total = 0\nfor i in range(1, 11):\n    total += i\nprint(total)",
+              "hints": [
+                "Use total += i inside the loop to accumulate.",
+                "1 + 2 + ... + 10 = 55"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "py-l5-4",
+          "title": "Chapter 5 Review",
+          "description": "Review for loops, while loops, and loop patterns.",
+          "exercises": [
+            {
+              "id": "py-ch5-l4-e1",
+              "type": "multiple_choice",
+              "title": "Loop choice",
+              "description": "Picking the right loop for the job makes code cleaner.",
+              "question": "Which loop is best when you know the exact number of iterations?",
+              "options": ["for loop", "while loop", "repeat loop", "do-while loop"],
+              "correctOption": 0,
+              "explanation": "for loops with range() are designed for a known count. while loops suit unknown repetitions.",
+              "hints": []
+            },
+            {
+              "id": "py-ch5-l4-e2",
+              "type": "true_false",
+              "title": "continue behavior",
+              "description": "Understand what continue does vs break.",
+              "question": "`continue` skips the current iteration and moves to the next one.",
+              "correctAnswer": true,
+              "explanation": "continue skips only the current pass. break would exit the loop entirely.",
+              "hints": []
+            },
+            {
+              "id": "py-ch5-l4-e3",
+              "type": "fill_blank",
+              "title": "range with step",
+              "description": "Fill in the step to make range generate even numbers 2, 4, 6, 8, 10.",
+              "codeTemplate": "for i in range(2, 11, ___):\n    print(i)",
+              "blanks": [{"id": "b1", "answer": "2"}],
+              "hints": ["range(start, stop, step) — a step of 2 skips every other number."]
+            },
+            {
+              "id": "py-ch5-l4-e4",
+              "type": "predict_output",
+              "title": "Accumulator",
+              "description": "Trace through this accumulator loop.",
+              "code": "total = 0\nfor i in range(1, 5):\n    total += i\nprint(total)",
+              "expectedOutput": "10",
+              "hints": ["1 + 2 + 3 + 4 = 10"]
+            },
+            {
+              "id": "py-ch5-l4-e5",
+              "type": "code_exercise",
+              "title": "Countdown",
+              "description": "Use a for loop to print a countdown from 5 down to 1.",
+              "starterCode": "# Print 5, 4, 3, 2, 1\n",
+              "expectedOutput": "5\n4\n3\n2\n1",
+              "solutionCode": "for i in range(5, 0, -1):\n    print(i)",
+              "hints": [
+                "Use range(5, 0, -1) to count down.",
+                "range(start, stop, step) with step = -1"
+              ]
+            },
+            {
+              "id": "py-ch5-l4-e6",
+              "type": "code_exercise",
+              "title": "Powers of 2",
+              "description": "Use a while loop to print: 1, 2, 4, 8, 16 (each on its own line).",
+              "starterCode": "x = 1\n# Print x while x <= 16, then double x\n",
+              "expectedOutput": "1\n2\n4\n8\n16",
+              "solutionCode": "x = 1\nwhile x <= 16:\n    print(x)\n    x *= 2",
+              "hints": [
+                "Double x each iteration: x *= 2",
+                "while x <= 16:  print(x);  x *= 2"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "py-unit-6",
+      "title": "Functions",
+      "description": "Write reusable blocks of code with functions.",
+      "lessons": [
+        {
+          "id": "py-l6-1",
+          "title": "Function Basics",
+          "description": "Functions let you name and reuse blocks of code.",
+          "exercises": [
+            {
+              "id": "py-ch6-l1-e1",
+              "type": "multiple_choice",
+              "title": "def keyword",
+              "description": "Python uses a specific keyword to define functions.",
+              "question": "What keyword is used to define a function in Python?",
+              "options": ["def", "function", "func", "define"],
+              "correctOption": 0,
+              "explanation": "def is the keyword for defining functions in Python: def my_function():",
+              "hints": []
+            },
+            {
+              "id": "py-ch6-l1-e2",
+              "type": "true_false",
+              "title": "def keyword is required",
+              "description": "You use a specific keyword before the function name.",
+              "question": "In Python, you use `def` to define a function.",
+              "correctAnswer": true,
+              "explanation": "def is short for 'define'. It tells Python you're creating a new function.",
+              "hints": []
+            },
+            {
+              "id": "py-ch6-l1-e3",
+              "type": "fill_blank",
+              "title": "Function definition",
+              "description": "Fill in the keyword that defines a function.",
+              "codeTemplate": "___ greet():\n    print('Hello!')",
+              "blanks": [{"id": "b1", "answer": "def"}],
+              "hints": ["3-letter keyword that starts every function definition in Python."]
+            },
+            {
+              "id": "py-ch6-l1-e4",
+              "type": "predict_output",
+              "title": "Calling a function",
+              "description": "The function body runs each time you call it.",
+              "code": "def say_hi():\n    print('Hi!')\n\nsay_hi()\nsay_hi()",
+              "expectedOutput": "Hi!\nHi!",
+              "hints": ["say_hi() is called twice, so 'Hi!' prints twice."]
+            },
+            {
+              "id": "py-ch6-l1-e5",
+              "type": "code_exercise",
+              "title": "Define and call",
+              "description": "Define a function called `greet` that prints `Hello from a function!`. Then call it.",
+              "starterCode": "# Define greet() here\n\n# Call greet()\n",
+              "expectedOutput": "Hello from a function!",
+              "solutionCode": "def greet():\n    print('Hello from a function!')\n\ngreet()",
+              "hints": [
+                "def greet():  (don't forget the colon)",
+                "Call it with: greet()"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "py-l6-2",
+          "title": "Parameters",
+          "description": "Pass data into functions using parameters.",
+          "exercises": [
+            {
+              "id": "py-ch6-l2-e1",
+              "type": "multiple_choice",
+              "title": "What are parameters",
+              "description": "Parameters let you customize a function's behavior each call.",
+              "question": "What are parameters in Python?",
+              "options": [
+                "Values passed into a function",
+                "Values returned from a function",
+                "Variables declared outside a function",
+                "The function's name"
+              ],
+              "correctOption": 0,
+              "explanation": "Parameters are inputs declared in the function definition. Arguments are the actual values passed when calling.",
+              "hints": []
+            },
+            {
+              "id": "py-ch6-l2-e2",
+              "type": "predict_output",
+              "title": "String parameter",
+              "description": "The parameter `name` holds whatever value is passed in.",
+              "code": "def greet(name):\n    print(f'Hello, {name}')\n\ngreet('Alice')",
+              "expectedOutput": "Hello, Alice",
+              "hints": ["name receives 'Alice' as its value."]
+            },
+            {
+              "id": "py-ch6-l2-e3",
+              "type": "fill_blank",
+              "title": "Using parameters",
+              "description": "Fill in the parameter names used in the function body.",
+              "codeTemplate": "def add(a, b):\n    print(___ + ___)",
+              "blanks": [
+                {"id": "b1", "answer": "a"},
+                {"id": "b2", "answer": "b"}
+              ],
+              "hints": ["Use the parameter names declared in the function signature."]
+            },
+            {
+              "id": "py-ch6-l2-e4",
+              "type": "predict_output",
+              "title": "int parameter",
+              "description": "The function receives n and computes its square.",
+              "code": "def square(n):\n    print(n * n)\n\nsquare(4)",
+              "expectedOutput": "16",
+              "hints": ["4 * 4 = 16"]
+            },
+            {
+              "id": "py-ch6-l2-e5",
+              "type": "code_exercise",
+              "title": "double_it function",
+              "description": "Define a function `double_it(n)` that prints `n * 2`. Call it with argument `7`.",
+              "starterCode": "# Define double_it(n) here\n\n# Call double_it(7)\n",
+              "expectedOutput": "14",
+              "solutionCode": "def double_it(n):\n    print(n * 2)\n\ndouble_it(7)",
+              "hints": [
+                "def double_it(n):  print(n * 2)",
+                "Call it with: double_it(7)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "py-l6-3",
+          "title": "Return Values",
+          "description": "Get data back from a function using return.",
+          "exercises": [
+            {
+              "id": "py-ch6-l3-e1",
+              "type": "multiple_choice",
+              "title": "return keyword",
+              "description": "Functions can send a value back to the caller.",
+              "question": "Which keyword sends a value back from a Python function?",
+              "options": ["return", "send", "output", "give"],
+              "correctOption": 0,
+              "explanation": "`return value` exits the function and sends the value back to the caller.",
+              "hints": []
+            },
+            {
+              "id": "py-ch6-l3-e2",
+              "type": "fill_blank",
+              "title": "return statement",
+              "description": "Fill in the keyword that sends the result back to the caller.",
+              "codeTemplate": "def add(a, b):\n    ___ a + b",
+              "blanks": [{"id": "b1", "answer": "return"}],
+              "hints": ["6-letter keyword that exits the function with a value."]
+            },
+            {
+              "id": "py-ch6-l3-e3",
+              "type": "predict_output",
+              "title": "Using a return value",
+              "description": "The return value is stored in a variable and then printed.",
+              "code": "def multiply(a, b):\n    return a * b\n\nresult = multiply(3, 4)\nprint(result)",
+              "expectedOutput": "12",
+              "hints": ["3 * 4 = 12"]
+            },
+            {
+              "id": "py-ch6-l3-e4",
+              "type": "true_false",
+              "title": "Functions without return",
+              "description": "In Python, every function returns something.",
+              "question": "A Python function with no return statement returns None.",
+              "correctAnswer": true,
+              "explanation": "If a function doesn't explicitly return a value, Python implicitly returns None.",
+              "hints": []
+            },
+            {
+              "id": "py-ch6-l3-e5",
+              "type": "code_exercise",
+              "title": "get_max function",
+              "description": "Complete `get_max(a, b)` so it returns the larger value. The call is already written.",
+              "starterCode": "def get_max(a, b):\n    # return the larger value\n    pass\n\nprint(get_max(6, 9))",
+              "expectedOutput": "9",
+              "solutionCode": "def get_max(a, b):\n    if a > b:\n        return a\n    return b\n\nprint(get_max(6, 9))",
+              "hints": [
+                "Use if a > b: return a  then return b",
+                "9 > 6, so get_max(6, 9) should return 9."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "py-l6-4",
+          "title": "Chapter 6 Review",
+          "description": "Review functions, parameters, and return values.",
+          "exercises": [
+            {
+              "id": "py-ch6-l4-e1",
+              "type": "multiple_choice",
+              "title": "Default parameters",
+              "description": "Python lets you give parameters a default value.",
+              "question": "What does `def greet(name='World'):` mean?",
+              "options": [
+                "name defaults to 'World' if not provided",
+                "name must always be 'World'",
+                "name can only hold strings",
+                "name is required"
+              ],
+              "correctOption": 0,
+              "explanation": "Default parameters let you call greet() without arguments — name will be 'World' automatically.",
+              "hints": []
+            },
+            {
+              "id": "py-ch6-l4-e2",
+              "type": "true_false",
+              "title": "Functions reduce repetition",
+              "description": "One of the biggest benefits of functions.",
+              "question": "Functions help avoid writing the same code in multiple places.",
+              "correctAnswer": true,
+              "explanation": "That's the DRY principle: Don't Repeat Yourself. Write it once, call it many times.",
+              "hints": []
+            },
+            {
+              "id": "py-ch6-l4-e3",
+              "type": "fill_blank",
+              "title": "Function with return",
+              "description": "Fill in the keyword that sends back the greeting string.",
+              "codeTemplate": "def get_greeting():\n    ___ 'Hello!'",
+              "blanks": [{"id": "b1", "answer": "return"}],
+              "hints": ["The keyword that exits a function with a value."]
+            },
+            {
+              "id": "py-ch6-l4-e4",
+              "type": "predict_output",
+              "title": "Cube function",
+              "description": "Trace through the function call.",
+              "code": "def cube(n):\n    return n * n * n\n\nprint(cube(3))",
+              "expectedOutput": "27",
+              "hints": ["3 * 3 * 3 = 27"]
+            },
+            {
+              "id": "py-ch6-l4-e5",
+              "type": "code_exercise",
+              "title": "is_even function",
+              "description": "Complete `is_even(n)` so it returns `True` if n is even. The calls are already written.",
+              "starterCode": "def is_even(n):\n    # return True if n % 2 == 0\n    pass\n\nprint(is_even(4))\nprint(is_even(7))",
+              "expectedOutput": "True\nFalse",
+              "solutionCode": "def is_even(n):\n    return n % 2 == 0\n\nprint(is_even(4))\nprint(is_even(7))",
+              "hints": [
+                "A number is even if n % 2 == 0.",
+                "return n % 2 == 0  — this evaluates to True or False."
+              ]
+            },
+            {
+              "id": "py-ch6-l4-e6",
+              "type": "code_exercise",
+              "title": "greet_user function",
+              "description": "Complete `greet_user(name)` so it prints `Welcome, Alex!`. The call is already written.",
+              "starterCode": "def greet_user(name):\n    # print: Welcome, [name]!\n    pass\n\ngreet_user('Alex')",
+              "expectedOutput": "Welcome, Alex!",
+              "solutionCode": "def greet_user(name):\n    print(f'Welcome, {name}!')\n\ngreet_user('Alex')",
+              "hints": [
+                "Use an f-string: f'Welcome, {name}!'",
+                "print(f'Welcome, {name}!')"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

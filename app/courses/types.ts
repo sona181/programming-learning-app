@@ -13,11 +13,13 @@ export interface Course {
   thumbnailUrl: string | null;
   category: string;
   instructor: string;
+  authorId: string;
   coAuthorCount: number;
   lessonCount: number;
   enrollmentCount: number;
   isEnrolled: boolean;
   rating: number | null;
+  reviewCount: number;
 }
 
 export interface Category {

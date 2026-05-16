@@ -29,6 +29,7 @@ model User {
   payments               Payment[]
   placementAttempts      PlacementAttempt[]
   quizAttempts           QuizAttempt[]
+  courseReviews          CourseReview[]
   reviewQueueItems       ReviewQueueItem[]
   sessionBookingsStudent SessionBooking[]     @relation("StudentBookings")
   sessionNotes           SessionNote[]
@@ -135,14 +136,34 @@ model Course {
   certificates  Certificate[]
   chapters      Chapter[]
   courseAuthors CourseAuthor[]
+  assets        CourseAsset[]
+  landingPage   CourseLandingPage?
   author        User            @relation(fields: [authorId], references: [id])
   category      CourseCategory? @relation(fields: [categoryId], references: [id])
   enrollments   Enrollment[]
   payments      Payment[]
+  reviews       CourseReview[]
 
   @@index([categoryId])
   @@index([authorId])
   @@map("courses")
+}
+
+model CourseReview {
+  id        String   @id @default(uuid()) @db.Uuid
+  courseId  String   @map("course_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  rating    Int
+  comment   String?
+  createdAt DateTime @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @map("updated_at") @db.Timestamptz(6)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, userId])
+  @@index([courseId])
+  @@index([userId])
+  @@map("course_reviews")
 }
 
 model CourseAuthor {
@@ -185,6 +206,8 @@ model Lesson {
   createdAt       DateTime         @map("created_at") @db.Timestamptz(6)
   lessonContents  LessonContent[]
   lessonProgress  LessonProgress[]
+  exercises       CourseExercise[]
+  assets          CourseAsset[]
   chapter         Chapter          @relation(fields: [chapterId], references: [id])
 
   @@index([chapterId])
@@ -199,10 +222,45 @@ model LessonContent {
   mediaUrl    String?  @map("media_url") @db.VarChar(1000)
   orderIndex  Int      @map("order_index")
   createdAt   DateTime @map("created_at") @db.Timestamptz(6)
-  lesson      Lesson   @relation(fields: [lessonId], references: [id])
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   @@index([lessonId])
   @@map("lesson_contents")
+}
+
+model CourseExercise {
+  id             String   @id @default(uuid()) @db.Uuid
+  lessonId       String   @map("lesson_id") @db.Uuid
+  title          String   @db.VarChar(255)
+  instructions   String?
+  language       String   @db.VarChar(50)
+  starterCode    String?  @map("starter_code")
+  solutionCode   String?  @map("solution_code")
+  expectedOutput String?  @map("expected_output")
+  orderIndex     Int      @map("order_index")
+  createdAt      DateTime @map("created_at") @db.Timestamptz(6)
+  lesson         Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@index([lessonId])
+  @@map("course_exercises")
+}
+
+model CourseAsset {
+  id        String   @id @default(uuid()) @db.Uuid
+  courseId  String   @map("course_id") @db.Uuid
+  lessonId  String?  @map("lesson_id") @db.Uuid
+  assetType String   @map("asset_type") @db.VarChar(50)
+  fileName  String   @map("file_name") @db.VarChar(255)
+  fileUrl   String   @map("file_url") @db.VarChar(1000)
+  fileSize  Int?     @map("file_size")
+  mimeType  String?  @map("mime_type") @db.VarChar(100)
+  createdAt DateTime @map("created_at") @db.Timestamptz(6)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lesson    Lesson?  @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+
+  @@index([courseId])
+  @@index([lessonId])
+  @@map("course_assets")
 }
 
 model Enrollment {
@@ -955,4 +1013,38 @@ model Payment {
   @@index([userId])
   @@index([status])
   @@map("payments")
+}
+
+model CourseLandingPage {
+  id                   String    @id @default(uuid()) @db.Uuid
+  courseId             String    @unique @map("course_id") @db.Uuid
+  // Professor-provided AI context inputs
+  subtitle             String?   @db.VarChar(300)
+  targetAudienceInput  String?   @map("target_audience_input")
+  prerequisitesInput   String?   @map("prerequisites_input")
+  learnInput           String?   @map("learn_input")
+  estimatedDuration    String?   @map("estimated_duration") @db.VarChar(100)
+  professorBio         String?   @map("professor_bio")
+  professorCredentials String?   @map("professor_credentials")
+  promotionalVideoUrl  String?   @map("promotional_video_url") @db.VarChar(1000)
+  // AI-generated (editable) landing content
+  heroTitle            String?   @map("hero_title") @db.VarChar(255)
+  heroSubtitle         String?   @map("hero_subtitle") @db.VarChar(500)
+  marketingDesc        String?   @map("marketing_desc")
+  whatYouWillLearn     Json?     @map("what_you_will_learn")
+  benefits             Json?
+  targetAudience       Json?     @map("target_audience")
+  prerequisites        Json?
+  curriculumSummary    Json?     @map("curriculum_summary")
+  faq                  Json?
+  seoTitle             String?   @map("seo_title") @db.VarChar(255)
+  seoDescription       String?   @map("seo_description") @db.VarChar(500)
+  ctaText              String?   @map("cta_text") @db.VarChar(100)
+  isAiGenerated        Boolean   @default(false) @map("is_ai_generated")
+  lastGeneratedAt      DateTime? @map("last_generated_at") @db.Timestamptz(6)
+  createdAt            DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt            DateTime  @map("updated_at") @db.Timestamptz(6)
+  course               Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@map("course_landing_pages")
 }

@@ -2,25 +2,25 @@
 
 import { useEffect, useRef, useState } from "react";
 
-declare global {
-  interface Window {
-    paypal?: {
-      Buttons: (config: {
-        createSubscription: (
-          data: unknown,
-          actions: {
-            subscription: {
-              create: (payload: { plan_id: string }) => Promise<string>;
-            };
-          },
-        ) => Promise<string>;
-        onApprove: (data: { subscriptionID?: string }) => Promise<void>;
-        onError: (error: unknown) => void;
-      }) => {
-        render: (selector: string) => Promise<void>;
-      };
-    };
-  }
+type SubscriptionPayPal = {
+  Buttons: (config: {
+    createSubscription: (
+      data: unknown,
+      actions: {
+        subscription: {
+          create: (payload: { plan_id: string }) => Promise<string>;
+        };
+      },
+    ) => Promise<string>;
+    onApprove: (data: { subscriptionID?: string }) => Promise<void>;
+    onError: (error: unknown) => void;
+  }) => {
+    render: (selector: string) => Promise<void>;
+  };
+};
+
+function getSubscriptionPayPal(): SubscriptionPayPal | undefined {
+  return (window as unknown as { paypal?: SubscriptionPayPal }).paypal;
 }
 
 type SubscribeMessage = {
@@ -61,14 +61,15 @@ export default function SubscribePage() {
     );
 
     const renderButtons = async () => {
-      if (hasRendered.current || !window.paypal) {
+      const paypal = getSubscriptionPayPal();
+      if (hasRendered.current || !paypal) {
         return;
       }
 
       hasRendered.current = true;
       setIsReady(true);
 
-      await window.paypal
+      await paypal
         .Buttons({
           createSubscription(_data, actions) {
             return actions.subscription.create({

@@ -1,67 +1,72 @@
 "use client";
-import React from "react";
 
-type Payment = {
-  id?: string;
-  amount?: number | string;
-  student?: { name?: string; email?: string } | null;
-  createdAt?: string | Date | null;
+type Earning = Readonly<{
+  id: string;
+  studentName: string;
+  studentInitials: string;
+  avatarColor: string;
+  type: "session" | "course";
+  amount: number;
+  currency: string;
+}>;
+
+const TYPE_LABEL: Record<string, string> = {
+  session: "Sesion 1-on-1",
+  course: "Kurs",
 };
 
-export default function LastEarnings({ payments }: { payments: Payment[] }) {
+export default function LastEarnings({ earnings }: { readonly earnings: readonly Earning[] }) {
   return (
-    <div style={{ marginTop: "20px", fontFamily: "'Inter', sans-serif", color: "#111827" }}>
-
-      <h3
-        style={{
-          marginBottom: "8px",
-          fontSize: "20px",
-          fontWeight: 700,
-          color: "#111827",
-        }}
-      >
-        Last Earnings
+    <div>
+      <h3 style={{ marginBottom: "10px", fontWeight: 700, fontSize: "18px", color: "#111827" }}>
+        Fitimet e Fundit
       </h3>
-
-      {/* Box */}
-      <section
+      <div
         style={{
-          background: "#fff",
-          padding: "16px",
-          borderRadius: 12,
-          boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+          background: "white", padding: "16px", borderRadius: "16px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.06)", border: "1px solid #F3F4F6",
         }}
       >
-        {payments.length === 0 ? (
-          <div style={{ color: "#6b7280" }}>No payments yet</div>
+        {earnings.length === 0 ? (
+          <p style={{ fontSize: "14px", color: "#9CA3AF", padding: "8px 0" }}>
+            Nuk ka të ardhura ende.
+          </p>
         ) : (
-          <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-            {payments.map((p) => {
-              const amount = Number(p.amount ?? 0).toFixed(2);
-              const date = p.createdAt ? new Date(p.createdAt).toLocaleString() : "—";
-              const student = p.student?.name ?? p.student?.email ?? "Student";
-
-              return (
-                <li
-                  key={p.id ?? `${amount}-${date}`}
+          earnings.map((e) => (
+            <div
+              key={e.id}
+              style={{
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+                padding: "10px 0", borderBottom: "1px solid #F3F4F6",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <div
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    padding: "10px 0",
-                    borderBottom: "1px solid #eee",
+                    width: "36px", height: "36px", borderRadius: "50%",
+                    background: e.avatarColor, color: "white",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontWeight: 700, fontSize: "13px", flexShrink: 0,
                   }}
                 >
-                  <div>
-                    <div style={{ fontWeight: 600, color: "#111827" }}>{student}</div>
-                    <div style={{ fontSize: 12, color: "#6b7280" }}>{date}</div>
+                  {e.studentInitials}
+                </div>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: "14px", color: "#111827" }}>
+                    {e.studentName}
                   </div>
-                  <div style={{ fontWeight: 700, color: "#111827" }}>${amount}</div>
-                </li>
-              );
-            })}
-          </ul>
+                  <div style={{ fontSize: "12px", color: "#9CA3AF" }}>
+                    {TYPE_LABEL[e.type] ?? e.type}
+                  </div>
+                </div>
+              </div>
+              <span style={{ fontWeight: 700, fontSize: "15px", color: "#10B981" }}>
+                +€{e.amount.toFixed(0)}
+              </span>
+            </div>
+          ))
         )}
-      </section>
+      </div>
     </div>
   );
 }

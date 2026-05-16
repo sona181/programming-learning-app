@@ -1,0 +1,1550 @@
+{
+  "id": "java-basics",
+  "title": "Java Basics",
+  "description": "Learn Java from scratch — variables, control flow, loops, and methods.",
+  "language": "java",
+  "languageId": 62,
+  "units": [
+    {
+      "id": "unit-1",
+      "title": "Java Foundations",
+      "description": "Understand what Java is and write your very first programs.",
+      "lessons": [
+        {
+          "id": "lesson-1-1",
+          "title": "What is Java?",
+          "description": "Get to know Java — where it came from and how it runs.",
+          "exercises": [
+            {
+              "id": "ch1-l1-e1",
+              "type": "multiple_choice",
+              "title": "How Java runs",
+              "description": "Java compiles your source code into bytecode, then the JVM runs it on any platform.",
+              "question": "What does JVM stand for?",
+              "options": ["Java Virtual Machine", "Java Version Manager", "Java Variable Manager", "Java Verified Module"],
+              "correctOption": 0,
+              "explanation": "The JVM (Java Virtual Machine) runs Java bytecode on any platform — this is why Java is 'write once, run anywhere'.",
+              "hints": []
+            },
+            {
+              "id": "ch1-l1-e2",
+              "type": "true_false",
+              "title": "Java portability",
+              "description": "Think about Java's 'write once, run anywhere' philosophy.",
+              "question": "A Java program compiled on Windows can run on Mac or Linux without recompiling.",
+              "correctAnswer": true,
+              "explanation": "The JVM handles platform differences. Your bytecode runs on any machine that has a JVM installed.",
+              "hints": []
+            },
+            {
+              "id": "ch1-l1-e3",
+              "type": "multiple_choice",
+              "title": "Java file extension",
+              "description": "Java source files and compiled files use different extensions.",
+              "question": "What file extension do Java source code files use?",
+              "options": [".java", ".class", ".jv", ".jar"],
+              "correctOption": 0,
+              "explanation": ".java is for source code. When compiled, it produces a .class (bytecode) file.",
+              "hints": []
+            },
+            {
+              "id": "ch1-l1-e4",
+              "type": "true_false",
+              "title": "Static typing",
+              "description": "Java enforces types at compile time — this is called static typing.",
+              "question": "In Java, you must declare the type of every variable (e.g. int, String).",
+              "correctAnswer": true,
+              "explanation": "Java is statically typed. Unlike Python or JS, types are checked at compile time.",
+              "hints": []
+            },
+            {
+              "id": "ch1-l1-e5",
+              "type": "fill_blank",
+              "title": "Java compilation",
+              "description": "Fill in the file extension that Java source code compiles into.",
+              "codeTemplate": "// Step 1: write code in a .java file\n// Step 2: compile -> produces a .___ file\n// Step 3: the JVM runs the .___ file",
+              "blanks": [
+                {"id": "b1", "answer": "class"},
+                {"id": "b2", "answer": "class"}
+              ],
+              "hints": ["Java compiles to bytecode stored in a file — the same extension as the compiled output."]
+            }
+          ]
+        },
+        {
+          "id": "lesson-1-2",
+          "title": "Your First Program",
+          "description": "Structure of a Java program and the main method.",
+          "exercises": [
+            {
+              "id": "ch1-l2-e1",
+              "type": "multiple_choice",
+              "title": "The main method",
+              "description": "Java always looks for main() to start your program.",
+              "question": "Which line is the correct declaration of Java's main method?",
+              "options": [
+                "public static void main(String[] args)",
+                "void start(String args)",
+                "public main(String[] args)",
+                "static run()"
+              ],
+              "correctOption": 0,
+              "explanation": "The exact signature `public static void main(String[] args)` is required — Java looks for this to start execution.",
+              "hints": []
+            },
+            {
+              "id": "ch1-l2-e2",
+              "type": "true_false",
+              "title": "Class and filename",
+              "description": "Java has a strict rule about how class names relate to file names.",
+              "question": "The public class name must match the filename (e.g., HelloWorld.java must contain class HelloWorld).",
+              "correctAnswer": true,
+              "explanation": "Java requires this. If they don't match, you'll get a compile error.",
+              "hints": []
+            },
+            {
+              "id": "ch1-l2-e3",
+              "type": "fill_blank",
+              "title": "Class declaration",
+              "description": "Fill in the access modifier that makes the class visible from anywhere.",
+              "codeTemplate": "___ class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello!\");\n    }\n}",
+              "blanks": [{"id": "b1", "answer": "public"}],
+              "hints": ["This access modifier is the most permissive — it allows access from any other class."]
+            },
+            {
+              "id": "ch1-l2-e4",
+              "type": "fill_blank",
+              "title": "main method name",
+              "description": "Fill in the name of the method Java calls to start your program.",
+              "codeTemplate": "public class HelloWorld {\n    public static void ___(String[] args) {\n        System.out.println(\"Hello!\");\n    }\n}",
+              "blanks": [{"id": "b1", "answer": "main"}],
+              "hints": ["This four-letter method name is Java's entry point."]
+            },
+            {
+              "id": "ch1-l2-e5",
+              "type": "code_exercise",
+              "title": "Hello, World!",
+              "description": "Write the classic first program. Print `Hello, World!` exactly.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n        \n    }\n}",
+              "expectedOutput": "Hello, World!",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}",
+              "hints": [
+                "Use System.out.println() to print a line.",
+                "The text goes inside double quotes: System.out.println(\"Hello, World!\");"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson-1-3",
+          "title": "Printing Text",
+          "description": "Learn System.out.println and System.out.print.",
+          "exercises": [
+            {
+              "id": "ch1-l3-e1",
+              "type": "fill_blank",
+              "title": "System.out.println",
+              "description": "Fill in the missing part. The full path is: System -> out -> println.",
+              "codeTemplate": "System.___.println(\"Hello, Java!\");",
+              "blanks": [{"id": "b1", "answer": "out"}],
+              "hints": ["It's the standard output stream — the 'output' object on System."]
+            },
+            {
+              "id": "ch1-l3-e2",
+              "type": "predict_output",
+              "title": "Multiple println calls",
+              "description": "Each call to println() prints on its own line. What will this program print?",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Java\");\n        System.out.println(\"is\");\n        System.out.println(\"awesome\");\n    }\n}",
+              "expectedOutput": "Java\nis\nawesome",
+              "hints": ["Each println() moves to a new line after printing."]
+            },
+            {
+              "id": "ch1-l3-e3",
+              "type": "fill_blank",
+              "title": "println method",
+              "description": "Fill in the method name that prints text AND moves to a new line.",
+              "codeTemplate": "System.out.___(\"One line\");",
+              "blanks": [{"id": "b1", "answer": "println"}],
+              "hints": ["'println' = print + line. It prints and moves to the next line."]
+            },
+            {
+              "id": "ch1-l3-e4",
+              "type": "predict_output",
+              "title": "print vs println",
+              "description": "`print()` does NOT add a newline. What happens when two `print()` calls run back to back?",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        System.out.print(\"Hello \");\n        System.out.print(\"World\");\n    }\n}",
+              "expectedOutput": "Hello World",
+              "hints": ["print() stays on the same line — the two outputs join together."]
+            },
+            {
+              "id": "ch1-l3-e5",
+              "type": "code_exercise",
+              "title": "Print three lines",
+              "description": "Print these three words, each on its own line:\n`Java`\n`is`\n`fun`",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        // Print Java, is, fun on separate lines\n        \n    }\n}",
+              "expectedOutput": "Java\nis\nfun",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Java\");\n        System.out.println(\"is\");\n        System.out.println(\"fun\");\n    }\n}",
+              "hints": [
+                "Call System.out.println() three times.",
+                "Each call should have a different string: \"Java\", \"is\", \"fun\"."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson-1-4",
+          "title": "Chapter 1 Review",
+          "description": "Review everything from Chapter 1.",
+          "exercises": [
+            {
+              "id": "ch1-l4-e1",
+              "type": "multiple_choice",
+              "title": "Correct print syntax",
+              "description": "Review the correct way to print in Java.",
+              "question": "Which of these correctly prints 'Hi' in Java?",
+              "options": [
+                "System.out.println(\"Hi\");",
+                "print(\"Hi\");",
+                "Console.log(\"Hi\");",
+                "echo \"Hi\";"
+              ],
+              "correctOption": 0,
+              "explanation": "Java uses System.out.println(). console.log is JavaScript, echo is PHP/Bash.",
+              "hints": []
+            },
+            {
+              "id": "ch1-l4-e2",
+              "type": "true_false",
+              "title": "print vs println",
+              "description": "There's an important difference between print() and println().",
+              "question": "System.out.print() automatically moves to a new line after printing.",
+              "correctAnswer": false,
+              "explanation": "Only println() moves to a new line. print() stays on the same line.",
+              "hints": []
+            },
+            {
+              "id": "ch1-l4-e3",
+              "type": "fill_blank",
+              "title": "Completing main",
+              "description": "Fill in the missing method name to complete the entry point.",
+              "codeTemplate": "public class Main {\n    public static void ___(String[] args) {\n        System.out.println(\"Review!\");\n    }\n}",
+              "blanks": [{"id": "b1", "answer": "main"}],
+              "hints": ["This is the method name Java uses as the program entry point."]
+            },
+            {
+              "id": "ch1-l4-e4",
+              "type": "predict_output",
+              "title": "Counting output",
+              "description": "Trace through this program and predict what it prints.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"1\");\n        System.out.println(\"2\");\n        System.out.println(\"3\");\n    }\n}",
+              "expectedOutput": "1\n2\n3",
+              "hints": []
+            },
+            {
+              "id": "ch1-l4-e5",
+              "type": "code_exercise",
+              "title": "I love Java",
+              "description": "Print exactly: `I love Java!`",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        \n    }\n}",
+              "expectedOutput": "I love Java!",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"I love Java!\");\n    }\n}",
+              "hints": ["System.out.println(\"I love Java!\");"]
+            },
+            {
+              "id": "ch1-l4-e6",
+              "type": "code_exercise",
+              "title": "Print your name",
+              "description": "Print your first name using System.out.println().",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        // Print your first name\n        \n    }\n}",
+              "expectedOutput": "",
+              "matchType": "runs",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Alex\");\n    }\n}",
+              "hints": ["Put your name inside double quotes: System.out.println(\"YourName\");"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-2",
+      "title": "Data and Variables",
+      "description": "Store, retrieve, and compute with different types of data.",
+      "lessons": [
+        {
+          "id": "lesson-2-1",
+          "title": "Primitive Types",
+          "description": "Java has built-in types for numbers, decimals, characters, and booleans.",
+          "exercises": [
+            {
+              "id": "ch2-l1-e1",
+              "type": "multiple_choice",
+              "title": "Whole numbers",
+              "description": "Java has different types for different kinds of numbers.",
+              "question": "Which type stores whole numbers (integers) in Java?",
+              "options": ["int", "double", "String", "char"],
+              "correctOption": 0,
+              "explanation": "int stores whole numbers like 1, -5, 100. double stores decimals like 3.14.",
+              "hints": []
+            },
+            {
+              "id": "ch2-l1-e2",
+              "type": "true_false",
+              "title": "double and decimals",
+              "description": "Know which type handles decimal (floating-point) numbers.",
+              "question": "A double can store decimal numbers like 3.14 or 2.5.",
+              "correctAnswer": true,
+              "explanation": "double is Java's default type for decimal numbers. float also works but is less precise.",
+              "hints": []
+            },
+            {
+              "id": "ch2-l1-e3",
+              "type": "multiple_choice",
+              "title": "Single character",
+              "description": "One of Java's types stores exactly one character.",
+              "question": "Which Java type stores a single character like 'A' or '?'?",
+              "options": ["char", "String", "letter", "character"],
+              "correctOption": 0,
+              "explanation": "char stores one character, written in single quotes: char grade = 'A';",
+              "hints": []
+            },
+            {
+              "id": "ch2-l1-e4",
+              "type": "fill_blank",
+              "title": "Declare an int",
+              "description": "Fill in the type name for a whole-number variable.",
+              "codeTemplate": "___ age = 25;\nSystem.out.println(age);",
+              "blanks": [{"id": "b1", "answer": "int"}],
+              "hints": ["Use the 3-letter type for whole numbers."]
+            },
+            {
+              "id": "ch2-l1-e5",
+              "type": "fill_blank",
+              "title": "Declare a double",
+              "description": "Fill in the type name for a decimal-number variable.",
+              "codeTemplate": "___ price = 9.99;\nSystem.out.println(price);",
+              "blanks": [{"id": "b1", "answer": "double"}],
+              "hints": ["The type for decimal numbers is 6 letters long."]
+            }
+          ]
+        },
+        {
+          "id": "lesson-2-2",
+          "title": "Declaring Variables",
+          "description": "How to create, name, and assign variables in Java.",
+          "exercises": [
+            {
+              "id": "ch2-l2-e1",
+              "type": "fill_blank",
+              "title": "Variable name",
+              "description": "Fill in the variable name that matches what is used in println.",
+              "codeTemplate": "int ___ = 100;\nSystem.out.println(score);",
+              "blanks": [{"id": "b1", "answer": "score"}],
+              "hints": ["The variable name must match exactly what appears in println."]
+            },
+            {
+              "id": "ch2-l2-e2",
+              "type": "predict_output",
+              "title": "Variable output",
+              "description": "When you print a variable, Java prints its value — not its name.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        int x = 42;\n        System.out.println(x);\n    }\n}",
+              "expectedOutput": "42",
+              "hints": []
+            },
+            {
+              "id": "ch2-l2-e3",
+              "type": "fill_blank",
+              "title": "boolean declaration",
+              "description": "Fill in the type for a true/false variable.",
+              "codeTemplate": "___ isJavaFun = true;\nSystem.out.println(isJavaFun);",
+              "blanks": [{"id": "b1", "answer": "boolean"}],
+              "hints": ["The type that holds true or false is 7 letters."]
+            },
+            {
+              "id": "ch2-l2-e4",
+              "type": "true_false",
+              "title": "Reassigning variables",
+              "description": "Once declared, a variable's value can be changed.",
+              "question": "You can change the value of a variable after it has been declared.",
+              "correctAnswer": true,
+              "explanation": "Variables can be reassigned. Use `final` if you want a constant that cannot change.",
+              "hints": []
+            },
+            {
+              "id": "ch2-l2-e5",
+              "type": "code_exercise",
+              "title": "Declare and print",
+              "description": "Declare an `int` variable called `age` with value `20`, then print it.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        // Declare int age = 20 and print it\n        \n    }\n}",
+              "expectedOutput": "20",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        int age = 20;\n        System.out.println(age);\n    }\n}",
+              "hints": [
+                "Syntax: type name = value;",
+                "int age = 20; then System.out.println(age);"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson-2-3",
+          "title": "Arithmetic",
+          "description": "Perform math operations with Java's arithmetic operators.",
+          "exercises": [
+            {
+              "id": "ch2-l3-e1",
+              "type": "predict_output",
+              "title": "Addition",
+              "description": "Predict the result of adding two int variables.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        int x = 10;\n        int y = 3;\n        System.out.println(x + y);\n    }\n}",
+              "expectedOutput": "13",
+              "hints": []
+            },
+            {
+              "id": "ch2-l3-e2",
+              "type": "fill_blank",
+              "title": "Modulus operator",
+              "description": "The modulus operator `%` gives the remainder after division. Fill it in.",
+              "codeTemplate": "int remainder = 10 ___ 3;\nSystem.out.println(remainder);",
+              "blanks": [{"id": "b1", "answer": "%"}],
+              "hints": ["10 / 3 = 3 remainder 1. The operator that gives the remainder is %."]
+            },
+            {
+              "id": "ch2-l3-e3",
+              "type": "multiple_choice",
+              "title": "Integer division",
+              "description": "In Java, dividing two ints truncates the decimal — it does NOT round.",
+              "question": "What is the result of `10 / 3` in Java when both are ints?",
+              "options": ["3", "3.33", "4", "3.3333"],
+              "correctOption": 0,
+              "explanation": "Integer division drops the decimal. 10 / 3 = 3 (not 3.33). Use double for decimal results.",
+              "hints": []
+            },
+            {
+              "id": "ch2-l3-e4",
+              "type": "predict_output",
+              "title": "Modulus result",
+              "description": "Predict the remainder from this division.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        int a = 7;\n        int b = 2;\n        System.out.println(a % b);\n    }\n}",
+              "expectedOutput": "1",
+              "hints": ["7 divided by 2 is 3 with remainder 1."]
+            },
+            {
+              "id": "ch2-l3-e5",
+              "type": "code_exercise",
+              "title": "Sum and product",
+              "description": "Given `a = 8` and `b = 5`, print their **sum** on one line, then their **product** on the next.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        int a = 8;\n        int b = 5;\n        // Print sum, then product\n        \n    }\n}",
+              "expectedOutput": "13\n40",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        int a = 8;\n        int b = 5;\n        System.out.println(a + b);\n        System.out.println(a * b);\n    }\n}",
+              "hints": [
+                "Sum uses +, product uses *.",
+                "System.out.println(a + b); then System.out.println(a * b);"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson-2-4",
+          "title": "Chapter 2 Review",
+          "description": "Review variables, types, and arithmetic.",
+          "exercises": [
+            {
+              "id": "ch2-l4-e1",
+              "type": "multiple_choice",
+              "title": "Modulus result",
+              "description": "Test your understanding of the % operator.",
+              "question": "What is the result of `15 % 4`?",
+              "options": ["3", "4", "3.75", "2"],
+              "correctOption": 0,
+              "explanation": "15 = 4 x 3 + 3. So 15 % 4 = 3.",
+              "hints": []
+            },
+            {
+              "id": "ch2-l4-e2",
+              "type": "true_false",
+              "title": "int vs double",
+              "description": "Assigning the wrong type causes a compile error in Java.",
+              "question": "`int x = 3.14;` is valid Java.",
+              "correctAnswer": false,
+              "explanation": "3.14 is a double. You cannot assign a double to an int without explicit casting.",
+              "hints": []
+            },
+            {
+              "id": "ch2-l4-e3",
+              "type": "fill_blank",
+              "title": "Two variables",
+              "description": "Fill in variable names that match what is used in println.",
+              "codeTemplate": "int ___ = 100;\nint ___ = 25;\nSystem.out.println(total - discount);",
+              "blanks": [
+                {"id": "b1", "answer": "total"},
+                {"id": "b2", "answer": "discount"}
+              ],
+              "hints": ["The variable names must match exactly what appears in println(total - discount)."]
+            },
+            {
+              "id": "ch2-l4-e4",
+              "type": "predict_output",
+              "title": "Reassignment",
+              "description": "A variable's value can change. Trace through this code.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        int x = 10;\n        x = x + 5;\n        System.out.println(x);\n    }\n}",
+              "expectedOutput": "15",
+              "hints": ["x starts at 10. Then x = 10 + 5 = 15."]
+            },
+            {
+              "id": "ch2-l4-e5",
+              "type": "code_exercise",
+              "title": "Subtract and multiply",
+              "description": "Declare `int x = 6` and `int y = 4`. Print `x - y`, then print `x * y`.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        \n    }\n}",
+              "expectedOutput": "2\n24",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        int x = 6;\n        int y = 4;\n        System.out.println(x - y);\n        System.out.println(x * y);\n    }\n}",
+              "hints": ["Declare both variables, then use println twice."]
+            },
+            {
+              "id": "ch2-l4-e6",
+              "type": "code_exercise",
+              "title": "Declare a double",
+              "description": "Declare a `double` called `pi` with value `3.14`, then print it.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        \n    }\n}",
+              "expectedOutput": "3.14",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        double pi = 3.14;\n        System.out.println(pi);\n    }\n}",
+              "hints": ["double pi = 3.14; then System.out.println(pi);"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-3",
+      "title": "Text and Strings",
+      "description": "Work with text using Java's String type.",
+      "lessons": [
+        {
+          "id": "lesson-3-1",
+          "title": "String Basics",
+          "description": "How to declare and use String variables.",
+          "exercises": [
+            {
+              "id": "ch3-l1-e1",
+              "type": "multiple_choice",
+              "title": "Declaring a String",
+              "description": "String is a special type in Java — note the capital S.",
+              "question": "How do you declare a String variable in Java?",
+              "options": [
+                "String name = \"Alice\";",
+                "string name = \"Alice\";",
+                "STRING name = \"Alice\";",
+                "str name = \"Alice\";"
+              ],
+              "correctOption": 0,
+              "explanation": "String is capitalized in Java. It's a class, not a primitive type.",
+              "hints": []
+            },
+            {
+              "id": "ch3-l1-e2",
+              "type": "fill_blank",
+              "title": "String type",
+              "description": "Fill in the type name for a text variable.",
+              "codeTemplate": "___ greeting = \"Hello, World!\";",
+              "blanks": [{"id": "b1", "answer": "String"}],
+              "hints": ["Remember: the S is capitalized."]
+            },
+            {
+              "id": "ch3-l1-e3",
+              "type": "true_false",
+              "title": "String quotes",
+              "description": "Java uses double quotes for String values.",
+              "question": "String values in Java are surrounded by double quotes.",
+              "correctAnswer": true,
+              "explanation": "Double quotes delimit Strings. Single quotes are for char values.",
+              "hints": []
+            },
+            {
+              "id": "ch3-l1-e4",
+              "type": "predict_output",
+              "title": "Printing a String",
+              "description": "When you print a String variable, Java prints its contents.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        String name = \"Alice\";\n        System.out.println(name);\n    }\n}",
+              "expectedOutput": "Alice",
+              "hints": []
+            },
+            {
+              "id": "ch3-l1-e5",
+              "type": "code_exercise",
+              "title": "Declare and print a String",
+              "description": "Declare a `String` variable called `city` with value `\"Paris\"` and print it.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        \n    }\n}",
+              "expectedOutput": "Paris",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        String city = \"Paris\";\n        System.out.println(city);\n    }\n}",
+              "hints": ["String city = \"Paris\"; then System.out.println(city);"]
+            }
+          ]
+        },
+        {
+          "id": "lesson-3-2",
+          "title": "String Concatenation",
+          "description": "Join Strings together using the + operator.",
+          "exercises": [
+            {
+              "id": "ch3-l2-e1",
+              "type": "multiple_choice",
+              "title": "Joining Strings",
+              "description": "Java uses a specific operator to join (concatenate) Strings.",
+              "question": "How do you join two Strings in Java?",
+              "options": ["Using the + operator", "Using the & operator", "Using the . operator", "Using concat keyword"],
+              "correctOption": 0,
+              "explanation": "The + operator concatenates Strings: \"Hello\" + \" World\" = \"Hello World\".",
+              "hints": []
+            },
+            {
+              "id": "ch3-l2-e2",
+              "type": "predict_output",
+              "title": "Concatenation result",
+              "description": "Two Strings joined with + are merged into one.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        String a = \"Hello\";\n        String b = \" World\";\n        System.out.println(a + b);\n    }\n}",
+              "expectedOutput": "Hello World",
+              "hints": []
+            },
+            {
+              "id": "ch3-l2-e3",
+              "type": "fill_blank",
+              "title": "Concatenate with variable",
+              "description": "Fill in the operator used to join String literals with a variable.",
+              "codeTemplate": "String name = \"Alice\";\nSystem.out.println(\"Hello, \" ___ name ___ \"!\");",
+              "blanks": [
+                {"id": "b1", "answer": "+"},
+                {"id": "b2", "answer": "+"}
+              ],
+              "hints": ["The same operator used for addition also joins Strings."]
+            },
+            {
+              "id": "ch3-l2-e4",
+              "type": "predict_output",
+              "title": "String + number",
+              "description": "When you concatenate a String with a number, Java converts the number to text.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        int age = 21;\n        System.out.println(\"Age: \" + age);\n    }\n}",
+              "expectedOutput": "Age: 21",
+              "hints": []
+            },
+            {
+              "id": "ch3-l2-e5",
+              "type": "code_exercise",
+              "title": "Full name",
+              "description": "Print `firstName` and `lastName` joined with a space.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        String firstName = \"Java\";\n        String lastName = \"Learner\";\n        // Print firstName + \" \" + lastName\n        \n    }\n}",
+              "expectedOutput": "Java Learner",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        String firstName = \"Java\";\n        String lastName = \"Learner\";\n        System.out.println(firstName + \" \" + lastName);\n    }\n}",
+              "hints": ["Use + to join them: firstName + \" \" + lastName"]
+            }
+          ]
+        },
+        {
+          "id": "lesson-3-3",
+          "title": "String Methods",
+          "description": "Built-in methods that let you inspect and transform Strings.",
+          "exercises": [
+            {
+              "id": "ch3-l3-e1",
+              "type": "multiple_choice",
+              "title": "length() method",
+              "description": "Strings have a built-in method to count their characters.",
+              "question": "What does `name.length()` return for `name = \"Alice\"`?",
+              "options": ["5", "4", "6", "\"Alice\""],
+              "correctOption": 0,
+              "explanation": "\"Alice\" has 5 characters: A-l-i-c-e. length() counts all of them.",
+              "hints": []
+            },
+            {
+              "id": "ch3-l3-e2",
+              "type": "predict_output",
+              "title": "toUpperCase",
+              "description": "toUpperCase() returns a new String with all letters capitalized.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        String s = \"hello\";\n        System.out.println(s.toUpperCase());\n    }\n}",
+              "expectedOutput": "HELLO",
+              "hints": []
+            },
+            {
+              "id": "ch3-l3-e3",
+              "type": "fill_blank",
+              "title": "Calling length()",
+              "description": "Fill in the method that returns the number of characters in a String.",
+              "codeTemplate": "String s = \"Hello\";\nSystem.out.println(s.___());",
+              "blanks": [{"id": "b1", "answer": "length"}],
+              "hints": ["This method returns the number of characters."]
+            },
+            {
+              "id": "ch3-l3-e4",
+              "type": "predict_output",
+              "title": "toLowerCase",
+              "description": "toLowerCase() returns a new String with all letters lowercased.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        String s = \"JAVA\";\n        System.out.println(s.toLowerCase());\n    }\n}",
+              "expectedOutput": "java",
+              "hints": []
+            },
+            {
+              "id": "ch3-l3-e5",
+              "type": "code_exercise",
+              "title": "Uppercase",
+              "description": "Declare `String word = \"hello\"` and print it in uppercase.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        String word = \"hello\";\n        // Print word in uppercase\n        \n    }\n}",
+              "expectedOutput": "HELLO",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        String word = \"hello\";\n        System.out.println(word.toUpperCase());\n    }\n}",
+              "hints": ["Call .toUpperCase() on the string variable."]
+            }
+          ]
+        },
+        {
+          "id": "lesson-3-4",
+          "title": "Chapter 3 Review",
+          "description": "Review Strings, concatenation, and String methods.",
+          "exercises": [
+            {
+              "id": "ch3-l4-e1",
+              "type": "multiple_choice",
+              "title": "charAt",
+              "description": "charAt() returns the character at a given index (starting from 0).",
+              "question": "What does `\"Hello\".charAt(0)` return?",
+              "options": ["'H'", "\"H\"", "1", "0"],
+              "correctOption": 0,
+              "explanation": "charAt returns a char (single quotes). Index 0 is the first character — 'H'.",
+              "hints": []
+            },
+            {
+              "id": "ch3-l4-e2",
+              "type": "true_false",
+              "title": "String equality",
+              "description": "Comparing Strings in Java requires a special approach.",
+              "question": "You should use `==` to compare the content of two String variables.",
+              "correctAnswer": false,
+              "explanation": "Use .equals() to compare String content. == checks if they are the same object in memory.",
+              "hints": []
+            },
+            {
+              "id": "ch3-l4-e3",
+              "type": "fill_blank",
+              "title": "String length",
+              "description": "Fill in the method that returns the number of characters.",
+              "codeTemplate": "String s = \"Java\";\nSystem.out.println(s.___());",
+              "blanks": [{"id": "b1", "answer": "length"}],
+              "hints": ["The method that counts characters."]
+            },
+            {
+              "id": "ch3-l4-e4",
+              "type": "predict_output",
+              "title": "Concatenation review",
+              "description": "Predict the output of this concatenation.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        String s = \"world\";\n        System.out.println(\"Hello, \" + s + \"!\");\n    }\n}",
+              "expectedOutput": "Hello, world!",
+              "hints": []
+            },
+            {
+              "id": "ch3-l4-e5",
+              "type": "code_exercise",
+              "title": "Greeting",
+              "description": "Declare `String greeting = \"Hello\"` and `String target = \"Java\"`. Print them joined with a space and an exclamation mark.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        String greeting = \"Hello\";\n        String target = \"Java\";\n        \n    }\n}",
+              "expectedOutput": "Hello Java!",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        String greeting = \"Hello\";\n        String target = \"Java\";\n        System.out.println(greeting + \" \" + target + \"!\");\n    }\n}",
+              "hints": ["Concatenate: greeting + \" \" + target + \"!\""]
+            },
+            {
+              "id": "ch3-l4-e6",
+              "type": "code_exercise",
+              "title": "String length",
+              "description": "Declare `String text = \"programming\"` and print its length.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        String text = \"programming\";\n        \n    }\n}",
+              "expectedOutput": "11",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        String text = \"programming\";\n        System.out.println(text.length());\n    }\n}",
+              "hints": ["Use text.length() to get the character count."]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-4",
+      "title": "Making Decisions",
+      "description": "Control what your program does using booleans and if/else.",
+      "lessons": [
+        {
+          "id": "lesson-4-1",
+          "title": "Booleans",
+          "description": "The boolean type holds true or false — the foundation of all decisions.",
+          "exercises": [
+            {
+              "id": "ch4-l1-e1",
+              "type": "multiple_choice",
+              "title": "Boolean values",
+              "description": "Java's boolean type has exactly two valid values.",
+              "question": "Which of these is a valid boolean literal in Java?",
+              "options": ["true", "True", "TRUE", "yes"],
+              "correctOption": 0,
+              "explanation": "Java booleans are lowercase: `true` and `false`. Uppercase versions are not valid.",
+              "hints": []
+            },
+            {
+              "id": "ch4-l1-e2",
+              "type": "true_false",
+              "title": "Boolean range",
+              "description": "Unlike numbers, booleans are extremely limited in what they can hold.",
+              "question": "A boolean variable can only hold two values: true or false.",
+              "correctAnswer": true,
+              "explanation": "boolean is the simplest type — just two states. It's used for conditions and flags.",
+              "hints": []
+            },
+            {
+              "id": "ch4-l1-e3",
+              "type": "fill_blank",
+              "title": "Declare a boolean",
+              "description": "Fill in the type name for a true/false variable.",
+              "codeTemplate": "___ isRaining = false;\nSystem.out.println(isRaining);",
+              "blanks": [{"id": "b1", "answer": "boolean"}],
+              "hints": ["The type for true/false values is 7 letters long."]
+            },
+            {
+              "id": "ch4-l1-e4",
+              "type": "predict_output",
+              "title": "Comparison result",
+              "description": "Comparison operators like `>` produce a boolean result.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        boolean x = 5 > 3;\n        System.out.println(x);\n    }\n}",
+              "expectedOutput": "true",
+              "hints": ["5 > 3 is true, so x is true."]
+            },
+            {
+              "id": "ch4-l1-e5",
+              "type": "predict_output",
+              "title": "Equality check",
+              "description": "The `==` operator checks equality and returns a boolean.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        boolean result = 10 == 20;\n        System.out.println(result);\n    }\n}",
+              "expectedOutput": "false",
+              "hints": ["10 is not equal to 20, so the result is false."]
+            }
+          ]
+        },
+        {
+          "id": "lesson-4-2",
+          "title": "if / else",
+          "description": "Run different code depending on a condition.",
+          "exercises": [
+            {
+              "id": "ch4-l2-e1",
+              "type": "multiple_choice",
+              "title": "if keyword",
+              "description": "Every conditional statement starts with a specific keyword.",
+              "question": "What keyword starts a conditional statement in Java?",
+              "options": ["if", "when", "check", "condition"],
+              "correctOption": 0,
+              "explanation": "`if` is the keyword. The condition goes in parentheses: if (condition) { ... }",
+              "hints": []
+            },
+            {
+              "id": "ch4-l2-e2",
+              "type": "fill_blank",
+              "title": "if keyword",
+              "description": "Fill in the keyword that starts the conditional block.",
+              "codeTemplate": "int x = 10;\n___ (x > 5) {\n    System.out.println(\"Big\");\n} else {\n    System.out.println(\"Small\");\n}",
+              "blanks": [{"id": "b1", "answer": "if"}],
+              "hints": ["The 2-letter keyword that starts a condition check."]
+            },
+            {
+              "id": "ch4-l2-e3",
+              "type": "predict_output",
+              "title": "if/else branch",
+              "description": "Only one branch executes — the one whose condition is true.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        int x = 3;\n        if (x > 5) {\n            System.out.println(\"big\");\n        } else {\n            System.out.println(\"small\");\n        }\n    }\n}",
+              "expectedOutput": "small",
+              "hints": ["3 > 5 is false, so the else branch runs."]
+            },
+            {
+              "id": "ch4-l2-e4",
+              "type": "predict_output",
+              "title": "Age check",
+              "description": "Which branch will run for age = 20?",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        int age = 20;\n        if (age >= 18) {\n            System.out.println(\"Adult\");\n        } else {\n            System.out.println(\"Minor\");\n        }\n    }\n}",
+              "expectedOutput": "Adult",
+              "hints": ["20 >= 18 is true."]
+            },
+            {
+              "id": "ch4-l2-e5",
+              "type": "code_exercise",
+              "title": "Pass or Fail",
+              "description": "Given `int score = 75`: if score >= 60, print `Pass`. Otherwise print `Fail`.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        int score = 75;\n        // if score >= 60, print Pass, else print Fail\n        \n    }\n}",
+              "expectedOutput": "Pass",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        int score = 75;\n        if (score >= 60) {\n            System.out.println(\"Pass\");\n        } else {\n            System.out.println(\"Fail\");\n        }\n    }\n}",
+              "hints": [
+                "Use if (score >= 60) { ... } else { ... }",
+                "Print \"Pass\" in the if block, \"Fail\" in the else block."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson-4-3",
+          "title": "else-if Chains",
+          "description": "Handle multiple conditions with else-if.",
+          "exercises": [
+            {
+              "id": "ch4-l3-e1",
+              "type": "multiple_choice",
+              "title": "else-if keyword",
+              "description": "After the first if, you can add more conditions.",
+              "question": "Which keyword combination adds an additional condition after `if`?",
+              "options": ["else if", "elif", "elseif", "otherwise"],
+              "correctOption": 0,
+              "explanation": "Java uses `else if` (two separate words) to chain additional conditions.",
+              "hints": []
+            },
+            {
+              "id": "ch4-l3-e2",
+              "type": "predict_output",
+              "title": "Three-way branch",
+              "description": "Trace through the chain: which condition is true first?",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        int x = 5;\n        if (x > 10) {\n            System.out.println(\"big\");\n        } else if (x > 3) {\n            System.out.println(\"medium\");\n        } else {\n            System.out.println(\"small\");\n        }\n    }\n}",
+              "expectedOutput": "medium",
+              "hints": ["5 > 10 is false. 5 > 3 is true — so 'medium' prints."]
+            },
+            {
+              "id": "ch4-l3-e3",
+              "type": "fill_blank",
+              "title": "Grade chain",
+              "description": "Fill in the keyword that links the second condition.",
+              "codeTemplate": "if (grade >= 90) {\n    System.out.println(\"A\");\n} ___ if (grade >= 80) {\n    System.out.println(\"B\");\n} else {\n    System.out.println(\"C\");\n}",
+              "blanks": [{"id": "b1", "answer": "else"}],
+              "hints": ["The chain continues with 'else if'."]
+            },
+            {
+              "id": "ch4-l3-e4",
+              "type": "predict_output",
+              "title": "Sign check",
+              "description": "What will print for n = 0?",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        int n = 0;\n        if (n > 0) {\n            System.out.println(\"positive\");\n        } else if (n < 0) {\n            System.out.println(\"negative\");\n        } else {\n            System.out.println(\"zero\");\n        }\n    }\n}",
+              "expectedOutput": "zero",
+              "hints": ["0 is not > 0, and not < 0, so the else block runs."]
+            },
+            {
+              "id": "ch4-l3-e5",
+              "type": "code_exercise",
+              "title": "Temperature check",
+              "description": "Given `int temp = 30`:\n- If temp > 35, print `Hot`\n- Else if temp > 20, print `Warm`\n- Otherwise print `Cool`",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        int temp = 30;\n        \n    }\n}",
+              "expectedOutput": "Warm",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        int temp = 30;\n        if (temp > 35) {\n            System.out.println(\"Hot\");\n        } else if (temp > 20) {\n            System.out.println(\"Warm\");\n        } else {\n            System.out.println(\"Cool\");\n        }\n    }\n}",
+              "hints": [
+                "Use if / else if / else structure.",
+                "30 > 35 is false. 30 > 20 is true — so 'Warm' should print."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson-4-4",
+          "title": "Chapter 4 Review",
+          "description": "Review booleans, if/else, and else-if chains.",
+          "exercises": [
+            {
+              "id": "ch4-l4-e1",
+              "type": "multiple_choice",
+              "title": "Equality operator",
+              "description": "Don't confuse assignment with equality comparison.",
+              "question": "Which operator checks if two values are equal?",
+              "options": ["==", "=", "===", "equals"],
+              "correctOption": 0,
+              "explanation": "= is assignment. == is equality comparison. For Strings, use .equals() instead of ==.",
+              "hints": []
+            },
+            {
+              "id": "ch4-l4-e2",
+              "type": "true_false",
+              "title": "else always runs",
+              "description": "Think carefully about when the else block executes.",
+              "question": "The else block always runs when an if statement is present.",
+              "correctAnswer": false,
+              "explanation": "The else block only runs when the if condition is false. If the if is true, else is skipped.",
+              "hints": []
+            },
+            {
+              "id": "ch4-l4-e3",
+              "type": "fill_blank",
+              "title": "Greater-or-equal",
+              "description": "Fill in the comparison operator that means 'greater than or equal to'.",
+              "codeTemplate": "boolean isAdult = age ___ 18;",
+              "blanks": [{"id": "b1", "answer": ">="}],
+              "hints": ["The operator for 'greater than or equal' uses two characters."]
+            },
+            {
+              "id": "ch4-l4-e4",
+              "type": "predict_output",
+              "title": "Not-equal check",
+              "description": "`!=` means 'not equal'. What will print?",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        int x = 10;\n        if (x != 5) {\n            System.out.println(\"not five\");\n        } else {\n            System.out.println(\"five\");\n        }\n    }\n}",
+              "expectedOutput": "not five",
+              "hints": ["10 != 5 is true."]
+            },
+            {
+              "id": "ch4-l4-e5",
+              "type": "code_exercise",
+              "title": "Even or odd",
+              "description": "Given `int x = 8`: print `even` if `x % 2 == 0`, otherwise print `odd`.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        int x = 8;\n        \n    }\n}",
+              "expectedOutput": "even",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        int x = 8;\n        if (x % 2 == 0) {\n            System.out.println(\"even\");\n        } else {\n            System.out.println(\"odd\");\n        }\n    }\n}",
+              "hints": ["Use x % 2 == 0 to check if a number is even."]
+            },
+            {
+              "id": "ch4-l4-e6",
+              "type": "code_exercise",
+              "title": "Positive, negative, zero",
+              "description": "Given `int n = -5`: print `positive` if n > 0, `negative` if n < 0, or `zero` if n == 0.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        int n = -5;\n        \n    }\n}",
+              "expectedOutput": "negative",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        int n = -5;\n        if (n > 0) {\n            System.out.println(\"positive\");\n        } else if (n < 0) {\n            System.out.println(\"negative\");\n        } else {\n            System.out.println(\"zero\");\n        }\n    }\n}",
+              "hints": ["Use if / else if / else with three conditions."]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-5",
+      "title": "Loops",
+      "description": "Repeat actions automatically with while and for loops.",
+      "lessons": [
+        {
+          "id": "lesson-5-1",
+          "title": "while Loop",
+          "description": "Repeat code while a condition stays true.",
+          "exercises": [
+            {
+              "id": "ch5-l1-e1",
+              "type": "multiple_choice",
+              "title": "while loop purpose",
+              "description": "A while loop keeps running its body as long as the condition is true.",
+              "question": "What does a while loop do?",
+              "options": [
+                "Repeats code while a condition is true",
+                "Runs code once if the condition is true",
+                "Always runs exactly 10 times",
+                "Checks the condition after running"
+              ],
+              "correctOption": 0,
+              "explanation": "while checks the condition before each iteration. If it's false from the start, the body never runs.",
+              "hints": []
+            },
+            {
+              "id": "ch5-l1-e2",
+              "type": "predict_output",
+              "title": "Counting while loop",
+              "description": "Trace through this loop step by step.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        int i = 0;\n        while (i < 3) {\n            System.out.println(i);\n            i++;\n        }\n    }\n}",
+              "expectedOutput": "0\n1\n2",
+              "hints": ["i starts at 0, prints 0, then 1, then 2. When i = 3 the condition is false."]
+            },
+            {
+              "id": "ch5-l1-e3",
+              "type": "fill_blank",
+              "title": "while keyword",
+              "description": "Fill in the keyword that starts a condition-controlled loop.",
+              "codeTemplate": "int count = 0;\n___ (count < 5) {\n    count++;\n}",
+              "blanks": [{"id": "b1", "answer": "while"}],
+              "hints": ["The keyword is the same as the English word meaning 'as long as'."]
+            },
+            {
+              "id": "ch5-l1-e4",
+              "type": "true_false",
+              "title": "Infinite loop",
+              "description": "A loop whose condition never becomes false runs forever.",
+              "question": "`while (true) { }` creates an infinite loop.",
+              "correctAnswer": true,
+              "explanation": "true is always true, so the loop never stops. Always ensure the condition eventually becomes false.",
+              "hints": []
+            },
+            {
+              "id": "ch5-l1-e5",
+              "type": "code_exercise",
+              "title": "Count to 5",
+              "description": "Use a while loop to print numbers 1 through 5, one per line.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        int i = 1;\n        // while i <= 5, print i and increment\n        \n    }\n}",
+              "expectedOutput": "1\n2\n3\n4\n5",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        int i = 1;\n        while (i <= 5) {\n            System.out.println(i);\n            i++;\n        }\n    }\n}",
+              "hints": [
+                "Start i at 1, loop while i <= 5.",
+                "Don't forget to increment: i++; inside the loop."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson-5-2",
+          "title": "for Loop",
+          "description": "Use a for loop when you know how many times to repeat.",
+          "exercises": [
+            {
+              "id": "ch5-l2-e1",
+              "type": "multiple_choice",
+              "title": "for loop parts",
+              "description": "A for loop has three parts: init; condition; update.",
+              "question": "In `for (int i = 0; i < 5; i++)`, what does `i++` do?",
+              "options": [
+                "Increments i by 1 after each iteration",
+                "Checks if i is less than 5",
+                "Sets i to 0",
+                "Prints i"
+              ],
+              "correctOption": 0,
+              "explanation": "i++ is the update step — it runs at the end of each iteration to advance the counter.",
+              "hints": []
+            },
+            {
+              "id": "ch5-l2-e2",
+              "type": "predict_output",
+              "title": "for loop output",
+              "description": "A for loop from 1 to 3. What prints?",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        for (int i = 1; i <= 3; i++) {\n            System.out.println(i);\n        }\n    }\n}",
+              "expectedOutput": "1\n2\n3",
+              "hints": []
+            },
+            {
+              "id": "ch5-l2-e3",
+              "type": "fill_blank",
+              "title": "Loop condition",
+              "description": "Fill in the condition so 'Hello' prints exactly 4 times.",
+              "codeTemplate": "for (int i = 0; i ___ 4; i++) {\n    System.out.println(\"Hello\");\n}",
+              "blanks": [{"id": "b1", "answer": "<"}],
+              "hints": ["i goes 0, 1, 2, 3 — stop before 4."]
+            },
+            {
+              "id": "ch5-l2-e4",
+              "type": "predict_output",
+              "title": "Counting down",
+              "description": "A for loop can count down by decrementing.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        for (int i = 10; i >= 8; i--) {\n            System.out.println(i);\n        }\n    }\n}",
+              "expectedOutput": "10\n9\n8",
+              "hints": ["i starts at 10 and goes down. The loop stops when i < 8."]
+            },
+            {
+              "id": "ch5-l2-e5",
+              "type": "code_exercise",
+              "title": "Even numbers",
+              "description": "Use a for loop to print all even numbers from 2 to 10 (inclusive).",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        // Print 2, 4, 6, 8, 10\n        \n    }\n}",
+              "expectedOutput": "2\n4\n6\n8\n10",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        for (int i = 2; i <= 10; i += 2) {\n            System.out.println(i);\n        }\n    }\n}",
+              "hints": [
+                "Start at 2 and step by 2 each time: i += 2",
+                "for (int i = 2; i <= 10; i += 2)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson-5-3",
+          "title": "Loop Patterns",
+          "description": "Use break, continue, and loops to solve common patterns.",
+          "exercises": [
+            {
+              "id": "ch5-l3-e1",
+              "type": "multiple_choice",
+              "title": "break statement",
+              "description": "`break` gives you a way to exit a loop early.",
+              "question": "What does `break` do inside a loop?",
+              "options": [
+                "Exits the loop immediately",
+                "Skips to the next iteration",
+                "Resets the counter to 0",
+                "Pauses execution for 1 second"
+              ],
+              "correctOption": 0,
+              "explanation": "break exits the loop entirely. Execution continues after the loop.",
+              "hints": []
+            },
+            {
+              "id": "ch5-l3-e2",
+              "type": "predict_output",
+              "title": "break in action",
+              "description": "The loop stops as soon as `break` is reached.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        for (int i = 0; i < 5; i++) {\n            if (i == 3) break;\n            System.out.println(i);\n        }\n    }\n}",
+              "expectedOutput": "0\n1\n2",
+              "hints": ["When i == 3, break runs before println, so 3 is never printed."]
+            },
+            {
+              "id": "ch5-l3-e3",
+              "type": "predict_output",
+              "title": "continue in action",
+              "description": "`continue` skips the rest of the current iteration and moves to the next.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        for (int i = 0; i < 5; i++) {\n            if (i == 2) continue;\n            System.out.println(i);\n        }\n    }\n}",
+              "expectedOutput": "0\n1\n3\n4",
+              "hints": ["When i == 2, continue skips println — so 2 is never printed."]
+            },
+            {
+              "id": "ch5-l3-e4",
+              "type": "fill_blank",
+              "title": "Print squares",
+              "description": "Fill in the operator to print the square of each number.",
+              "codeTemplate": "for (int i = 1; i <= 5; i++) {\n    System.out.println(i ___ i);\n}",
+              "blanks": [{"id": "b1", "answer": "*"}],
+              "hints": ["Multiplying a number by itself gives you its square."]
+            },
+            {
+              "id": "ch5-l3-e5",
+              "type": "code_exercise",
+              "title": "Sum 1 to 10",
+              "description": "Use a for loop to compute the sum of numbers 1 through 10. Print only the final sum.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        int sum = 0;\n        // Add i to sum for i = 1 to 10\n        \n        System.out.println(sum);\n    }\n}",
+              "expectedOutput": "55",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        int sum = 0;\n        for (int i = 1; i <= 10; i++) {\n            sum += i;\n        }\n        System.out.println(sum);\n    }\n}",
+              "hints": [
+                "Use sum += i; inside the loop to accumulate.",
+                "1+2+...+10 = 55"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson-5-4",
+          "title": "Chapter 5 Review",
+          "description": "Review while loops, for loops, and loop patterns.",
+          "exercises": [
+            {
+              "id": "ch5-l4-e1",
+              "type": "multiple_choice",
+              "title": "Loop choice",
+              "description": "Picking the right loop for the job makes code cleaner.",
+              "question": "Which loop is best when you know the exact number of iterations?",
+              "options": ["for loop", "while loop", "do-while loop", "repeat loop"],
+              "correctOption": 0,
+              "explanation": "for loops are designed for a known count. while loops are better when you loop until a condition changes.",
+              "hints": []
+            },
+            {
+              "id": "ch5-l4-e2",
+              "type": "true_false",
+              "title": "continue behavior",
+              "description": "Understand what continue does vs break.",
+              "question": "`continue` skips the current iteration and moves to the next one.",
+              "correctAnswer": true,
+              "explanation": "continue skips only the current pass. break would exit the loop entirely.",
+              "hints": []
+            },
+            {
+              "id": "ch5-l4-e3",
+              "type": "fill_blank",
+              "title": "Increment in for loop",
+              "description": "Fill in the update expression that increments i each iteration.",
+              "codeTemplate": "for (int i = 0; i < 3; ___) {\n    System.out.println(\"go\");\n}",
+              "blanks": [{"id": "b1", "answer": "i++"}],
+              "hints": ["The update step adds 1 to i each time."]
+            },
+            {
+              "id": "ch5-l4-e4",
+              "type": "predict_output",
+              "title": "Accumulator",
+              "description": "Trace through this accumulator loop.",
+              "code": "public class Main {\n    public static void main(String[] args) {\n        int sum = 0;\n        for (int i = 1; i <= 4; i++) {\n            sum += i;\n        }\n        System.out.println(sum);\n    }\n}",
+              "expectedOutput": "10",
+              "hints": ["1+2+3+4 = 10"]
+            },
+            {
+              "id": "ch5-l4-e5",
+              "type": "code_exercise",
+              "title": "Countdown",
+              "description": "Use a for loop to print a countdown from 5 down to 1.",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        // Print 5, 4, 3, 2, 1\n        \n    }\n}",
+              "expectedOutput": "5\n4\n3\n2\n1",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        for (int i = 5; i >= 1; i--) {\n            System.out.println(i);\n        }\n    }\n}",
+              "hints": [
+                "Start i at 5 and use i-- to count down.",
+                "for (int i = 5; i >= 1; i--)"
+              ]
+            },
+            {
+              "id": "ch5-l4-e6",
+              "type": "code_exercise",
+              "title": "Powers of 2",
+              "description": "Use a while loop to print: 1, 2, 4, 8, 16 (each on its own line).",
+              "starterCode": "public class Main {\n    public static void main(String[] args) {\n        int x = 1;\n        // Print x while x <= 16, then double x\n        \n    }\n}",
+              "expectedOutput": "1\n2\n4\n8\n16",
+              "solutionCode": "public class Main {\n    public static void main(String[] args) {\n        int x = 1;\n        while (x <= 16) {\n            System.out.println(x);\n            x *= 2;\n        }\n    }\n}",
+              "hints": [
+                "Double x each iteration: x *= 2;",
+                "while (x <= 16) { println(x); x *= 2; }"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-6",
+      "title": "Methods",
+      "description": "Write reusable blocks of code with methods.",
+      "lessons": [
+        {
+          "id": "lesson-6-1",
+          "title": "What is a Method?",
+          "description": "Methods let you name and reuse blocks of code.",
+          "exercises": [
+            {
+              "id": "ch6-l1-e1",
+              "type": "multiple_choice",
+              "title": "Method definition",
+              "description": "Methods are one of the core building blocks of Java programs.",
+              "question": "What is a method in Java?",
+              "options": [
+                "A named block of reusable code",
+                "A type of variable",
+                "A loop structure",
+                "A way to import libraries"
+              ],
+              "correctOption": 0,
+              "explanation": "Methods group code under a name so you can call it multiple times without repeating yourself.",
+              "hints": []
+            },
+            {
+              "id": "ch6-l1-e2",
+              "type": "true_false",
+              "title": "main is a method",
+              "description": "You have already been using a method since lesson 1.",
+              "question": "The main method is a special method that Java calls to start the program.",
+              "correctAnswer": true,
+              "explanation": "main() is just a method — but it's the one Java always calls first when you run a program.",
+              "hints": []
+            },
+            {
+              "id": "ch6-l1-e3",
+              "type": "fill_blank",
+              "title": "void return type",
+              "description": "Fill in the keyword that means 'this method returns nothing'.",
+              "codeTemplate": "public static ___ greet() {\n    System.out.println(\"Hello!\");\n}",
+              "blanks": [{"id": "b1", "answer": "void"}],
+              "hints": ["4-letter keyword meaning 'nothing' / 'no return value'."]
+            },
+            {
+              "id": "ch6-l1-e4",
+              "type": "predict_output",
+              "title": "Calling a method",
+              "description": "The method body runs each time you call it.",
+              "code": "public class Main {\n    static void sayHi() {\n        System.out.println(\"Hi!\");\n    }\n    public static void main(String[] args) {\n        sayHi();\n        sayHi();\n    }\n}",
+              "expectedOutput": "Hi!\nHi!",
+              "hints": ["sayHi() is called twice, so 'Hi!' prints twice."]
+            },
+            {
+              "id": "ch6-l1-e5",
+              "type": "code_exercise",
+              "title": "Define and call",
+              "description": "Define a method called `greet` that prints `Hello from a method!`. Call it from main.",
+              "starterCode": "public class Main {\n    // Define greet() method here\n    \n    public static void main(String[] args) {\n        // Call greet()\n        \n    }\n}",
+              "expectedOutput": "Hello from a method!",
+              "solutionCode": "public class Main {\n    static void greet() {\n        System.out.println(\"Hello from a method!\");\n    }\n    public static void main(String[] args) {\n        greet();\n    }\n}",
+              "hints": [
+                "Define: static void greet() { ... }",
+                "Call: greet(); inside main."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson-6-2",
+          "title": "Parameters",
+          "description": "Pass data into methods using parameters.",
+          "exercises": [
+            {
+              "id": "ch6-l2-e1",
+              "type": "multiple_choice",
+              "title": "What are parameters",
+              "description": "Parameters let you customize a method's behavior each time you call it.",
+              "question": "What are parameters in Java?",
+              "options": [
+                "Values passed into a method",
+                "Values returned from a method",
+                "Variables declared inside a method",
+                "The method's name"
+              ],
+              "correctOption": 0,
+              "explanation": "Parameters are inputs declared in the method signature. Arguments are the actual values you pass when calling.",
+              "hints": []
+            },
+            {
+              "id": "ch6-l2-e2",
+              "type": "predict_output",
+              "title": "String parameter",
+              "description": "The parameter `name` holds whatever value is passed in.",
+              "code": "public class Main {\n    static void printName(String name) {\n        System.out.println(\"Hello, \" + name);\n    }\n    public static void main(String[] args) {\n        printName(\"Alice\");\n    }\n}",
+              "expectedOutput": "Hello, Alice",
+              "hints": []
+            },
+            {
+              "id": "ch6-l2-e3",
+              "type": "fill_blank",
+              "title": "Using parameters",
+              "description": "Fill in the parameter names used in the method body.",
+              "codeTemplate": "static void add(int a, int b) {\n    System.out.println(___ + ___);\n}",
+              "blanks": [
+                {"id": "b1", "answer": "a"},
+                {"id": "b2", "answer": "b"}
+              ],
+              "hints": ["Use the parameter names declared in the method signature."]
+            },
+            {
+              "id": "ch6-l2-e4",
+              "type": "predict_output",
+              "title": "int parameter",
+              "description": "The method receives n and computes its square.",
+              "code": "public class Main {\n    static void square(int n) {\n        System.out.println(n * n);\n    }\n    public static void main(String[] args) {\n        square(4);\n    }\n}",
+              "expectedOutput": "16",
+              "hints": ["4 * 4 = 16"]
+            },
+            {
+              "id": "ch6-l2-e5",
+              "type": "code_exercise",
+              "title": "doubleIt method",
+              "description": "Define a method `doubleIt(int n)` that prints `n * 2`. Call it with argument `7`.",
+              "starterCode": "public class Main {\n    // Define doubleIt(int n) here\n    \n    public static void main(String[] args) {\n        // Call doubleIt(7)\n        \n    }\n}",
+              "expectedOutput": "14",
+              "solutionCode": "public class Main {\n    static void doubleIt(int n) {\n        System.out.println(n * 2);\n    }\n    public static void main(String[] args) {\n        doubleIt(7);\n    }\n}",
+              "hints": [
+                "static void doubleIt(int n) { System.out.println(n * 2); }",
+                "Call it with: doubleIt(7);"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson-6-3",
+          "title": "Return Values",
+          "description": "Get data back from a method using return.",
+          "exercises": [
+            {
+              "id": "ch6-l3-e1",
+              "type": "multiple_choice",
+              "title": "return keyword",
+              "description": "Methods can send a value back to the caller.",
+              "question": "Which keyword sends a value back from a method?",
+              "options": ["return", "send", "output", "give"],
+              "correctOption": 0,
+              "explanation": "`return value;` exits the method and sends the value back to wherever the method was called.",
+              "hints": []
+            },
+            {
+              "id": "ch6-l3-e2",
+              "type": "fill_blank",
+              "title": "return statement",
+              "description": "Fill in the keyword that sends the result back to the caller.",
+              "codeTemplate": "static int add(int a, int b) {\n    ___ a + b;\n}",
+              "blanks": [{"id": "b1", "answer": "return"}],
+              "hints": ["6-letter keyword that exits the method with a value."]
+            },
+            {
+              "id": "ch6-l3-e3",
+              "type": "predict_output",
+              "title": "Using return value",
+              "description": "The return value is stored in a variable and then printed.",
+              "code": "public class Main {\n    static int multiply(int a, int b) {\n        return a * b;\n    }\n    public static void main(String[] args) {\n        int result = multiply(3, 4);\n        System.out.println(result);\n    }\n}",
+              "expectedOutput": "12",
+              "hints": ["3 * 4 = 12"]
+            },
+            {
+              "id": "ch6-l3-e4",
+              "type": "true_false",
+              "title": "void and return",
+              "description": "void methods have a special relationship with return.",
+              "question": "A method with return type `void` cannot use the `return` keyword at all.",
+              "correctAnswer": false,
+              "explanation": "void methods can use `return;` (no value) to exit early. They just cannot return a value.",
+              "hints": []
+            },
+            {
+              "id": "ch6-l3-e5",
+              "type": "code_exercise",
+              "title": "max method",
+              "description": "Complete the `max(int a, int b)` method that returns the larger value. The main method already calls it.",
+              "starterCode": "public class Main {\n    static int max(int a, int b) {\n        // return the larger value\n        \n    }\n    public static void main(String[] args) {\n        System.out.println(max(6, 9));\n    }\n}",
+              "expectedOutput": "9",
+              "solutionCode": "public class Main {\n    static int max(int a, int b) {\n        if (a > b) return a;\n        return b;\n    }\n    public static void main(String[] args) {\n        System.out.println(max(6, 9));\n    }\n}",
+              "hints": [
+                "Use if (a > b) return a; otherwise return b;",
+                "9 > 6, so max(6, 9) should return 9."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson-6-4",
+          "title": "Chapter 6 Review",
+          "description": "Review methods, parameters, and return values.",
+          "exercises": [
+            {
+              "id": "ch6-l4-e1",
+              "type": "multiple_choice",
+              "title": "Method overloading",
+              "description": "Java lets you define multiple methods with the same name.",
+              "question": "What is method overloading?",
+              "options": [
+                "Same method name, different parameter lists",
+                "Calling a method inside itself",
+                "A method with no parameters",
+                "A method that returns void"
+              ],
+              "correctOption": 0,
+              "explanation": "Overloading lets you have add(int, int) and add(double, double) — same name, different signatures.",
+              "hints": []
+            },
+            {
+              "id": "ch6-l4-e2",
+              "type": "true_false",
+              "title": "Methods reduce repetition",
+              "description": "One of the biggest benefits of methods.",
+              "question": "Methods help avoid writing the same code in multiple places.",
+              "correctAnswer": true,
+              "explanation": "That's one of the core principles: Don't Repeat Yourself (DRY). Write it once, call it many times.",
+              "hints": []
+            },
+            {
+              "id": "ch6-l4-e3",
+              "type": "fill_blank",
+              "title": "String return type",
+              "description": "Fill in the return type for a method that returns text.",
+              "codeTemplate": "static ___ getGreeting() {\n    return \"Hello!\";\n}",
+              "blanks": [{"id": "b1", "answer": "String"}],
+              "hints": ["The return type must match what is after return. Here it is a text value."]
+            },
+            {
+              "id": "ch6-l4-e4",
+              "type": "predict_output",
+              "title": "Cube method",
+              "description": "Trace through the method call.",
+              "code": "public class Main {\n    static int cube(int n) {\n        return n * n * n;\n    }\n    public static void main(String[] args) {\n        System.out.println(cube(3));\n    }\n}",
+              "expectedOutput": "27",
+              "hints": ["3 * 3 * 3 = 27"]
+            },
+            {
+              "id": "ch6-l4-e5",
+              "type": "code_exercise",
+              "title": "isEven method",
+              "description": "Complete `isEven(int n)` so it returns `true` if n is even. The main method calls it twice.",
+              "starterCode": "public class Main {\n    static boolean isEven(int n) {\n        // return true if n % 2 == 0\n        \n    }\n    public static void main(String[] args) {\n        System.out.println(isEven(4));\n        System.out.println(isEven(7));\n    }\n}",
+              "expectedOutput": "true\nfalse",
+              "solutionCode": "public class Main {\n    static boolean isEven(int n) {\n        return n % 2 == 0;\n    }\n    public static void main(String[] args) {\n        System.out.println(isEven(4));\n        System.out.println(isEven(7));\n    }\n}",
+              "hints": [
+                "A number is even if n % 2 == 0.",
+                "return n % 2 == 0; — this expression evaluates to true or false."
+              ]
+            },
+            {
+              "id": "ch6-l4-e6",
+              "type": "code_exercise",
+              "title": "greetUser method",
+              "description": "Complete `greetUser(String name)` so it prints `Welcome, Alex!`. The main method already calls it.",
+              "starterCode": "public class Main {\n    static void greetUser(String name) {\n        // print: Welcome, [name]!\n        \n    }\n    public static void main(String[] args) {\n        greetUser(\"Alex\");\n    }\n}",
+              "expectedOutput": "Welcome, Alex!",
+              "solutionCode": "public class Main {\n    static void greetUser(String name) {\n        System.out.println(\"Welcome, \" + name + \"!\");\n    }\n    public static void main(String[] args) {\n        greetUser(\"Alex\");\n    }\n}",
+              "hints": [
+                "Concatenate: \"Welcome, \" + name + \"!\"",
+                "System.out.println(\"Welcome, \" + name + \"!\");"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

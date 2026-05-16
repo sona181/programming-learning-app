@@ -4,7 +4,6 @@ import { RegisterBubbles } from "@/components/auth/register-bubbles";
 import { RegisterForm, RegisterHero } from "@/components/auth/register-form";
 
 const benefits = [
-  "7-day free trial, cancel anytime",
   "Access 420+ university courses",
   "Live sessions with real professors",
 ] as const;
